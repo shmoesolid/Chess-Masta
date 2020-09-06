@@ -1,0 +1,36 @@
+/**
+*
+*/
+
+/* board size variables */
+:root
+{
+	--cell-size: 64px;
+	--border-size: 10px;
+	--board-size: 512px;
+}
+
+/* border wrapper setup */
+.board_border 
+{
+	float: left;
+	width: var(--board-size); 
+	height: var(--board-size); 
+	border: solid var(--border-color) var(--border-size);
+}
+
+/* actual board */
+table#t01
+{
+	border-collapse: collapse;
+}
+table#t01 td
+{
+	width: var(--cell-size);
+	height: var(--cell-size);
+	padding: 0;
+}
+table#t01 tr:nth-child(odd) td:nth-child(even) { background: var(--dark-color); }
+table#t01 tr:nth-child(even) td:nth-child(odd) { background: var(--dark-color); }
+table#t01 tr:nth-child(even) td:nth-child(even) { background: var(--light-color); }
+table#t01 tr:nth-child(odd) td:nth-child(odd) { background: var(--light-color); }
