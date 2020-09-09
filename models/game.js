@@ -12,11 +12,16 @@ const gameSchema = new Schema(
         clientTimer: { type: Number }, // time left
 
         boardData: { type: String }, // json
+        enPassant: { type: String },
         history: { type: String },
         chat: { type: String },
-        
+
+        locked: { type: Boolean }, // true or false
+        password: { type: String },
+
         gameTime: { type: Number },
-        gameStatus: { type: Number }, // 0=created (byself), 1=created (user joined), 2=playing (white turn), 
+        gameStatus: { type: Number }, 
+        // 0=play white, 1=play black, 2=checkmate, 3=resignation, 4=timeout, 5=stalemate, 6=repetition, 7=agreement
     }, 
     { timestamps: true }
 );
