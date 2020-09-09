@@ -8,7 +8,7 @@ const morgan = require('morgan');
 const compression = require('compression');
 
 const normalizPort = port => parseInt(port, 10);
-const PORT = normalizPort(process.env.PORT || 3000);
+const PORT = normalizPort(process.env.PORT || 3001);
 
 const app = express();
 
