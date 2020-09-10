@@ -39,7 +39,7 @@ const gameSeed = [
     password: "", 
 
     gameTime: null,
-    gameStatus: 0,
+    gameStatus: 1,
   },
   /* for dupes
   {
