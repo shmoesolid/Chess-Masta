@@ -3,13 +3,13 @@ import chesssk from "chesssk";
 
 function ShaneBoard()
 {
-    //var blackOnBottom = false;
+    var blackOnBottom = false;
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
 
-    // useEffect(
-    //     testRender
-    // );
+    useEffect(
+        testRender
+    );
 
     // DEBUG START
     // function for displaying pieces
@@ -48,8 +48,6 @@ function ShaneBoard()
 
     function testRender()
     {
-        //var pieces = document.getElementById("pieces");
-        //var stupidShit;
         var game = new chesssk();
 
         // test setup
@@ -58,19 +56,8 @@ function ShaneBoard()
 
         // lets show our pieces
         for (var x=0;x<8;x++)
-        {
             for (var y=0;y<8;y++)
-            {
                 renderPiece(game._grid[x][y]);
-            }
-        }
-        // game._grid.forEach( row => {
-        //     row.forEach( node => {
-        //         renderPiece(node);
-        //     });
-        // });
-
-        // pieces.innerHTML = stupidShit;
     }
     // DEBUG END
 
@@ -86,18 +73,18 @@ function ShaneBoard()
         var y;
         
         // white on bottom
-        //if (!blackOnBottom)
-        //{
+        if (!blackOnBottom)
+        {
             x = event.pageX - tableChess.offsetLeft;
             y = Math.abs(event.pageY - tableChess.offsetHeight - tableChess.offsetTop);
-        //}
+        }
         
         // black on bottom
-        //else
-        //   {
-        //     x = Math.abs(event.clientX - tableChess.offsetWidth - tableChess.offsetLeft);
-        //     y = event.clientY - tableChess.offsetTop;
-        //   }
+        else
+          {
+            x = Math.abs(event.clientX - tableChess.offsetWidth - tableChess.offsetLeft);
+            y = event.clientY - tableChess.offsetTop;
+          }
         
         // get array indexes
         var chessCol = floorBySize(x);
@@ -111,7 +98,7 @@ function ShaneBoard()
         
         // display (DEBUG)
         document.getElementById("coords").innerHTML = coords;
-        testRender();
+        //testRender();
     }
 
     function createBoard() 
