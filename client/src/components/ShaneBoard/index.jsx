@@ -16,7 +16,6 @@ function ShaneBoard(props)
         testRender
     );
 
-    // DEBUG START
     // function for displaying pieces
     function renderPiece(node)
     {
@@ -71,15 +70,6 @@ function ShaneBoard(props)
             for (var y=0;y<8;y++)
                 renderPiece(game._grid[x][y]);
     }
-
-    function test()
-    {
-        // var node = game._grid[0][0];
-        // console.log(game._grid[0][0], node);
-        // node.p = null;
-        // console.log(game._grid[0][0], node);
-    }
-    // DEBUG END
 
     function floorBySize(num)
     {
@@ -184,8 +174,7 @@ function ShaneBoard(props)
             
             {/*current mouse click coords*/}
             <div style={{color: 'white'}} >Selected:<span id="selected"></span></div><br />
-            <div id="coords" style={{color: 'white'}} /><br />
-            <button onClick={test}>TestButton</button>
+            <div id="coords" style={{color: 'white'}} />
         </div>
     );
 }
