@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
-import chesssk from "chesssk";
+import React, { useEffect, useState } from "react";
 
-function ShaneBoard()
+
+function ShaneBoard(props)
 {
+    var [ keyState, setKeyState ] = useState();
+
     var blackOnBottom = false;
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
+
+    var game = props.game;
+    var selected = null;
 
     useEffect(
         testRender
@@ -30,34 +35,49 @@ function ShaneBoard()
         // load the image in the board to get width/height
         // ..disreguard for now (img size 40)
 
+        // make sure we have a piece
         if (node.p === null)
             return;
 
+        // get references
+        var tableChess = document.getElementById("board");
         var pieces = document.getElementById("pieces");
 
         // test
-        var imageWidth = 40; // FOR NOW (IMAGE SIZE ON HAND)
-        var imageHeight = 40; // FOR NOW (IMAGE SIZE ON HAND)
-        var xDisp = ((node.x * cellSize) + imageWidth / 2);
+        var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
+        var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
 
-        // y needs to be inversed
-        var yDisp = ((node.y * cellSize) + imageHeight / 2);
+        // x moves with board
+        var xDisp = tableChess.offsetLeft + ((node.x * cellSize) + imageWidth / 4);
 
-        pieces.innerHTML += "<img src='assets/img/bb.gif' alt='' style='position:absolute;top:"+yDisp+"px;left:"+xDisp+"px' />";
+        // y moves with board and needs to be inversed
+        var yDisp = tableChess.offsetHeight + tableChess.offsetTop;
+        yDisp -= (((node.y * cellSize) + imageHeight) + imageHeight / 4);
+
+        // innerHTML is just for testing
+        pieces.innerHTML += "<img src='assets/img/"
+            + node.p.color.toLowerCase() 
+            + node.p.type.toLowerCase()
+            +".gif' alt='' style='position:absolute;top:"+yDisp+"px;left:"+xDisp+"px;z-index:10' />";
     }
 
     function testRender()
     {
-        var game = new chesssk();
-
-        // test setup
-        game.setupNewGame();
-        //console.log(game._grid);
+        // show grid
+        console.log(game._grid);
 
         // lets show our pieces
         for (var x=0;x<8;x++)
             for (var y=0;y<8;y++)
                 renderPiece(game._grid[x][y]);
+    }
+
+    function test()
+    {
+        // var node = game._grid[0][0];
+        // console.log(game._grid[0][0], node);
+        // node.p = null;
+        // console.log(game._grid[0][0], node);
     }
     // DEBUG END
 
@@ -81,10 +101,10 @@ function ShaneBoard()
         
         // black on bottom
         else
-          {
+        {
             x = Math.abs(event.clientX - tableChess.offsetWidth - tableChess.offsetLeft);
             y = event.clientY - tableChess.offsetTop;
-          }
+        }
         
         // get array indexes
         var chessCol = floorBySize(x);
@@ -98,7 +118,38 @@ function ShaneBoard()
         
         // display (DEBUG)
         document.getElementById("coords").innerHTML = coords;
-        //testRender();
+
+        // get node by string
+        var clickedString = NUM_TO_LETTER[ chessCol ] + (chessRow + 1);
+        console.log(clickedString);
+        var node = game._getNodeByString(clickedString);
+        console.log(node);
+
+        // handle toggle selection
+        if (selected === null)
+        {
+            // select if piece exists
+            if (node !== false && node.p !== null)
+                selected = node;
+        }
+
+        // deselect if same node clicked
+        else if (selected === node)
+            selected = null
+
+        // make the move
+        else
+        {
+            var fromString = NUM_TO_LETTER[ selected.x ] + (selected.y + 1);
+            var res = game.move(fromString, clickedString);
+            console.log(fromString, clickedString, res);
+            selected = null;
+
+            // refresh
+            setKeyState(Math.random());
+        }
+
+        document.getElementById("selected").textContent = selected;
     }
 
     function createBoard() 
@@ -116,7 +167,7 @@ function ShaneBoard()
     return (
         <div>
             {/*chess board border*/}
-            <div className="board_border">
+            <div className="board_border" >
                 {/*chess board wrapper (where board table and pieces are handled)*/}
                 <div id="board" onClick={showCoords}>
 
@@ -126,14 +177,15 @@ function ShaneBoard()
                     </table>
 
                     {/*pieces*/}
-                    <div id="pieces"></div>
-                    <img id='piece_bbc8' src='/assets/img/bb.gif' alt='bishop' style={{position:'absolute',top:'0px',left:'0px'}} />
+                    <div id="pieces" style={{height:"0px",width:"0px"}} key={keyState}></div>
 
                 </div>
             </div>
             
             {/*current mouse click coords*/}
-            <div id="coords" style={{color: 'white'}} />
+            <div>Selected:<span id="selected"></span></div><br />
+            <div id="coords" style={{color: 'white'}} /><br />
+            <button onClick={test}>TestButton</button>
         </div>
     );
 }
