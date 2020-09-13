@@ -47,10 +47,10 @@ function ShaneBoard(props)
         var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
 
         // x moves with board
-        var xDisp = tableChess.offsetLeft + ((node.x * cellSize) + imageWidth / 4);
+        var xDisp = ((node.x * cellSize) + imageWidth / 4);
 
         // y moves with board and needs to be inversed
-        var yDisp = tableChess.offsetHeight + tableChess.offsetTop;
+        var yDisp = tableChess.offsetHeight;
         yDisp -= (((node.y * cellSize) + imageHeight) + imageHeight / 4);
 
         // innerHTML is just for testing
@@ -156,10 +156,11 @@ function ShaneBoard(props)
 
     return (
         <div>
+            <div id="testDiv" style={{float:"left",width:"100px", height:"100px"}}>...</div>
             {/*chess board border*/}
             <div className="board_border" >
                 {/*chess board wrapper (where board table and pieces are handled)*/}
-                <div id="board" onClick={showCoords}>
+                <div id="board" onClick={showCoords} style={{position:"relative"}}>
 
                     {/*board styling*/}
                     <table id="t01" >
