@@ -183,7 +183,7 @@ function ShaneBoard(props)
             </div>
             
             {/*current mouse click coords*/}
-            <div>Selected:<span id="selected"></span></div><br />
+            <div style={{color: 'white'}} >Selected:<span id="selected"></span></div><br />
             <div id="coords" style={{color: 'white'}} /><br />
             <button onClick={test}>TestButton</button>
         </div>
