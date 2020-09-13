@@ -2,9 +2,15 @@
 *
 */
 
-/* board size variables */
+/* board variables */
 :root
 {
+	/* default color theme */
+	--light-color: #ccc;
+	--dark-color: #378a24;
+	--border-color: #000;
+
+	/* size variables */
 	--cell-size: 64px;
 	--border-size: 10px;
 	--board-size: 512px;
