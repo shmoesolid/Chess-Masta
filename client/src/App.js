@@ -30,7 +30,7 @@ function App() {
     <div className="App">
       <Header />
       {sidenav}
-      <Toggle click={openHandler}/>
+      <Toggle click={openHandler} />
       <ShanePageTest />
     </div>
   );
