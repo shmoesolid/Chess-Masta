@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-// import ShanePageTest from "./pages/ShanePagetest";
 import Home from "./pages/Home";
-import './css/board.css';
+import Login from "./pages/Login";
+
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import Toggle from "./components/Toggle";
@@ -40,6 +40,7 @@ function App() {
           <div className="col-md-8">
             <Switch>
               <Route path="/" component={Home} />
+              <Route path='/login' component={Login} />
             </Switch>
           </div>
         </div>

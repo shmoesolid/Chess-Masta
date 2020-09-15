@@ -14,7 +14,7 @@ const SideNav = (props) => {
 
     return(
         <div className={sidenavClass}>
-            <h2>Sidebar</h2>
+            <h2>Play</h2>
             <button id="close" onClick={closeHandler}>&times; close</button>
         </div>
     )
