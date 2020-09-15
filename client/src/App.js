@@ -33,10 +33,16 @@ function App() {
       <Router>
         <Header />
         {sidenav}
-        <Toggle click={openHandler} />
-        <Switch>
-          <Route path="/" component={Home} />
-        </Switch>
+        <div className="row">
+          <div className="col-md-3">
+          <Toggle click={openHandler} />
+          </div>
+          <div className="col-md-8">
+            <Switch>
+              <Route path="/" component={Home} />
+            </Switch>
+          </div>
+        </div>
       </Router>
     </div>
   );
