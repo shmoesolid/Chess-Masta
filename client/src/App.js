@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import ShanePageTest from "./pages/ShanePagetest";
-//import './css/themes/board_green_gray.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+// import ShanePageTest from "./pages/ShanePagetest";
+import Home from "./pages/Home";
 import './css/board.css';
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
@@ -28,10 +30,14 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-      {sidenav}
-      <Toggle click={openHandler} />
-      <ShanePageTest />
+      <Router>
+        <Header />
+        {sidenav}
+        <Toggle click={openHandler} />
+        <Switch>
+          <Route path="/" component={Home} />
+        </Switch>
+      </Router>
     </div>
   );
 }
