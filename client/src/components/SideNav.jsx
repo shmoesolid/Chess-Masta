@@ -1,11 +1,19 @@
-import React from "react"
+import React, { useState } from "react";
 import "../css/ComponentStyles.css";
 
-const SideNav = () => {
+const SideNav = (props) => {
+    const [sidenavClass, setSidenavClass] = useState(props.sidenav)
+    
+    const closeHandler = (e) => {
+        e.preventDefault();
+        setSidenavClass("sidenav close");
+        props.close();
+    }
+
     return(
-        <div className="sidebar">
+        <div className={sidenavClass}>
             <h2>Sidebar</h2>
-            <button id="close">&times; close</button>
+            <button id="close" onClick={closeHandler}>&times; close</button>
         </div>
     )
 }
