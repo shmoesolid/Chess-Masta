@@ -9,7 +9,7 @@ import SideNav from "./components/SideNav";
 import Toggle from "./components/Toggle";
 
 function App() {
-  const [sidenavOpen, setSidenavOpen] = useState(false);
+  const [sidenavOpen, setSidenavOpen] = useState(true);
 
   const openHandler = () => {
     if (!sidenavOpen) {
@@ -39,8 +39,8 @@ function App() {
           </div>
           <div className="col-md-8">
             <Switch>
-              <Route path="/" component={Home} />
-              <Route path='/login' component={Login} />
+              <Route path="/" exact component={Home} />
+              <Route path='/login' exact component={Login} />
             </Switch>
           </div>
         </div>

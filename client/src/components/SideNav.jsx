@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "../css/ComponentStyles.css";
+import { SidenavData } from './SidenavData';
+import { Link } from 'react-router-dom';
+
 
 const SideNav = (props) => {
     const [sidenavClass, setSidenavClass] = useState(props.sidenav)
@@ -14,8 +17,19 @@ const SideNav = (props) => {
 
     return(
         <div className={sidenavClass}>
-            <h2>Play</h2>
+            <ul>
             <button id="close" onClick={closeHandler}>&times; close</button>
+            {SidenavData.map((item, index) => {
+              return (
+                <li key={index} className={item.cName}>
+                  <Link to={item.path}>
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </Link>
+                </li>
+              );
+            })}
+            </ul>
         </div>
     )
 }
