@@ -7,7 +7,9 @@ const SideNav = (props) => {
     const closeHandler = (e) => {
         e.preventDefault();
         setSidenavClass("sidenav close");
-        props.close();
+        setTimeout(() => {
+            props.close();
+        }, 1000)
     }
 
     return(
