@@ -12,7 +12,7 @@
 
 	/* size variables */
 	--cell-size: 64px;
-	--border-size: 10px;
+	--border-size: 25px;
 	--board-size: 512px;
 }
 
@@ -20,9 +20,9 @@
 .board_border 
 {
 	float: left;
-	width: var(--board-size); 
-	height: var(--board-size); 
-	border: solid var(--border-color) 0;
+	width: calc(--board-size + --border-size * 2); /* fix for border */
+	height: calc(--board-size + --border-size * 2); /* i made the mistake of thinking var can be nested in calc */
+	border: solid var(--border-color) var(--border-size);
 }
 
 /* actual board */
