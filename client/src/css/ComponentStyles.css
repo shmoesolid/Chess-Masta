@@ -6,12 +6,37 @@
     background: transparent;
     border: none;
     padding: 10px;
-    background-color: #222222;
+    height: 
 }
 
-#toggleBg {
-    background-color: #222222;
-    height: 80px;
+
+.navbar {
+    background-color: #222;
+}
+
+a,
+.navbar-nav,
+.navbar-light .nav-link {
+    color: #9fffcb;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.navbar-brand {
+    font-size: 1.4em;
+    color: #9fffcb;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.form-center {
+    position: absolute !important;
+    left: 25%;
+    right: 25%;
 }
 
 .sidenav {

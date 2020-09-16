@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Nav, Navbar } from "react-bootstrap";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import Toggle from "./components/Toggle";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 
 function App() {
   const [sidenavOpen, setSidenavOpen] = useState(true);
@@ -40,11 +41,21 @@ function App() {
   return (
     <div className="App">
       <Router>
-      <Header />
-      <div className="row m-0">
-        <div className="col-md-3">
+        <Navbar>
         <Toggle click={openHandler}/>
-          {sidenav}
+        <Navbar.Brand href="/">Chess Masta</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Item>
+              Hello, Username
+            </Nav.Item>
+          </Nav>
+        </Navbar.Collapse>
+        </Navbar>
+        <div className="row m-0">
+        <div className="col-md-3">
+            {sidenav}
       </div>
           <div className="col-md-8">
             <Switch>
