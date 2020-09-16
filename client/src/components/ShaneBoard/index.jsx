@@ -79,14 +79,17 @@ function ShaneBoard(props)
     function showCoords(event)
     {
         var tableChess = document.getElementById("board");
+        var bounding = tableChess.getBoundingClientRect();
         var x;
         var y;
         
         // white on bottom
         if (!blackOnBottom)
         {
-            x = event.pageX - tableChess.offsetLeft;
-            y = Math.abs(event.pageY - tableChess.offsetHeight - tableChess.offsetTop);
+            // x = event.pageX - tableChess.offsetLeft;
+            // y = Math.abs(event.pageY - tableChess.offsetHeight - tableChess.offsetTop);
+            x = event.pageX - bounding.left;
+            y = Math.abs(event.pageY - bounding.height - bounding.top);
         }
         
         // black on bottom

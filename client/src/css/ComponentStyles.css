@@ -1,14 +1,12 @@
 #toggle {
     cursor: pointer;
-    color: black;
-    font-size: 60px;
+    color: #9fffcb;
+    font-size: 30px;
     margin-left: 20px;
     background: transparent;
     border: none;
     padding: 10px;
-    height: 
 }
-
 
 .navbar {
     background-color: #222;
@@ -18,19 +16,18 @@ a,
 .navbar-nav,
 .navbar-light .nav-link {
     color: #9fffcb;
-
-    &:hover {
-        color: white;
-    }
 }
+.navbar-nav:hover {
+        color: white;
+}
+
 
 .navbar-brand {
     font-size: 1.4em;
     color: #9fffcb;
-
-    &:hover {
+}
+.navbar-brand:hover {
         color: white;
-    }
 }
 
 .form-center {
@@ -50,6 +47,7 @@ a,
     z-index: 200;
     left: -100%;
     animation: slide-open .75s forwards;
+    float: top;
 }
 
 .sidenav.close {
@@ -80,6 +78,10 @@ a,
 
 .nav-text a:hover {
     background-color: #1a83ff;
+}
+
+.space {
+    height: 7rem;
 }
 
 @keyframes slide-open {

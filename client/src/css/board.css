@@ -22,7 +22,7 @@
 	float: left;
 	width: var(--board-size); 
 	height: var(--board-size); 
-	border: solid var(--border-color) var(--border-size);
+	border: solid var(--border-color) 0;
 }
 
 /* actual board */
