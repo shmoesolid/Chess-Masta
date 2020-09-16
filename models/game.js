@@ -4,24 +4,24 @@ const Schema = mongoose.Schema;
 const gameSchema = new Schema(
     {
         hostId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        hostColor: { type: Number }, // 0 = white, 1 = black
-        hostTimer: { type: Number }, // time left
+        hostColor: { type: Number, default: 0 }, // 0 = white, 1 = black
+        hostTimer: { type: Number, default: null }, // time left
 
         clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        clientColor: { type: Number }, // 0 = white, 1 = black
-        clientTimer: { type: Number }, // time left
+        clientColor: { type: Number, default: 1 }, // 0 = white, 1 = black
+        clientTimer: { type: Number, default: null }, // time left
 
-        boardData: { type: String }, // json
-        enPassant: { type: String },
-        history: { type: String },
-        chat: { type: String },
+        boardData: { type: String, default: "" }, // json
+        enPassant: { type: String, default: "" },
+        history: { type: String, default: "" },
+        chat: { type: String, default: "" },
 
-        locked: { type: Boolean }, // true or false
-        password: { type: String },
+        locked: { type: Boolean, default: false }, // true or false
+        password: { type: String, default: "" },
 
-        gameTime: { type: Number },
-        gameStatus: { type: Number }, 
-        // 0=play white, 1=play black, 2=checkmate, 3=resignation, 4=timeout, 5=stalemate, 6=repetition, 7=agreement
+        gameTime: { type: Number, default: null },
+        gameStatus: { type: Number, default: 0 }, 
+        // 0=waiting, 1=play white, 2=play black, 3=checkmate, 4=resignation, 5=timeout, 6=stalemate, 7=repetition, 8=agreement
     }, 
     { timestamps: true }
 );
