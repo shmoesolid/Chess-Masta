@@ -31,16 +31,13 @@ const Styles = styled.div`
 const Header = () => {
   return (
     <Styles>
-      <Navbar expand="lg">
+      <Navbar>
         <Navbar.Brand href="/">Chess Masta</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <Nav.Item>
-              <Nav.Link href="/">Link 1</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="/about">Link 2</Nav.Link>
+              Hello, Username
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>

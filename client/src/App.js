@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Home from "./pages/Home";
@@ -10,6 +10,7 @@ import Toggle from "./components/Toggle";
 
 function App() {
   const [sidenavOpen, setSidenavOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1200);
 
   const openHandler = () => {
     if (!sidenavOpen) {
@@ -23,9 +24,16 @@ function App() {
     setSidenavOpen(false);
   }
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+        const ismobile = window.innerWidth < 1200;
+        if (ismobile !== isMobile) setIsMobile(ismobile);
+        }, false);
+  }, [isMobile]);
+  
   let sidenav
   if (sidenavOpen) {
-    sidenav = <SideNav close={sidenavCloseHandler} sidenav = "sidenav"/>
+    sidenav = <SideNav className={`${isMobile ? "sidenav close" : "sidenav"}`} close={sidenavCloseHandler} sidenav="sidenav"/>
   }
 
   return (
@@ -33,7 +41,7 @@ function App() {
       <Router>
         <Header />
         {sidenav}
-        <div className="row">
+        <div className="row m-0">
           <div className="col-md-3">
           <Toggle click={openHandler} />
           </div>

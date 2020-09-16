@@ -4,7 +4,7 @@ function Login() {
     return (
         <div>
             <div className="container">
-                <div id="space" className="row">
+                <div className="row">
                 </div>
                 <div className="row">
                 <div className="col-md-3"></div>

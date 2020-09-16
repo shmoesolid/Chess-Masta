@@ -4,7 +4,7 @@ import "../css/ComponentStyles.css";
 const Toggle = (props) => {
     return(
         <Fragment>
-            <button id="toggle" onClick={props.click}>&#8801;</button>
+            <button className="mt-0 pt-0" id="toggle" onClick={props.click}>&#8801;</button>
         </Fragment>
     )
 }

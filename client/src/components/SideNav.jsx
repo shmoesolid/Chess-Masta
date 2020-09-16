@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const SideNav = (props) => {
     const [sidenavClass, setSidenavClass] = useState(props.sidenav)
-    
+
     const closeHandler = (e) => {
         e.preventDefault();
         setSidenavClass("sidenav close");
@@ -24,7 +24,7 @@ const SideNav = (props) => {
                 <li key={index} className={item.cName}>
                   <Link to={item.path}>
                     {item.icon}
-                    <span>{item.title}</span>
+                    <span>&nbsp;{item.title}</span>
                   </Link>
                 </li>
               );
