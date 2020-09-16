@@ -18,7 +18,6 @@ const SideNav = (props) => {
     return(
         <div className={sidenavClass}>
             <ul>
-            <button id="close" onClick={closeHandler}>&times; close</button>
             {SidenavData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
