@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
 // import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
+import * as AiIcons from "react-icons/ai";
+import * as IoIcons from "react-icons/io";
 
 export const SidenavData = [
   {
-    title: 'Home',
-    path: '/',
+    title: "Home",
+    path: "/",
     icon: <AiIcons.AiFillHome />,
-    cName: 'nav-text'
+    cName: "nav-text",
   },
   {
-    title: 'Login',
-    path: '/login',
+    title: "Rooms",
+    path: "/rooms",
     icon: <IoIcons.IoMdPeople />,
-    cName: 'nav-text'
+    cName: "nav-text",
   },
   {
-    title: 'Rooms',
-    path: '/rooms',
+    title: "Login",
+    path: "/login",
     icon: <IoIcons.IoMdPeople />,
-    cName: 'nav-text'
+    cName: "nav-text",
   },
   {
-    title: 'Docs',
-    path: '/documentation',
+    title: "Docs",
+    path: "/documentation",
     icon: <IoIcons.IoIosPaper />,
-    cName: 'nav-text'
-  }
+    cName: "nav-text",
+  },
 ];
