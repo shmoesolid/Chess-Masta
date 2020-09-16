@@ -41,9 +41,9 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar>
+        <Navbar className="sticky-top">
         <Toggle click={openHandler}/>
-        <Navbar.Brand href="/">Chess Masta</Navbar.Brand>
+        <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
@@ -56,7 +56,7 @@ function App() {
         <div className="row m-0">
         <div className="col-md-3">
             {sidenav}
-      </div>
+        </div>
           <div className="col-md-8">
             <Switch>
               <Route path="/" exact component={Home} />
