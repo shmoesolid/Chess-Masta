@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import Toggle from "./components/Toggle";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [sidenavOpen, setSidenavOpen] = useState(true);
@@ -39,12 +40,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
-        {sidenav}
-        <div className="row m-0">
-          <div className="col-md-3">
-          <Toggle click={openHandler} />
-          </div>
+      <Header />
+      <div className="row m-0">
+        <div className="col-md-3">
+        <Toggle click={openHandler}/>
+          {sidenav}
+      </div>
           <div className="col-md-8">
             <Switch>
               <Route path="/" exact component={Home} />

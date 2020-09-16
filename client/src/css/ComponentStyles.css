@@ -6,15 +6,21 @@
     background: transparent;
     border: none;
     padding: 10px;
+    background-color: #222222;
+}
+
+#toggleBg {
+    background-color: #222222;
+    height: 80px;
 }
 
 .sidenav {
     height: 100vh;
-    padding-left: 20px;
+    padding-left: 0px;
     background-color: #222222;
     opacity: 1;
     color: white;
-    width: 300px;
+    width: 250px;
     position: fixed;
     z-index: 200;
     left: -100%;

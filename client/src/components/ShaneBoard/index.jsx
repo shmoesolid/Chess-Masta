@@ -156,7 +156,6 @@ function ShaneBoard(props)
 
     return (
         <div>
-            <div id="testDiv" style={{float:"left",width:"100px", height:"100px"}}>...</div>
             {/*chess board border*/}
             <div className="board_border" >
                 {/*chess board wrapper (where board table and pieces are handled)*/}
