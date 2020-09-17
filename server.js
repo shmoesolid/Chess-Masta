@@ -34,11 +34,12 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
 if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
 
-// Add routes, both API and view
-
 const server = createServer(app);
 server.listen(PORT, err => {
     if (err) throw err;
 
-    console.log('Server started');
+    console.log(`Server listening on port: ${PORT}`);
 });
+
+// Add routes
+app.use("/users", require("./routes/userRouter"));
