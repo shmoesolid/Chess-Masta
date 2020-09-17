@@ -25,13 +25,6 @@ function App() {
   const sidenavCloseHandler = () => {
     setSidenavOpen(false);
   }
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-        const ismobile = window.innerWidth < 1200;
-        if (ismobile !== isMobile) setIsMobile(ismobile);
-        }, false);
-  }, [isMobile]);
   
   let sidenav
   if (sidenavOpen) {
@@ -60,7 +53,8 @@ function App() {
           <div className="col-md-8">
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path='/login' exact component={Login} />
+              <Route exact path='/login' exact component={Login} />
+              <Route exact path="/register" exact component={Login} />
             </Switch>
           </div>
         </div>
