@@ -12,17 +12,17 @@
 
 	/* size variables */
 	--cell-size: 64px;
-	--border-size: 25px;
-	--board-size: 512px;
+	--border-size: 10px;
+	--board-size: calc(var(--cell-size) * 8);
 }
 
 /* border wrapper setup */
 .board_border 
 {
 	float: left;
-	width: calc(--board-size + --border-size * 2); /* fix for border */
-	height: calc(--board-size + --border-size * 2); /* i made the mistake of thinking var can be nested in calc */
-	border: solid var(--border-color) var(--border-size);
+	width: calc(var(--board-size) + var(--border-size) * 2); /* fix for border */
+	height: calc(var(--board-size) + var(--border-size) * 2); /* don't know why it's working now but ok */
+	border: solid var(--border-color) 0;
 }
 
 /* actual board */
