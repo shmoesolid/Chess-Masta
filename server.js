@@ -8,8 +8,6 @@ require("dotenv").config();
 const morgan = require('morgan');
 const compression = require('compression');
 
-const routes = require("./routes");
-
 const normalizPort = port => parseInt(port, 10);
 const PORT = normalizPort(process.env.PORT || 3001);
 
@@ -37,7 +35,6 @@ if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
 
 // Add routes, both API and view
-app.use(routes);
 
 const server = createServer(app);
 server.listen(PORT, err => {
