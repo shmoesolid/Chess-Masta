@@ -76,13 +76,7 @@ function App() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
-                  <Nav.Item>{userData.user ? (
-                    <p>Welcome, {userData.user.displayName}!</p>
-                  ) : (
-                    <>
-                      <Link to="/login">Login</Link>
-                    </>
-                  )}</Nav.Item>
+                  <Nav.Item>{userData.user ? (<p>Welcome, {userData.user.displayName}!</p>) : (<><Link to="/login">Login</Link></>)}</Nav.Item>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
