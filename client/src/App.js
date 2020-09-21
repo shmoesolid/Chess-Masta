@@ -24,9 +24,13 @@ function App() {
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token");
+
+      let token = localStorage.getItem("auth-token"); // TODO
+
       if (token === null) {
-        localStorage.setItem("auth-token", "");
+
+        localStorage.setItem("auth-token", ""); // TODO
+
         token = "";
       }
       const tokenRes = await Axios.post(
