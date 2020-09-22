@@ -66,7 +66,11 @@ function Games()
             ) : (
                 <>
                     <button onClick={() => setGameData(null)}>BACK</button>
-                    <ShaneBoard game={ gameData.gameObj } data={ gameData.data } />
+                    <ShaneBoard 
+                        game={ gameData.gameObj } 
+                        data={ gameData.data } 
+                        update={ getGameById }
+                    />
                 </>
             )}
         </>
