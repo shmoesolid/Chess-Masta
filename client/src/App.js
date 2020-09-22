@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
-import Axios from "axios";
 
 import Home from "./pages/Home";
+import Create from "./pages/CreateGame";
+import Games from "./pages/Games";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
@@ -56,23 +57,11 @@ function App() {
     async function check() {
       var login = await checkLoggedIn();
       if (login !== false) setUserData( login );
-      test(login.token);
     };
 
     check();
     
   }, []);
-
-  const test = async (token) => {
-
-    Axios.get("/api/games/12/a2", { headers: {"x-auth-token": token} })
-      .then(
-        data => {
-          console.log(data);
-        }
-      )
-      .catch( err => { if (err) console.log(err) });
-  };
 
   const openHandler = () => {
     if (!sidenavOpen) {
@@ -111,6 +100,8 @@ function App() {
               <div className="col-md-8">
                 <Switch>
                   <Route path="/" exact component={Home} />
+                  <Route path="/create" exact component={Create} />
+                  <Route path="/rooms" exact component={Games} />
                   <Route path="/login" exact component={Login} />
                   <Route path="/register" exact component={Register} />
                   <Route path="/auth-options" exact component={AuthOptions} />

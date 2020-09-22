@@ -11,6 +11,12 @@ export const SidenavData = [
     cName: "nav-text",
   },
   {
+    title: "Create Game",
+    path: "/create",
+    icon: <IoIcons.IoMdPeople />,
+    cName: "nav-text",
+  },
+  {
     title: "Rooms",
     path: "/rooms",
     icon: <IoIcons.IoMdPeople />,
