@@ -12,7 +12,7 @@ function CreateGame()
         const name = event.target.name;
     
         setFormData( {
-            ... formData,
+            ...formData,
             [name]: value
         });
       };

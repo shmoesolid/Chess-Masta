@@ -164,7 +164,7 @@ function ShaneBoard(props)
                         return col.map(node => {
                         
                             if (node === null || node.p === null)
-                                return;
+                                return <div style={{position:'absolute'}}></div>;
                             
                             var c = node.p.color.toLowerCase();
                             var t = node.p.type.toLowerCase();

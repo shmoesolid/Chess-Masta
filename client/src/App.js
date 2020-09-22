@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
-import Axios from "axios";
 
 import Home from "./pages/Home";
 import Create from "./pages/CreateGame";
@@ -58,23 +57,11 @@ function App() {
     async function check() {
       var login = await checkLoggedIn();
       if (login !== false) setUserData( login );
-      //test(login.token);
     };
 
     check();
     
   }, []);
-
-  const test = async (token) => {
-
-    Axios.get("/api/games/12/a2", { headers: {"x-auth-token": token} })
-      .then(
-        data => {
-          console.log(data);
-        }
-      )
-      .catch( err => { if (err) console.log(err) });
-  };
 
   const openHandler = () => {
     if (!sidenavOpen) {
