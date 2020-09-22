@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 function ShaneBoard(props)
 {
     var [ keyState, setKeyState ] = useState();
+    var [ piecesState, setPiecesState ] = useState([]);
 
     var blackOnBottom = false;
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
@@ -37,6 +38,8 @@ function ShaneBoard(props)
         // make sure we have a piece
         if (node.p === null)
             return;
+
+        
 
         // get references
         var tableChess = document.getElementById("board");

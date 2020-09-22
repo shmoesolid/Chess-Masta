@@ -13,6 +13,8 @@ import Toggle from "./components/Toggle";
 
 import UserContext from "./context/userContext";
 
+import checkLoggedIn from "./utils/checkLoggedIn";
+
 function App() {
   const [sidenavOpen, setSidenavOpen] = useState(true);
 
@@ -23,30 +25,54 @@ function App() {
   });
 
   useEffect(() => {
-    const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token");
-      if (token === null) {
-        localStorage.setItem("auth-token", "");
-        token = "";
-      }
-      const tokenRes = await Axios.post(
-        "/users/tokenIsValid",
-        null,
-        { headers: { "x-auth-token": token } }
-      );
-      if (tokenRes.data) {
-        const userRes = await Axios.get("/users", {
-          headers: { "x-auth-token": token },
-        });
-        setUserData({
-          token,
-          user: userRes.data,
-        });
-      }
+    // const checkLoggedIn = async () => {
+
+    //   let token = localStorage.getItem("auth-token"); // TODO
+
+    //   if (token === null) {
+
+    //     localStorage.setItem("auth-token", ""); // TODO
+
+    //     token = "";
+    //   }
+    //   const tokenRes = await Axios.post(
+    //     "/users/tokenIsValid",
+    //     null,
+    //     { headers: { "x-auth-token": token } }
+    //   );
+    //   if (tokenRes.data) {
+    //     const userRes = await Axios.get("/users", {
+    //       headers: { "x-auth-token": token },
+    //     });
+    //     setUserData({
+    //       token,
+    //       user: userRes.data,
+    //     });
+
+    //     test(token);
+    //   }
+    // };
+
+    async function check() {
+      var login = await checkLoggedIn();
+      if (login !== false) setUserData( login );
+      test(login.token);
     };
 
-    checkLoggedIn();
+    check();
+    
   }, []);
+
+  const test = async (token) => {
+
+    Axios.get("/api/games/12/a2", { headers: {"x-auth-token": token} })
+      .then(
+        data => {
+          console.log(data);
+        }
+      )
+      .catch( err => { if (err) console.log(err) });
+  };
 
   const openHandler = () => {
     if (!sidenavOpen) {
