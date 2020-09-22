@@ -5,6 +5,8 @@ const db = require("../models");
 module.exports = {
 
     findAll: function(req, res) {
+        console.log(req.user);
+
         db.Game
             .find(req.query)
             //.sort({ date: -1 })
@@ -38,6 +40,7 @@ module.exports = {
     },
 
     getValidMovesTest: function(req, res) {
+        console.log(req.user);
         var game = new chesssk();
         game.setupNewGame();
         res.json( game.getValidMoves(req.params.location) );
@@ -48,6 +51,8 @@ module.exports = {
         var id = req.params.id;
         var from = req.params.from;
         var to = req.params.to;
+
+        //
 
         db.Game
             .findById(id)

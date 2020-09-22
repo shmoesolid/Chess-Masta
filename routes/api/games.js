@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const gamesController = require("../../controllers/gamesController");
+const auth = require("../../middleware/auth");
 
 // Matches with "/api/games"
 router
@@ -10,7 +11,7 @@ router
 // Matches with "/api/games/:id/:location"
 router
     .route("/:id/:location")
-    .get(gamesController.getValidMovesTest);
+    .get(auth, gamesController.getValidMovesTest);
 
 // Matches with "/api/games/:id/:from/:to"
 router
