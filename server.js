@@ -4,6 +4,7 @@ const {
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const compression = require('compression');
 require("dotenv").config();
@@ -29,6 +30,7 @@ app.use(cors());
 app.disable('x-powered-by');
 app.use(compression());
 app.use(morgan('common'));
+server.use(cookieParser());
 app.use(express.urlencoded({
     extended: true
 }));
