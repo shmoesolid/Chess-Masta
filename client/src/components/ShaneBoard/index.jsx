@@ -26,8 +26,8 @@ function ShaneBoard(props)
     var game; // using still for getting node by string
 
     useEffect( () => {
-        game=props.game; 
-        setNodesState(props.game._grid);
+        game=props.game; // update game for now
+        setNodesState(props.game._grid); // update our node state with grid
     });
 
     function getDisplayCoords(node)
@@ -93,9 +93,9 @@ function ShaneBoard(props)
 
         // get node by string
         var clickedString = NUM_TO_LETTER[ chessCol ] + (chessRow + 1);
-        console.log(clickedString);
+        //console.log(clickedString);
         var node = game._getNodeByString(clickedString);
-        console.log(node);
+        //console.log(node);
 
         // handle toggle selection
         if (selected === null)
@@ -160,18 +160,20 @@ function ShaneBoard(props)
                     </table>
 
                     {/*pieces render*/}
-                    {nodesState.map( col => {
-                        return col.map(node => {
+                    {nodesState.map( (col, cIndex) => {
+                        return col.map( (node, nIndex) => {
                         
+                            // returning something here so it shuts up about the stupid key
                             if (node === null || node.p === null)
-                                return <div style={{position:'absolute'}}></div>;
+                                return <div style={{position:'absolute'}} key={"null-"+cIndex+nIndex}></div>;
                             
+                            // setup our image
                             var c = node.p.color.toLowerCase();
                             var t = node.p.type.toLowerCase();
                             var display = getDisplayCoords(node);
                             return (
                                 <img 
-                                    key={node.p.id}
+                                    key={"piece-"+cIndex+nIndex}
                                     src={`assets/img/${c}${t}.gif`}
                                     alt={c+t + " chess piece"}
                                     style={{
