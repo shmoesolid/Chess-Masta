@@ -1,46 +1,39 @@
-import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import React, { useEffect, useState, useContext } from "react";
+
+import UserContext from "../../context/userContext";
 
 
 function ShaneBoard(props)
 {
-    var [ keyState, setKeyState ] = useState();
+    const { userData } = useContext(UserContext);
+    const [ nodesState, setNodesState ] = useState(
+
+        // fill 2d array grid with null
+        Array.from(
+            {length: 8},
+            () => Array.from(
+                {length: 8}, 
+                () => null
+            )
+        )
+    );
 
     var blackOnBottom = false;
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
-
-    var game = props.game;
     var selected = null;
+    var game; // using still for getting node by string
 
-    useEffect(
-        testRender
-    );
+    useEffect( () => {
+        game=props.game; // update game for now
+        setNodesState(props.game._grid); // update our node state with grid
+    });
 
-    // function for displaying pieces
-    function renderPiece(node)
+    function getDisplayCoords(node)
     {
-        // to do this we need piece IMAGE size, board CELL size (we have this)...
-        // ?? to start..
-        // ?? midpoint(x + cellSize / 2) to get middle coord of node (SAME FOR y)
-        // ?? get midpoint of image x and y
-        // SO...
-        // >> var imageWidth = 40; // FOR NOW (IMAGES ON HAND)
-        // >> var imageHeight = 40; // FOR NOW (IMAGES ON HAND)
-        // >> var xMid = (node.x + cellSize) / 2;
-        // >> var yMid = (node.y + cellSize) / 2;
-        // >> var xDisp = (xMid - imageWidth / 2);
-        // >> var yDisp = (yMid - imageHeight / 2);
-
-        // load the image in the board to get width/height
-        // ..disreguard for now (img size 40)
-
-        // make sure we have a piece
-        if (node.p === null)
-            return;
-
-        // get references
+        // get reference
         var tableChess = document.getElementById("board");
-        var pieces = document.getElementById("pieces");
 
         // test
         var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
@@ -53,22 +46,8 @@ function ShaneBoard(props)
         var yDisp = tableChess.offsetHeight;
         yDisp -= (((node.y * cellSize) + imageHeight) + imageHeight / 4);
 
-        // innerHTML is just for testing
-        pieces.innerHTML += "<img src='assets/img/"
-            + node.p.color.toLowerCase() 
-            + node.p.type.toLowerCase()
-            +".gif' alt='' style='position:absolute;top:"+yDisp+"px;left:"+xDisp+"px;z-index:10' />";
-    }
-
-    function testRender()
-    {
-        // show grid
-        console.log(game._grid);
-
-        // lets show our pieces
-        for (var x=0;x<8;x++)
-            for (var y=0;y<8;y++)
-                renderPiece(game._grid[x][y]);
+        // return data in object
+        return { top: yDisp, left: xDisp };
     }
 
     function floorBySize(num)
@@ -114,9 +93,9 @@ function ShaneBoard(props)
 
         // get node by string
         var clickedString = NUM_TO_LETTER[ chessCol ] + (chessRow + 1);
-        console.log(clickedString);
+        //console.log(clickedString);
         var node = game._getNodeByString(clickedString);
-        console.log(node);
+        //console.log(node);
 
         // handle toggle selection
         if (selected === null)
@@ -134,15 +113,26 @@ function ShaneBoard(props)
         else
         {
             var fromString = NUM_TO_LETTER[ selected.x ] + (selected.y + 1);
-            var res = game.move(fromString, clickedString);
-            console.log(fromString, clickedString, res);
+            makeMove(fromString, clickedString);
             selected = null;
-
-            // refresh
-            setKeyState(Math.random());
         }
 
         document.getElementById("selected").textContent = selected;
+    }
+
+    function makeMove(from, to) 
+    {
+        Axios
+            .put(`/api/games`,
+                {
+                    id: props.data._id,
+                    from: from,
+                    to: to
+                },
+                { headers: {"x-auth-token": userData.token} }
+            )
+            .then(() => props.update(props.data._id))
+            .catch(err => { if (err) console.log(err) });
     }
 
     function createBoard() 
@@ -169,8 +159,33 @@ function ShaneBoard(props)
                         <tbody>{createBoard()}</tbody>
                     </table>
 
-                    {/*pieces*/}
-                    <div id="pieces" style={{height:"0px",width:"0px"}} key={keyState}></div>
+                    {/*pieces render*/}
+                    {nodesState.map( (col, cIndex) => {
+                        return col.map( (node, nIndex) => {
+                        
+                            // returning something here so it shuts up about the stupid key
+                            if (node === null || node.p === null)
+                                return <div style={{position:'absolute'}} key={"null-"+cIndex+nIndex}></div>;
+                            
+                            // setup our image
+                            var c = node.p.color.toLowerCase();
+                            var t = node.p.type.toLowerCase();
+                            var display = getDisplayCoords(node);
+                            return (
+                                <img 
+                                    key={"piece-"+cIndex+nIndex}
+                                    src={`assets/img/${c}${t}.gif`}
+                                    alt={c+t + " chess piece"}
+                                    style={{
+                                        position: 'absolute',
+                                        top: display.top,
+                                        left: display.left,
+                                        zIndex: 10
+                                    }}
+                                />
+                            );
+                        })
+                    })}
 
                 </div>
             </div>
