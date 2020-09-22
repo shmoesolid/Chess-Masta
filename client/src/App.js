@@ -4,6 +4,8 @@ import { Nav, Navbar } from "react-bootstrap";
 import Axios from "axios";
 
 import Home from "./pages/Home";
+import Create from "./pages/CreateGame";
+import Games from "./pages/Games";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
@@ -56,7 +58,7 @@ function App() {
     async function check() {
       var login = await checkLoggedIn();
       if (login !== false) setUserData( login );
-      test(login.token);
+      //test(login.token);
     };
 
     check();
@@ -111,6 +113,8 @@ function App() {
               <div className="col-md-8">
                 <Switch>
                   <Route path="/" exact component={Home} />
+                  <Route path="/create" exact component={Create} />
+                  <Route path="/rooms" exact component={Games} />
                   <Route path="/login" exact component={Login} />
                   <Route path="/register" exact component={Register} />
                   <Route path="/auth-options" exact component={AuthOptions} />

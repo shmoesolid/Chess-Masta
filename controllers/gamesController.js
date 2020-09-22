@@ -5,8 +5,6 @@ const db = require("../models");
 module.exports = {
 
     findAll: function(req, res) {
-        console.log(req.user);
-
         db.Game
             .find(req.query)
             //.sort({ date: -1 })
@@ -52,7 +50,7 @@ module.exports = {
         var from = req.params.from;
         var to = req.params.to;
 
-        //
+        // maybe check from and to strings?
 
         db.Game
             .findById(id)
@@ -64,17 +62,28 @@ module.exports = {
                     if (!game.setGridFromJSON(dbModel.boardData))
                         return res.json("ERROR: Invalid board data");
                     
-                    // return valid moves for the location asked
-                    res.json( game.getValidMoves(req.params.location) );
+                    // make move and return result
+                    res.json( game.move(from, to, dbModel.enPassant) );
                 }
             ).catch(err => res.status(422).json(err));
     },
 
     create: function(req, res) {
-        // confirm authed
 
+        // assign
+        var body = req.body;
+
+        // setup new game and set boardData in json
+        var game = new chesssk();
+        game.setupNewGame();
+        body.boardData = game.getGridInJSON();
+
+        // set host id to our user creating
+        body.hostId = req.user;
+
+        // create it
         db.Game
-            .create(req.body)
+            .create(body)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },

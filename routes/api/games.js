@@ -5,8 +5,8 @@ const auth = require("../../middleware/auth");
 // Matches with "/api/games"
 router
     .route("/")
-    .get(gamesController.findAll);
-//     .post(gamesController.create);
+    .get(auth, gamesController.findAll)
+    .post(gamesController.create);
 
 // Matches with "/api/games/:id/:location"
 router
@@ -16,12 +16,12 @@ router
 // Matches with "/api/games/:id/:from/:to"
 router
     .route("/:id/:from/:to")
-    .get(gamesController.move);
+    .get(auth, gamesController.move);
 
 // Matches with "/api/games/:id"
 router
     .route("/:id")
-    .get(gamesController.findById);
+    .get(auth, gamesController.findById);
 
 
 module.exports = router;

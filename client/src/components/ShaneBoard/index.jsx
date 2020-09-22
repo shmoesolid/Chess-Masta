@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+
+import UserContext from "../../context/userContext";
 
 
 function ShaneBoard(props)
 {
+    const { userData } = useContext(UserContext);
+
     var [ keyState, setKeyState ] = useState();
     var [ piecesState, setPiecesState ] = useState([]);
 
@@ -13,9 +17,9 @@ function ShaneBoard(props)
     var game = props.game;
     var selected = null;
 
-    useEffect(
-        testRender
-    );
+    useEffect( () => {
+        testRender();
+    });
 
     // function for displaying pieces
     function renderPiece(node)
