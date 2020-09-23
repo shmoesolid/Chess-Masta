@@ -30,56 +30,73 @@ function ShaneBoard(props)
         setNodesState(props.game._grid); // update our node state with grid
     });
 
-    function getDisplayCoords(node)
+    Number.prototype.clamp = function(min, max)
     {
-        // get reference
-        var tableChess = document.getElementById("board");
-
-        // test
-        var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
-        var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
-
-        // x moves with board
-        var xDisp = ((node.x * cellSize) + imageWidth / 4);
-
-        // y moves with board and needs to be inversed
-        var yDisp = tableChess.offsetHeight;
-        yDisp -= (((node.y * cellSize) + imageHeight) + imageHeight / 4);
-
-        // return data in object
-        return { top: yDisp, left: xDisp };
+        return Math.min( Math.max(this, min), max);
     }
 
     function floorBySize(num)
     {
         return Math.floor(num / cellSize);
     }
+
+    function getDisplayCoords(node)
+    {
+        // get reference
+        //var tableChess = document.getElementById("board");
+
+        // test
+        var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
+        var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
+        var xDisp, yDisp;
+
+        if (!blackOnBottom)
+        {
+            // x moves with board
+            xDisp = node.x * cellSize + imageWidth / 4;
+
+            // y moves with board and needs to be inversed
+            yDisp = (cellSize*8 - node.y * cellSize) - imageHeight - imageHeight / 4;
+        }
+        else
+        {
+            // x moves with board and needs inverse
+            xDisp = (cellSize*8 - node.x * cellSize) - imageWidth - imageWidth / 4;
+
+            // y moves with board
+            yDisp = node.y * cellSize + imageWidth / 4;
+        }
+        
+        // return data in object
+        return { top: yDisp, left: xDisp };
+    }
     
     function showCoords(event)
     {
         var tableChess = document.getElementById("board");
         var bounding = tableChess.getBoundingClientRect();
-        console.log(event.pageX, event.pageY, bounding);
         var x;
         var y;
         
         // white on bottom
         if (!blackOnBottom)
         {
-            // x = event.pageX - tableChess.offsetLeft;
-            // y = Math.abs(event.pageY - tableChess.offsetHeight - tableChess.offsetTop);
-            x = event.pageX - bounding.left;
-            y = Math.abs(event.pageY - bounding.height - bounding.top);
+            x = event.clientX - bounding.left;
+            y = Math.abs(event.clientY - bounding.bottom);
         }
         
         // black on bottom
         else
         {
-            x = Math.abs(event.clientX - tableChess.offsetWidth - tableChess.offsetLeft);
-            y = event.clientY - tableChess.offsetTop;
+            x = Math.abs(event.clientX - bounding.right);
+            y = event.clientY - bounding.top;
         }
+
+        // contain x and y
+        x = x.clamp(0, bounding.width-1);
+        y = y.clamp(0, bounding.height-1);
         
-        // get array indexes
+        // get array indexes and keep x and y within range
         var chessCol = floorBySize(x);
         var chessRow = floorBySize(y);
         
@@ -124,7 +141,7 @@ function ShaneBoard(props)
     function makeMove(from, to) 
     {
         Axios
-            .put(`/api/games`,
+            .put(`/api/games/move`,
                 {
                     id: props.data._id,
                     from: from,
