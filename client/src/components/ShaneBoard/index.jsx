@@ -19,7 +19,7 @@ function ShaneBoard(props)
         )
     );
 
-    var blackOnBottom = false;
+    var blackOnBottom = true;
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
     var selected = null;
@@ -33,18 +33,30 @@ function ShaneBoard(props)
     function getDisplayCoords(node)
     {
         // get reference
-        var tableChess = document.getElementById("board");
+        //var tableChess = document.getElementById("board");
 
         // test
         var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
         var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
+        var xDisp, yDisp;
 
-        // x moves with board
-        var xDisp = ((node.x * cellSize) + imageWidth / 4);
+        if (!blackOnBottom)
+        {
+            // x moves with board
+            xDisp = node.x * cellSize + imageWidth / 4;
 
-        // y moves with board and needs to be inversed
-        var yDisp = tableChess.offsetHeight;
-        yDisp -= (((node.y * cellSize) + imageHeight) + imageHeight / 4);
+            // y moves with board and needs to be inversed
+            yDisp = (cellSize*8 - node.y * cellSize) - imageHeight - imageHeight / 4;
+        }
+        else
+        {
+            // x moves with board and needs inverse
+            xDisp = (cellSize*8 - node.x * cellSize) - imageWidth - imageWidth / 4;
+
+            // y moves with board
+            yDisp = node.y * cellSize + imageWidth / 4;
+        }
+        
 
         // return data in object
         return { top: yDisp, left: xDisp };
@@ -59,24 +71,21 @@ function ShaneBoard(props)
     {
         var tableChess = document.getElementById("board");
         var bounding = tableChess.getBoundingClientRect();
-        console.log(event.pageX, event.pageY, bounding);
         var x;
         var y;
         
         // white on bottom
         if (!blackOnBottom)
         {
-            // x = event.pageX - tableChess.offsetLeft;
-            // y = Math.abs(event.pageY - tableChess.offsetHeight - tableChess.offsetTop);
-            x = event.pageX - bounding.left;
-            y = Math.abs(event.pageY - bounding.height - bounding.top);
+            x = event.clientX - bounding.left;
+            y = Math.abs(event.clientY - bounding.bottom);
         }
         
         // black on bottom
         else
         {
-            x = Math.abs(event.clientX - tableChess.offsetWidth - tableChess.offsetLeft);
-            y = event.clientY - tableChess.offsetTop;
+            x = Math.abs(event.clientX - bounding.right);
+            y = event.clientY - bounding.top;
         }
         
         // get array indexes

@@ -22,7 +22,7 @@
 	float: left;
 	width: calc(var(--board-size) + var(--border-size) * 2); /* fix for border */
 	height: calc(var(--board-size) + var(--border-size) * 2); /* don't know why it's working now but ok */
-	border: solid var(--border-color) 0;
+	border: solid var(--border-color) var(--border-size);
 }
 
 /* actual board */
