@@ -141,7 +141,7 @@ function ShaneBoard(props)
     function makeMove(from, to) 
     {
         Axios
-            .put(`/api/games`,
+            .put(`/api/games/move`,
                 {
                     id: props.data._id,
                     from: from,
