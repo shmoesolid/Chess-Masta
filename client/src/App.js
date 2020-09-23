@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
-import Axios from "axios";
 
 import Home from "./pages/Home";
+import Create from "./pages/CreateGame";
+import Games from "./pages/Games";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
@@ -12,6 +13,8 @@ import SideNav from "./components/SideNav";
 import Toggle from "./components/Toggle";
 
 import UserContext from "./context/userContext";
+
+import checkLoggedIn from "./utils/checkLoggedIn";
 
 function App() {
   const [sidenavOpen, setSidenavOpen] = useState(true);
@@ -23,29 +26,41 @@ function App() {
   });
 
   useEffect(() => {
-    const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token");
-      if (token === null) {
-        localStorage.setItem("auth-token", "");
-        token = "";
-      }
-      const tokenRes = await Axios.post(
-        "http://localhost:3001/users/tokenIsValid",
-        null,
-        { headers: { "x-auth-token": token } }
-      );
-      if (tokenRes.data) {
-        const userRes = await Axios.get("http://localhost:3001/users/", {
-          headers: { "x-auth-token": token },
-        });
-        setUserData({
-          token,
-          user: userRes.data,
-        });
-      }
+    // const checkLoggedIn = async () => {
+
+    //   let token = localStorage.getItem("auth-token"); // TODO
+
+    //   if (token === null) {
+
+    //     localStorage.setItem("auth-token", ""); // TODO
+
+    //     token = "";
+    //   }
+    //   const tokenRes = await Axios.post(
+    //     "/users/tokenIsValid",
+    //     null,
+    //     { headers: { "x-auth-token": token } }
+    //   );
+    //   if (tokenRes.data) {
+    //     const userRes = await Axios.get("/users", {
+    //       headers: { "x-auth-token": token },
+    //     });
+    //     setUserData({
+    //       token,
+    //       user: userRes.data,
+    //     });
+
+    //     test(token);
+    //   }
+    // };
+
+    async function check() {
+      var login = await checkLoggedIn();
+      if (login !== false) setUserData( login );
     };
 
-    checkLoggedIn();
+    check();
+    
   }, []);
 
   const openHandler = () => {
@@ -85,6 +100,8 @@ function App() {
               <div className="col-md-8">
                 <Switch>
                   <Route path="/" exact component={Home} />
+                  <Route path="/create" exact component={Create} />
+                  <Route path="/rooms" exact component={Games} />
                   <Route path="/login" exact component={Login} />
                   <Route path="/register" exact component={Register} />
                   <Route path="/auth-options" exact component={AuthOptions} />

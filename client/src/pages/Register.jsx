@@ -21,16 +21,16 @@ export default function Register() {
 
     try {
       const newUser = { email, password, passwordCheck, displayName };
-      await Axios.post("http://localhost:3001/users/register", newUser);
-      const loginRes = await Axios.post("http://localhost:3001/users/login", {
+      await Axios.post("/users/register", newUser);
+      const loginRes = await Axios.post("/users/login", {
         email,
         password,
       });
       setUserData({
-        token: loginRes.data.token,
+        // token: loginRes.data.token,
         user: loginRes.data.user,
       });
-      localStorage.setItem("auth-token", loginRes.data.token);
+      // localStorage.setItem("auth-token", loginRes.data.token);
       history.push("/");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);

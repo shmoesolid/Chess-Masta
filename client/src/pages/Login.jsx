@@ -18,15 +18,14 @@ export default function Login() {
     e.preventDefault();
     try {
       const loginUser = { email, password };
-      const loginRes = await Axios.post(
-        "http://localhost:3001/users/login",
-        loginUser
-      );
+      console.log(loginUser);
+      const loginRes = await Axios.post("/users/login", loginUser);
+      console.log("res", loginRes);
       setUserData({
         token: loginRes.data.token,
         user: loginRes.data.user,
       });
-      localStorage.setItem("auth-token", loginRes.data.token);
+      // localStorage.setItem("auth-token", loginRes.data.token);
       history.push("/");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
