@@ -27,6 +27,8 @@ app.use(morgan('common'));
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(cookieParser());
+app.use(express.json())
 
 if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
@@ -49,7 +51,6 @@ mongoose.connect(
 );
 
 const server = createServer(app);
-app.use(cookieParser());
 server.listen(PORT, err => {
     if (err) throw err;
     console.log(`Server listening on port: ${PORT}`);

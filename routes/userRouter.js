@@ -60,7 +60,6 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   console.log(req.body);
-
   try {
     const {
       email,
@@ -122,7 +121,7 @@ router.delete("/delete", auth, async (req, res) => {
   }
 });
 
-router.post("/tokenIsValid", async (req, res) => {
+router.get("/tokenIsValid", auth, async (req, res) => {
   try {
     const token = req.cookie.token || "";
     if (!token) return res.json(false);

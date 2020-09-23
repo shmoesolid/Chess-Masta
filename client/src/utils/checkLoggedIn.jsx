@@ -1,15 +1,7 @@
 import Axios from "axios";
 
 const checkLoggedIn = async () => {
-  // let token = localStorage.getItem("auth-token"); // TODO
-
-  // if (token === null) {
-
-  //     localStorage.setItem("auth-token", ""); // TODO
-
-  //     token = "";
-  // }
-  const tokenRes = await Axios.post("/users/tokenIsValid", null, {
+  const tokenRes = await Axios.get("/users/tokenIsValid", {
     withCredentials: true,
   });
   if (tokenRes.data) {
