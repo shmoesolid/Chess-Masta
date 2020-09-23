@@ -12,7 +12,7 @@ router
 // Matches with "/api/games/:id/:location"
 router
     .route("/:id/:location")
-    .get(auth, gamesController.getValidMovesTest);
+    .get(auth, gamesController.getValidMoves);
 
 // Matches with "/api/games/:id/:from/:to"
 // router

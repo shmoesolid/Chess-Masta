@@ -59,6 +59,7 @@ function ShaneBoard(props)
     {
         var tableChess = document.getElementById("board");
         var bounding = tableChess.getBoundingClientRect();
+        console.log(event.pageX, event.pageY, bounding);
         var x;
         var y;
         
