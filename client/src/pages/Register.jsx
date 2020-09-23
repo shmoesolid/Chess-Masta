@@ -27,10 +27,10 @@ export default function Register() {
         password,
       });
       setUserData({
-        token: loginRes.data.token,
+        // token: loginRes.data.token,
         user: loginRes.data.user,
       });
-      localStorage.setItem("auth-token", loginRes.data.token);
+      // localStorage.setItem("auth-token", loginRes.data.token);
       history.push("/");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);

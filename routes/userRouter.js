@@ -64,7 +64,6 @@ router.post("/login", async (req, res) => {
       email,
       password
     } = req.body;
-
     // validate
     if (!email || !password)
       return res.status(400).json({
@@ -86,11 +85,18 @@ router.post("/login", async (req, res) => {
       msg: "Invalid credentials."
     });
 
+    const expiration = process.env.NODE_ENV !== 'production' ? 900000 : 604800000;
     const token = jwt.sign({
       id: user._id
-    }, process.env.JWT_SECRET);
+    }, process.env.JWT_SECRET, {
+      expiresIn: process.env.NODE_ENV !== 'production' ? '1d' : '7d',
+    });
+    res.cookie('token', token, {
+      expires: new Date(Date.now() + expiration),
+      secure: process.env.NODE_ENV === 'production' ? true : false, // use https if in production
+      httpOnly: true,
+    });
     res.json({
-      token,
       user: {
         id: user._id,
         displayName: user.displayName,
@@ -114,9 +120,9 @@ router.delete("/delete", auth, async (req, res) => {
   }
 });
 
-router.post("/tokenIsValid", async (req, res) => {
+router.get("/tokenIsValid", async (req, res) => {
   try {
-    const token = req.header("x-auth-token");
+    const token = req.cookies.token || "";
     if (!token) return res.json(false);
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);

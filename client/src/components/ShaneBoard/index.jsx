@@ -59,6 +59,7 @@ function ShaneBoard(props)
     {
         var tableChess = document.getElementById("board");
         var bounding = tableChess.getBoundingClientRect();
+        console.log(event.pageX, event.pageY, bounding);
         var x;
         var y;
         
@@ -129,7 +130,7 @@ function ShaneBoard(props)
                     from: from,
                     to: to
                 },
-                { headers: {"x-auth-token": userData.token} }
+                { withCredentials: true }
             )
             .then(() => props.update(props.data._id))
             .catch(err => { if (err) console.log(err) });
