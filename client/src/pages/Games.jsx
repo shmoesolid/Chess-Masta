@@ -13,6 +13,7 @@ function Games()
     const [ gameData, setGameData ] = useState(null);
 
     useEffect( () => {
+
         getGames()
     }, []);
 
@@ -45,27 +46,74 @@ function Games()
             .catch( err => { if (err) console.log(err) });
     };
 
+    const joinGameById = (id) => {
+        Axios.post("/api/games/join", {id}, { withCredentials: true })
+            .then(
+                res => {
+                    console.log("joinres", res.data);
+
+                    // create new game 
+                    var game = new CheSSsk();
+
+                    // set game grid data from our boardData
+                    game.setGridFromJSON(res.data.boardData);
+                    console.log("joined:", game._grid);
+
+                    // set our game, plus the other stuff for reference
+                    setGameData({ gameObj: game, data: res.data });
+                }
+            ).catch( err => { if (err) console.log(err) });
+    };
+
+    const deleteGameById = (id) => {
+        Axios
+            .delete("/api/games/"+id, { withCredentials: true })
+            .then( res => {
+                getGames();
+            }).catch( err => { if (err) console.log(err) });
+    };
+
+    const goBackToListing = () => {
+        
+        setGameData(null);
+        getGames();
+    }
+
     return (
         <>
             {!gameData ? (
-                <>
-                    <ul>
-                    {
-                        gameList.map( (item, index) => {
-                            return (
-                                <li key={index}>
-                                    {item.name}
-                                    &nbsp;
-                                    <button onClick={() => getGameById(item._id)}>Load</button>
-                                </li>
-                            )
-                        })
-                    }
-                    </ul>
-                </>
+                <ul>
+                {
+                    gameList.map( (item, index) => {
+                        return (
+                            <li key={index}>
+
+                                {/*this is one of our games*/}
+                                {item.hostId === userData.user.id || item.clientId === userData.user.id ? (
+                                    <>
+                                        {item.name}&nbsp;
+                                        <button onClick={() => getGameById(item._id)}>Load</button>&nbsp;
+                                        <button onClick={() => deleteGameById(item._id)}>Delete</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/*not our game but available to join*/}
+                                        {!item.clientId &&
+                                            <>
+                                                {item.name}&nbsp;
+                                                <button onClick={() => joinGameById(item._id)}>Join</button>
+                                            </>
+                                        }
+                                    </>
+                                )}
+                            </li>
+                        )
+                    })
+                }
+                </ul>
             ) : (
                 <>
-                    <button onClick={() => setGameData(null)}>BACK</button>
+                    <button onClick={() => goBackToListing()}>BACK</button>
                     <ShaneBoard 
                         game={ gameData.gameObj } 
                         data={ gameData.data } 

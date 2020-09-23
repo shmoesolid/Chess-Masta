@@ -22,7 +22,7 @@ function CreateGame()
         event.preventDefault();
 
         // post data
-        Axios.post("/api/games/", formData, { withCredentials: true })
+        Axios.post("/api/games/create", formData, { withCredentials: true })
             .then(
                 data => {
                     console.log(data);
