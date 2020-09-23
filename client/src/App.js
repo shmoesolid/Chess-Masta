@@ -59,7 +59,7 @@ function App() {
       if (login !== false) setUserData( login );
     };
 
-    check();
+    // check();
     
   }, []);
 

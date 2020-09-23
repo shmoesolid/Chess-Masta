@@ -1,31 +1,28 @@
 import Axios from "axios";
 
 const checkLoggedIn = async () => {
+  // let token = localStorage.getItem("auth-token"); // TODO
 
-    let token = localStorage.getItem("auth-token"); // TODO
+  // if (token === null) {
 
-    if (token === null) {
+  //     localStorage.setItem("auth-token", ""); // TODO
 
-        localStorage.setItem("auth-token", ""); // TODO
+  //     token = "";
+  // }
+  const tokenRes = await Axios.post("/users/tokenIsValid", null, {
+    withCredentials: true,
+  });
+  if (tokenRes.data) {
+    const userRes = await Axios.get("/users", {
+      withCredentials: true,
+    });
+    return {
+      // token,
+      user: userRes.data,
+    };
+  }
 
-        token = "";
-    }
-    const tokenRes = await Axios.post(
-        "/users/tokenIsValid",
-        null,
-        { headers: { "x-auth-token": token } }
-    );
-    if (tokenRes.data) {
-        const userRes = await Axios.get("/users", {
-            headers: { "x-auth-token": token },
-        });
-        return {
-            token,
-            user: userRes.data,
-        };
-    }
-
-    return false;
+  return false;
 };
 
 export default checkLoggedIn;
