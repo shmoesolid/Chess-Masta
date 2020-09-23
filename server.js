@@ -20,7 +20,12 @@ const app = express();
 app.disable('x-powered-by');
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+        "http://localhost:3000", 
+        "http://localhost:3001",
+        "https://chess-masta.herokuapp.com",
+        "https://chess-masta-test.herokuapp.com"
+    ],
 }));
 app.use(compression());
 app.use(morgan('common'));
@@ -28,7 +33,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
-app.use(express.json())
+app.use(express.json());
 
 if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
