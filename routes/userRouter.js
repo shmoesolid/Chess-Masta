@@ -92,9 +92,9 @@ router.post("/login", async (req, res) => {
     }, process.env.JWT_SECRET, {
       expiresIn: process.env.NODE_ENV !== 'production' ? '1d' : '7d',
     });
-    res.cookie('token', token, {
+    res.cookies('token', token, {
       expires: new Date(Date.now() + expiration),
-      secure: process.env.NODE_ENV === 'production' ? true : false, // set to true if your using https
+      secure: process.env.NODE_ENV === 'production' ? true : false, // use https if in production
       httpOnly: true,
     });
     res.json({
@@ -123,7 +123,7 @@ router.delete("/delete", auth, async (req, res) => {
 
 router.get("/tokenIsValid", auth, async (req, res) => {
   try {
-    const token = req.cookie.token || "";
+    const token = req.cookies.token || "";
     if (!token) return res.json(false);
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);
