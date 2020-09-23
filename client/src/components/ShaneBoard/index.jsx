@@ -19,7 +19,7 @@ function ShaneBoard(props)
         )
     );
 
-    var blackOnBottom = true;
+    var blackOnBottom = false;
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
     var selected = null;
@@ -29,6 +29,16 @@ function ShaneBoard(props)
         game=props.game; // update game for now
         setNodesState(props.game._grid); // update our node state with grid
     });
+
+    Number.prototype.clamp = function(min, max)
+    {
+        return Math.min( Math.max(this, min), max);
+    }
+
+    function floorBySize(num)
+    {
+        return Math.floor(num / cellSize);
+    }
 
     function getDisplayCoords(node)
     {
@@ -57,14 +67,8 @@ function ShaneBoard(props)
             yDisp = node.y * cellSize + imageWidth / 4;
         }
         
-
         // return data in object
         return { top: yDisp, left: xDisp };
-    }
-
-    function floorBySize(num)
-    {
-        return Math.floor(num / cellSize);
     }
     
     function showCoords(event)
@@ -87,8 +91,12 @@ function ShaneBoard(props)
             x = Math.abs(event.clientX - bounding.right);
             y = event.clientY - bounding.top;
         }
+
+        // contain x and y
+        x = x.clamp(0, bounding.width-1);
+        y = y.clamp(0, bounding.height-1);
         
-        // get array indexes
+        // get array indexes and keep x and y within range
         var chessCol = floorBySize(x);
         var chessRow = floorBySize(y);
         
