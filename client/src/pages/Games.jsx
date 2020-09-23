@@ -17,7 +17,7 @@ function Games()
     }, []);
 
     const getGames = () => {
-        Axios.get("/api/games", { headers: {"x-auth-token": userData.token} })
+        Axios.get("/api/games", { withCredentials: true })
             .then(
                 res => {
                     //console.log(res.data);
@@ -28,7 +28,7 @@ function Games()
     };
 
     const getGameById = (id) => {
-        Axios.get("/api/games/"+id, { headers: {"x-auth-token": userData.token} })
+        Axios.get("/api/games/"+id, { withCredentials: true })
             .then(
                 res => {
                     // create new game 

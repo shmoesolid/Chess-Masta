@@ -1,10 +1,13 @@
 require("dotenv").config();
 
-const { createServer } = require('http');
+const {
+    createServer
+} = require('http');
 const cors = require("cors");
 const express = require("express");
-const session = require("express-session");
+// const session = require("express-session");
 const mongoose = require("mongoose");
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const compression = require('compression');
 const routes = require("./routes");
@@ -15,12 +18,17 @@ const PORT = normalizPort(process.env.PORT || 3001);
 const app = express();
 
 app.disable('x-powered-by');
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+}));
 app.use(compression());
 app.use(morgan('common'));
-app.use(session({secret: process.env.JWT_SECRET, saveUninitialized: true, resave: true }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(cookieParser());
+app.use(express.json())
 
 if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
@@ -31,8 +39,7 @@ app.use(routes);
 
 // Mongoose ORM
 mongoose.connect(
-    process.env.MONGODB_CONNECTION_STRING, 
-    {
+    process.env.MONGODB_CONNECTION_STRING, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,

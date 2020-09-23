@@ -18,7 +18,7 @@ export default function AuthOptions() {
     localStorage.setItem("auth-token", "");
   };
   const deleteUser = () => {
-    const user = { headers: { "x-auth-token": localStorage.getItem("auth-token", "") } };
+    const user = { withCredentials: true };
     Axios.delete("/users/delete", user);
     setUserData({
       token: undefined,

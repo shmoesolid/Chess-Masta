@@ -130,7 +130,7 @@ function ShaneBoard(props)
                     from: from,
                     to: to
                 },
-                { headers: {"x-auth-token": userData.token} }
+                { withCredentials: true }
             )
             .then(() => props.update(props.data._id))
             .catch(err => { if (err) console.log(err) });
