@@ -10,7 +10,7 @@ export default function Documentation() {
           <h1>CheSSsk Library</h1>
           <hr />
           <br />
-          <h4>Getting Started:</h4>
+          <h4>Description:</h4>
           <hr />
           <p>
             A library for chess move validation based on location and board data

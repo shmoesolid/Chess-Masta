@@ -47,7 +47,7 @@ a,
     z-index: 200;
     left: -100%;
     animation: slide-open .75s forwards;
-    box-shadow: 2px 2px 2px 2px #222222;
+    box-shadow: 1px 1px 1px 1px #1f1d1d;
     float: top;
 }
 
