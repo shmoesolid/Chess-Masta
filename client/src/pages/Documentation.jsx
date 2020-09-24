@@ -6,19 +6,29 @@ export default function Documentation() {
     <div className="container">
       <div className="row">
         <div className="col-md-12">
-          <h1>CheSSsk Library</h1>
           <br />
+          <h1>CheSSsk Library</h1>
+          <hr />
+          <br />
+          <h4>Getting Started:</h4>
+          <hr />
           <p>
             A library for chess move validation based on location and board data
           </p>
           <br />
           <h4>Getting Started:</h4>
-            <p>To get started open the terminal for your project and run the command below:</p>
+          <hr />
+          <p>
+            To get started open the terminal for your project and run the
+            command below:
+          </p>
           <div className="code">
             <code>&nbsp;npm i chesssk</code>
           </div>
           <br />
+          <br />
           <h4>Example Usage:</h4>
+          <hr />
           <div className="code">
             <code>&nbsp;const chesssk = require("chesssk");</code>
             <br />
@@ -30,6 +40,7 @@ export default function Documentation() {
             <br />
             <code>&nbsp;console.log(validMoves);</code>
           </div>
+          <br />
         </div>
       </div>
     </div>
