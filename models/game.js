@@ -17,6 +17,7 @@ const gameSchema = new Schema(
         enPassant: { type: String, default: "" },
         history: { type: String, default: "" },
         chat: { type: String, default: "" },
+        notes: { type: String, default: "" },
 
         locked: { type: Boolean, default: false }, // true or false
         password: { type: String, default: "" },

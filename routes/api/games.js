@@ -9,6 +9,11 @@ router
     //.put(auth, gamesController.move);
     //.post(auth, gamesController.create);
 
+// Matches with "/api/games/poll/:id"
+router
+    .route("/poll/:id")
+    .get(auth, gamesController.pollGameStatus)
+
 // Matches with "/api/games/:id/:location"
 router
     .route("/:id/:location")
