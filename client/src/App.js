@@ -73,9 +73,8 @@ function App() {
             </Navbar>
             <div className="row m-0">
               <div className="col-md-3">{width < breakpoint ? "" : <SideNav close={sidenavCloseHandler} sidenav="sidenav" />}</div>
-              <div className="col-md-3">{sidenav}</div>
-
-              <div className="col-md-8">
+              <div>{sidenav}</div>
+              <div className="col-md-9">
                 <Switch>
                   <Route path="/" exact component={Home} />
                   <Route path="/create" exact component={Create} />
