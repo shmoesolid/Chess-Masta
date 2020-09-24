@@ -27,11 +27,5 @@ export const SidenavData = [
     path: "/auth-options",
     icon: <IoIcons.IoMdPeople />,
     cName: "nav-text",
-  },
-  {
-    title: "Docs",
-    path: "/documentation",
-    icon: <IoIcons.IoIosPaper />,
-    cName: "nav-text",
-  },
+  }
 ];

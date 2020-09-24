@@ -2,6 +2,7 @@ import React from "react";
 import "../css/ComponentStyles.css";
 import { SidenavData } from "./SidenavData";
 import { Link } from "react-router-dom";
+import * as IoIcons from "react-icons/io";
 
 const SideNav = (props) => {
 return (
@@ -17,7 +18,16 @@ return (
             </li>
           );
         })}
+    </ul>
+    <div className="docsLink">
+      <ul>
+        <li key={5} className="nav-text docsLink">
+          <Link to="/documentation">
+            <IoIcons.IoIosPaper /><span>&nbsp;Documentation</span>
+          </Link>
+        </li>
       </ul>
+    </div>
     </div>
   );
 };
