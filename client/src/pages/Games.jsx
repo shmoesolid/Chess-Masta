@@ -13,8 +13,12 @@ function Games()
     const { userData, setUserData } = useContext(UserContext);
     const [ gameList, setGameList ] = useState([]);
     const [ gameData, setGameData ] = useState(null);
+    const [ gamePassword, setGamePassword ] = useState("");
+    //var pollHandler = null;
 
     useEffect( () => {
+
+        //setupPoll();
 
         // confirm we are have our user data
         // sometimes would error on refresh
@@ -26,12 +30,56 @@ function Games()
                 getGames();
             }
         }
-        console.log(userData);
         if (typeof userData.user !== "undefined") 
             return getGames();
-
+            
         check();
     }, []);
+    
+
+    // const setupPoll = () => {
+    //     // setup poller (TEMPORARY. socket.io to replace)
+    //     console.log("setup poll", pollHandler);
+    //     if (pollHandler !== null)
+    //     {
+    //         console.log("CLEARING");
+    //         clearTimeout(pollHandler);
+    //         pollHandler=null;
+    //     }
+
+    //     pollHandler = setTimeout(poll, 2500);
+    // }
+
+    // const poll = async () => {
+
+    //     console.log("running...", gameData);
+
+    //     if (gameData === null)
+    //     {
+    //         pollHandler = setTimeout(poll, 2500);
+    //         return;
+    //     }
+            
+
+    //     await Axios
+    //         .get("/api/games/poll/"+gameData.data._id, { withCredentials: true })
+    //         .then( res => {
+    //             console.log(res.data, gameData.data.gameStatus);
+    //             if (res.data !== gameData.data.gameStatus)
+    //             {
+    //                 console.log("LOADING");
+    //                 loadGameById(gameData.data._id);
+    //                 return;
+    //             }
+    //         })
+    //         .catch( err => { if (err) console.log(err) });
+
+    //     pollHandler = setTimeout(poll, 2500);
+    // }
+
+    const gamePassChange = (event) => {
+        setGamePassword(event.target.value);
+    }
 
     const getGames = () => {
         Axios.get("/api/games", { withCredentials: true })
@@ -63,11 +111,9 @@ function Games()
     };
 
     const joinGameById = (id) => {
-        Axios.post("/api/games/join", {id}, { withCredentials: true })
+        Axios.post("/api/games/join", {id, gamePassword}, { withCredentials: true })
             .then(
                 res => {
-                    console.log("joinres", res.data);
-
                     // create new game 
                     var game = new CheSSsk();
 
@@ -95,6 +141,15 @@ function Games()
         getGames();
     }
 
+    const renderStatus = (status) => {
+        switch(status)
+        {
+            case 0: return (<span>Waiting for join...</span>);
+            case 1: return (<span>White move...</span>);
+            case 2: return (<span>Black move...</span>);
+        }
+    };
+
     return (
         <>
             {userData.user ? (
@@ -117,7 +172,17 @@ function Games()
                                         ) : !item.clientId &&
                                             <li key={index}>
                                                 {item.name}&nbsp;
+                                                {item.locked &&
+                                                    <input 
+                                                        type="password" 
+                                                        name="password" 
+                                                        id="password" 
+                                                        placeholder="Game password..."
+                                                        onChange={gamePassChange}
+                                                    />
+                                                }
                                                 <button onClick={() => joinGameById(item._id)}>Join</button>
+                                                
                                             </li>
                                 })
                             }
@@ -126,6 +191,7 @@ function Games()
                     ) : (
                         <>
                             <button onClick={() => goBackToListing()}>BACK</button>
+                            {renderStatus(gameData.data.gameStatus)}
                             <ShaneBoard 
                                 game={ gameData.gameObj } 
                                 data={ gameData.data } 

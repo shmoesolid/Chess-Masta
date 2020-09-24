@@ -10,7 +10,6 @@ const checkLoggedIn = async () => {
         withCredentials: true,
         });
         return {
-            // token,
             user: userRes.data,
         };
     }
