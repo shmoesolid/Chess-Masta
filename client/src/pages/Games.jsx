@@ -1,20 +1,36 @@
 import React, { useContext, useState, useEffect } from "react";
 import UserContext from "../context/userContext";
+import checkLoggedIn from "../utils/checkLoggedIn";
 import Axios from "axios";
 
 import "../css/board.css";
+import CreateGame from "../components/CreateGame";
 import ShaneBoard from "../components/ShaneBoard";
 import CheSSsk from "chesssk";
 
 function Games() 
 {
-    const { userData } = useContext(UserContext);
+    const { userData, setUserData } = useContext(UserContext);
     const [ gameList, setGameList ] = useState([]);
     const [ gameData, setGameData ] = useState(null);
 
     useEffect( () => {
 
-        getGames()
+        // confirm we are have our user data
+        // sometimes would error on refresh
+        async function check() {
+            var login = await checkLoggedIn();
+            if (login !== false) 
+            {
+                setUserData( login );
+                getGames();
+            }
+        }
+        console.log(userData);
+        if (typeof userData.user !== "undefined") 
+            return getGames();
+
+        check();
     }, []);
 
     const getGames = () => {
@@ -28,7 +44,7 @@ function Games()
             .catch( err => { if (err) console.log(err) });
     };
 
-    const getGameById = (id) => {
+    const loadGameById = (id) => {
         Axios.get("/api/games/"+id, { withCredentials: true })
             .then(
                 res => {
@@ -81,46 +97,44 @@ function Games()
 
     return (
         <>
-            {!gameData ? (
-                <ul>
-                {
-                    gameList.map( (item, index) => {
-                        return (
-                            <li key={index}>
-
-                                {/*this is one of our games*/}
-                                {item.hostId === userData.user.id || item.clientId === userData.user.id ? (
-                                    <>
-                                        {item.name}&nbsp;
-                                        <button onClick={() => getGameById(item._id)}>Load</button>&nbsp;
-                                        <button onClick={() => deleteGameById(item._id)}>Delete</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        {/*not our game but available to join*/}
-                                        {!item.clientId &&
-                                            <>
+            {userData.user ? (
+                <> 
+                    {!gameData ? (
+                        <>
+                            <h2>Create Game</h2>
+                            <CreateGame update={ loadGameById } />
+                            <br /><br />
+                            <h2>Game List</h2>
+                            <ul>
+                            {
+                                gameList.map( (item, index) => {
+                                    return item.hostId === userData.user.id || item.clientId === userData.user.id ? (
+                                        <li key={index}>
+                                            {item.name}&nbsp;
+                                            <button onClick={() => loadGameById(item._id)}>Load</button>&nbsp;
+                                            <button onClick={() => deleteGameById(item._id)}>Delete</button>
+                                        </li>
+                                        ) : !item.clientId &&
+                                            <li key={index}>
                                                 {item.name}&nbsp;
                                                 <button onClick={() => joinGameById(item._id)}>Join</button>
-                                            </>
-                                        }
-                                    </>
-                                )}
-                            </li>
-                        )
-                    })
-                }
-                </ul>
-            ) : (
-                <>
-                    <button onClick={() => goBackToListing()}>BACK</button>
-                    <ShaneBoard 
-                        game={ gameData.gameObj } 
-                        data={ gameData.data } 
-                        update={ getGameById }
-                    />
-                </>
-            )}
+                                            </li>
+                                })
+                            }
+                            </ul>
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={() => goBackToListing()}>BACK</button>
+                            <ShaneBoard 
+                                game={ gameData.gameObj } 
+                                data={ gameData.data } 
+                                update={ loadGameById }
+                            />
+                        </>
+                    )}
+                </> ): (<><h2>Please login...</h2></>)
+            }
         </>
     );
 }
