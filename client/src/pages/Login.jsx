@@ -18,12 +18,9 @@ export default function Login() {
     e.preventDefault();
     try {
       const loginUser = { email, password };
-      console.log(loginUser);
       const loginRes = await Axios.post("/users/login", loginUser);
-      console.log("res", loginRes);
       setUserData({
-        token: loginRes.data.token,
-        user: loginRes.data.user,
+        user: loginRes.data
       });
       // localStorage.setItem("auth-token", loginRes.data.token);
       history.push("/");

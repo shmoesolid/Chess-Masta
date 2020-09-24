@@ -1,6 +1,5 @@
 import Axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-
 import UserContext from "../../context/userContext";
 
 
@@ -19,7 +18,19 @@ function ShaneBoard(props)
         )
     );
 
-    var blackOnBottom = false;
+    // handle black on bottom per user preference
+    var blackOnBottom = userData.user.blackOnBottom;
+    var blackPlayer = false;
+    if (userData.user._id === props.data.hostId) blackPlayer = (props.data.hostColor === 1);
+    else blackPlayer = (props.data.clientColor === 1);
+
+    // handle board theme
+    var root = document.documentElement;
+    root.style.setProperty('--light-color', userData.user.boardWhiteColor);
+    root.style.setProperty('--dark-color', userData.user.boardBlackColor);
+    root.style.setProperty('--border-color', userData.user.boardBorderColor);
+
+    // other needed vars
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
     var selected = null;
@@ -30,9 +41,9 @@ function ShaneBoard(props)
         setNodesState(props.game._grid); // update our node state with grid
     });
 
-    Number.prototype.clamp = function(min, max)
+    function clamp(num, min, max)
     {
-        return Math.min( Math.max(this, min), max);
+        return Math.min( Math.max(num, min), max);
     }
 
     function floorBySize(num)
@@ -42,29 +53,26 @@ function ShaneBoard(props)
 
     function getDisplayCoords(node)
     {
-        // get reference
-        //var tableChess = document.getElementById("board");
-
         // test
         var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
         var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
         var xDisp, yDisp;
 
-        if (!blackOnBottom)
-        {
-            // x moves with board
-            xDisp = node.x * cellSize + imageWidth / 4;
-
-            // y moves with board and needs to be inversed
-            yDisp = (cellSize*8 - node.y * cellSize) - imageHeight - imageHeight / 4;
-        }
-        else
+        if (blackOnBottom && blackPlayer)
         {
             // x moves with board and needs inverse
             xDisp = (cellSize*8 - node.x * cellSize) - imageWidth - imageWidth / 4;
 
             // y moves with board
             yDisp = node.y * cellSize + imageWidth / 4;
+        }
+        else
+        {
+            // x moves with board
+            xDisp = node.x * cellSize + imageWidth / 4;
+
+            // y moves with board and needs to be inversed
+            yDisp = (cellSize*8 - node.y * cellSize) - imageHeight - imageHeight / 4;
         }
         
         // return data in object
@@ -78,23 +86,23 @@ function ShaneBoard(props)
         var x;
         var y;
         
-        // white on bottom
-        if (!blackOnBottom)
-        {
-            x = event.clientX - bounding.left;
-            y = Math.abs(event.clientY - bounding.bottom);
-        }
-        
         // black on bottom
-        else
+        if (blackOnBottom && blackPlayer)
         {
             x = Math.abs(event.clientX - bounding.right);
             y = event.clientY - bounding.top;
         }
+        
+        // white on bottom
+        else
+        {
+            x = event.clientX - bounding.left;
+            y = Math.abs(event.clientY - bounding.bottom);
+        }
 
         // contain x and y
-        x = x.clamp(0, bounding.width-1);
-        y = y.clamp(0, bounding.height-1);
+        x = clamp(x, 0, bounding.width-1);
+        y = clamp(y, 0, bounding.height-1);
         
         // get array indexes and keep x and y within range
         var chessCol = floorBySize(x);

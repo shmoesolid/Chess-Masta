@@ -96,12 +96,7 @@ router.post("/login", async (req, res) => {
       secure: process.env.NODE_ENV === 'production' ? true : false, // use https if in production
       httpOnly: true,
     });
-    res.json({
-      user: {
-        id: user._id,
-        displayName: user.displayName,
-      },
-    });
+    returnUserData(res, user);
   } catch (err) {
     res.status(500).json({
       error: err.message
@@ -140,11 +135,27 @@ router.get("/tokenIsValid", async (req, res) => {
 });
 
 router.get("/", auth, async (req, res) => {
-  const user = await User.findById(req.user);
-  res.json({
-    displayName: user.displayName,
-    id: user._id,
-  });
+  var user = await User.findById(req.user);
+
+  // return user data
+  //res.json(user);
+  returnUserData(res, user);
 });
+
+const returnUserData = (res, data) => {
+
+  // copy user data so we can change it
+  var user = ({...data}._doc);
+
+  // delete vitals
+  delete user.email;
+  delete user.password;
+
+  // this is just so a bunch of bugs don't happen atm
+  user.id = user._id;
+
+  // return it
+  return res.json(user);
+};
 
 module.exports = router;
