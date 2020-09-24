@@ -96,7 +96,15 @@ a,
     height: 7rem;
 }
 
+.code {
+  background-color: gray;
+  border-radius: 4px;
+  width: 75%;
+}
 
+code {
+  color: white;
+}
 /* form */
 
 .form label,

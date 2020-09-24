@@ -8,6 +8,7 @@ import Games from "./pages/Games";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
+import Documentation from "./pages/Documentation";
 
 import SideNav from "./components/SideNav";
 import Toggle from "./components/Toggle";
@@ -82,6 +83,7 @@ function App() {
                   <Route path="/login" exact component={Login} />
                   <Route path="/register" exact component={Register} />
                   <Route path="/auth-options" exact component={AuthOptions} />
+                  <Route path="/documentation" exact component={Documentation} />
                 </Switch>
               </div>
             </div>
