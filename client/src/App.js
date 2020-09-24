@@ -19,7 +19,7 @@ import checkLoggedIn from "./utils/checkLoggedIn";
 function App() {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const breakpoint = 760;
+  const breakpoint = 933;
   // user auth
   const [userData, setUserData] = useState({
     user: undefined
