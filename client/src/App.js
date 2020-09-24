@@ -17,8 +17,9 @@ import UserContext from "./context/userContext";
 import checkLoggedIn from "./utils/checkLoggedIn";
 
 function App() {
-  const [sidenavOpen, setSidenavOpen] = useState(true);
-
+  const [sidenavOpen, setSidenavOpen] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const breakpoint = 760;
   // user auth
   const [userData, setUserData] = useState({
     user: undefined
@@ -51,6 +52,9 @@ function App() {
   if (sidenavOpen) {
     sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
   }
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  }, []);
 
   return (
     <div className="App">
@@ -58,7 +62,7 @@ function App() {
         <Router>
           <UserContext.Provider value={{ userData, setUserData }}>
             <Navbar className="sticky-top">
-              <Toggle click={openHandler} />
+              {width > breakpoint ? "" : <Toggle click={openHandler} />}
               <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -68,7 +72,9 @@ function App() {
               </Navbar.Collapse>
             </Navbar>
             <div className="row m-0">
+              <div className="col-md-3">{width < breakpoint ? "" : <SideNav close={sidenavCloseHandler} sidenav="sidenav" />}</div>
               <div className="col-md-3">{sidenav}</div>
+
               <div className="col-md-8">
                 <Switch>
                   <Route path="/" exact component={Home} />

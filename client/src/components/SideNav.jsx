@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const SideNav = (props) => {
 return (
-    <div>
+    <div className="sidenav">
       <ul>
         {SidenavData.map((item, index) => {
           return (
