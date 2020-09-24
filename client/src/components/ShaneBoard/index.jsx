@@ -24,6 +24,12 @@ function ShaneBoard(props)
     if (userData.user._id === props.data.hostId) blackPlayer = (props.data.hostColor === 1);
     else blackPlayer = (props.data.clientColor === 1);
 
+    // handle board theme
+    var root = document.documentElement;
+    root.style.setProperty('--light-color', userData.user.boardWhiteColor);
+    root.style.setProperty('--dark-color', userData.user.boardBlackColor);
+    root.style.setProperty('--border-color', userData.user.boardBorderColor);
+
     // other needed vars
     var NUM_TO_LETTER = [ "a", "b", "c", "d", "e", "f", "g", "h" ];
     var cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size').slice(0, -2); // removes 'px'
