@@ -3,7 +3,6 @@ import React from "react";
 function CreateBoard()
 {
     function createBoard() {
-        console.log("creating board");
         let table = [];
         for (let x = 0; x < 8; x++) {
             let children = [];
