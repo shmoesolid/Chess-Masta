@@ -1,4 +1,6 @@
 
+// not the best way to do this maybe but this is the only way
+// i could think to where i could merge api routes with client updating
 var _clients = [];
 var _io = null;
 
@@ -17,7 +19,8 @@ exports.getClients = function() {
 exports.getClientByUID = function(uid) {
     for(var i=0; i<_clients.length; i++)
     {
-        if (_clients[i].uid === uid)
+        console.log(_clients[i].uid, "vs", uid.toString());
+        if (_clients[i].uid === uid.toString())
             return _clients[i];
     }
 
@@ -35,29 +38,3 @@ exports.removeClient = function(id) {
             _clients.splice(i,1);
     }
 }
-
-// const socketio = require("socket.io");
-
-// const io = socketio(server);
-// var users = [];
-
-// // setup listeners for socket.io
-// io.on('connection', (socket) => {
-
-//     socket.on('userData', (userData) => {
-
-//         users.push({
-//             id: socket.id,
-//             uid: userData.uid,
-//             gid: userData.gid
-//         });
-//     });
-
-//     socket.on('disconnect', () => {
-//         for(var i=0; i<users.length; i++)
-//         {
-//             if (users[i].id === socket.id)
-//                 users.splice(i,1);
-//         }
-//     });
-// });

@@ -62,7 +62,7 @@ server.listen(PORT, err => {
     console.log(`Server listening on port: ${PORT}`);
 });
 
-
+// socket.io server setup attached to listen server
 const io = socketio(server);
 const { setIO, addClient, removeClient } = require("./clients");
 setIO(io);
@@ -71,6 +71,8 @@ setIO(io);
 io.on('connection', (socket) => {
 
     socket.on('userData', (userData) => {
+
+        console.log("adding user:", socket.id, userData.uid, userData.gid);
 
         addClient({
             id: socket.id,
