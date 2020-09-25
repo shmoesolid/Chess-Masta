@@ -59,7 +59,6 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   try {
     const {
       email,
@@ -86,23 +85,18 @@ router.post("/login", async (req, res) => {
       msg: "Invalid credentials."
     });
 
-    const expiration = process.env.NODE_ENV !== 'production' ? 900000 : 604800000;
+    const expiration = process.env.NODE_ENV !== 'production' ? 604800000 : 604800000;
     const token = jwt.sign({
       id: user._id
     }, process.env.JWT_SECRET, {
       expiresIn: process.env.NODE_ENV !== 'production' ? '1d' : '7d',
     });
-    res.cookies('token', token, {
+    res.cookie('token', token, {
       expires: new Date(Date.now() + expiration),
       secure: process.env.NODE_ENV === 'production' ? true : false, // use https if in production
       httpOnly: true,
     });
-    res.json({
-      user: {
-        id: user._id,
-        displayName: user.displayName,
-      },
-    });
+    returnUserData(res, user);
   } catch (err) {
     res.status(500).json({
       error: err.message
@@ -121,7 +115,7 @@ router.delete("/delete", auth, async (req, res) => {
   }
 });
 
-router.get("/tokenIsValid", auth, async (req, res) => {
+router.get("/tokenIsValid", async (req, res) => {
   try {
     const token = req.cookies.token || "";
     if (!token) return res.json(false);
@@ -141,11 +135,27 @@ router.get("/tokenIsValid", auth, async (req, res) => {
 });
 
 router.get("/", auth, async (req, res) => {
-  const user = await User.findById(req.user);
-  res.json({
-    displayName: user.displayName,
-    id: user._id,
-  });
+  var user = await User.findById(req.user);
+
+  // return user data
+  //res.json(user);
+  returnUserData(res, user);
 });
+
+const returnUserData = (res, data) => {
+
+  // copy user data so we can change it
+  var user = ({...data}._doc);
+
+  // delete vitals
+  delete user.email;
+  delete user.password;
+
+  // this is just so a bunch of bugs don't happen atm
+  user.id = user._id;
+
+  // return it
+  return res.json(user);
+};
 
 module.exports = router;

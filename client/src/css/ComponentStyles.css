@@ -47,6 +47,7 @@ a,
     z-index: 200;
     left: -100%;
     animation: slide-open .75s forwards;
+    box-shadow: 1px 1px 1px 1px #1f1d1d;
     float: top;
 }
 
@@ -80,11 +81,31 @@ a,
     background-color: #1a83ff;
 }
 
+.docsLink {
+  position: absolute;
+  bottom: 50px;
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 18px;
+  width: 92%;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
 .space {
     height: 7rem;
 }
 
+.code {
+  background-color: gray;
+  border-radius: 4px;
+  width: 75%;
+}
 
+code {
+  color: white;
+}
 /* form */
 
 .form label,

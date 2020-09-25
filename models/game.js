@@ -17,13 +17,25 @@ const gameSchema = new Schema(
         enPassant: { type: String, default: "" },
         history: { type: String, default: "" },
         chat: { type: String, default: "" },
+        notes: { type: String, default: "" },
 
         locked: { type: Boolean, default: false }, // true or false
         password: { type: String, default: "" },
 
         gameTime: { type: Number, default: null },
         gameStatus: { type: Number, default: 0 }, 
-        // 0=waiting, 1=play white, 2=play black, 3=checkmate, 4=resignation, 5=timeout, 6=stalemate, 7=repetition, 8=agreement
+        /*
+            0=waiting for client join
+            1=play white
+            2=play black
+            3=check
+            4=checkmate
+            5=resignation
+            6=timeout
+            7=stalemate
+            8=repetition
+            9=agreement
+        */
     }, 
     { timestamps: true }
 );
