@@ -1,8 +1,10 @@
 
-import React from "react";
+import React, {useEffect} from "react";
 
 function Pieces(props)
 {
+    useEffect(() => {console.log("render pieces")}, [props.nodesState]);
+
     return (
         <>
             {/*pieces render*/}

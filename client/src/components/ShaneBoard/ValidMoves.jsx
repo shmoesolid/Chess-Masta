@@ -1,8 +1,10 @@
 
-import React from "react";
+import React, {useEffect} from "react";
 
 function ValidMoves(props)
 {
+    useEffect(() => {}, [props.validMoves]);
+
     return (
         <>
             {/* possible moves */}

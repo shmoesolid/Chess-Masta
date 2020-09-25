@@ -16,9 +16,7 @@ function Games()
     const [ gamePassword, setGamePassword ] = useState("");
 
     useEffect( () => {
-
-        console.log("games useeffect");
-
+        
         // confirm we are have our user data
         // sometimes would error on refresh
         async function check() {
@@ -103,12 +101,12 @@ function Games()
     }
 
     const renderStatus = (status) => {
-        console.log("rendering status");
         switch(status)
         {
             case 0: return (<span>Waiting for join...</span>);
             case 1: return (<span>White move...</span>);
             case 2: return (<span>Black move...</span>);
+            default: return (<span>Status not used yet...</span>);
         }
     };
 
