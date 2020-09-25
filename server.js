@@ -5,7 +5,6 @@ const {
 } = require('http');
 const cors = require("cors");
 const express = require("express");
-// const session = require("express-session");
 const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -71,9 +70,6 @@ setIO(io);
 io.on('connection', (socket) => {
 
     socket.on('userData', (userData) => {
-
-        console.log("adding user:", socket.id, userData.uid, userData.gid);
-
         addClient({
             id: socket.id,
             uid: userData.uid,
