@@ -2,6 +2,12 @@ const router = require("express").Router();
 const gamesController = require("../../controllers/gamesController");
 const auth = require("../../middleware/auth");
 
+// module.exports = function(io) {
+
+//     io.sockets.on("connection", function(socket) {
+
+//     })
+
 // Matches with "/api/games"
 router
     .route("/")
@@ -40,5 +46,6 @@ router
     .delete(auth, gamesController.remove)
     .get(auth, gamesController.findById);
 
+// }
 
 module.exports = router;

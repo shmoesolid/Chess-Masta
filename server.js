@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const compression = require('compression');
 const routes = require("./routes");
+const socketio = require("socket.io");
 
 const normalizPort = port => parseInt(port, 10);
 const PORT = normalizPort(process.env.PORT || 3001);
@@ -59,4 +60,26 @@ const server = createServer(app);
 server.listen(PORT, err => {
     if (err) throw err;
     console.log(`Server listening on port: ${PORT}`);
+});
+
+
+const io = socketio(server);
+const { setIO, addClient, removeClient } = require("./clients");
+setIO(io);
+
+// main connection handler for connected users
+io.on('connection', (socket) => {
+
+    socket.on('userData', (userData) => {
+
+        addClient({
+            id: socket.id,
+            uid: userData.uid,
+            gid: userData.gid
+        });
+    });
+
+    socket.on('disconnect', () => {
+        removeClient(socket.id);
+    });
 });

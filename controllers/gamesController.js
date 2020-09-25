@@ -1,5 +1,6 @@
 const chesssk = require("chesssk");
 const db = require("../models");
+const { getIO, getClientByUID } = require("../clients");
 
 // enum for game status
 const GameStatus = Object.freeze(
@@ -16,7 +17,6 @@ const GameStatus = Object.freeze(
         Agreement: 9
     }
 );
-
 
 // Defining methods for the gamesController
 module.exports = {
@@ -147,7 +147,14 @@ module.exports = {
                                 res.json(result);
 
                                 // maybe here use socket.io to send to new board data to other player or just let them know
-                                //var otherPlayerId = player.host ? dbModel.clientId : dbModel.hostId;
+                                var otherPlayerId = player.host ? dbModel.clientId : dbModel.hostId;
+                                var clientSocket = getClientByUID(otherPlayerId);
+
+                                if (clientSocket !== false)
+                                {
+                                    console.log(clientSocket);
+                                    getIO().to(clientSocket.id).emit("moveUpdate", dbModel._id);
+                                }
                             }
                         );
                 }
