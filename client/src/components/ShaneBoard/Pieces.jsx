@@ -1,0 +1,43 @@
+
+import React from "react";
+
+function Pieces(props)
+{
+    return (
+        <>
+            {/*pieces render*/}
+            {props.nodesState.map((col, cIndex) => {
+                return col.map((node, nIndex) => {
+                    // returning something here so it shuts up about the stupid key
+                    if (node === null || node.p === null)
+                        return (
+                            <div
+                                style={{ position: "absolute" }}
+                                key={"null-" + cIndex + nIndex}
+                            ></div>
+                        );
+
+                    // setup our image
+                    var c = node.p.color.toLowerCase();
+                    var t = node.p.type.toLowerCase();
+                    var display = props.getCoords(node);
+                    return (
+                        <img
+                            key={"piece-" + cIndex + nIndex}
+                            src={`assets/img/${c}${t}.gif`}
+                            alt={c + t + " chess piece"}
+                            style={{
+                                position: "absolute",
+                                top: display.top,
+                                left: display.left,
+                                zIndex: 10,
+                            }}
+                        />
+                    );
+                });
+            })}
+        </>
+    )
+}
+
+export default Pieces;

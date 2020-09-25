@@ -12,13 +12,12 @@ function Games()
 {
     const { userData, setUserData } = useContext(UserContext);
     const [ gameList, setGameList ] = useState([]);
-    const [ gameData, setGameData ] = useState(null);
+    const [ gameData, setGameData ] = useState({gameObj: null, data: {}});
     const [ gamePassword, setGamePassword ] = useState("");
-    //var pollHandler = null;
 
     useEffect( () => {
 
-        //setupPoll();
+        console.log("games useeffect");
 
         // confirm we are have our user data
         // sometimes would error on refresh
@@ -30,52 +29,13 @@ function Games()
                 getGames();
             }
         }
-        if (typeof userData.user !== "undefined") 
+        if (typeof userData.user !== "undefined" && gameData.gameObj !== null) 
             return getGames();
             
         check();
+
+        return () => console.log("games unmounting");
     }, []);
-    
-
-    // const setupPoll = () => {
-    //     // setup poller (TEMPORARY. socket.io to replace)
-    //     console.log("setup poll", pollHandler);
-    //     if (pollHandler !== null)
-    //     {
-    //         console.log("CLEARING");
-    //         clearTimeout(pollHandler);
-    //         pollHandler=null;
-    //     }
-
-    //     pollHandler = setTimeout(poll, 2500);
-    // }
-
-    // const poll = async () => {
-
-    //     console.log("running...", gameData);
-
-    //     if (gameData === null)
-    //     {
-    //         pollHandler = setTimeout(poll, 2500);
-    //         return;
-    //     }
-            
-
-    //     await Axios
-    //         .get("/api/games/poll/"+gameData.data._id, { withCredentials: true })
-    //         .then( res => {
-    //             console.log(res.data, gameData.data.gameStatus);
-    //             if (res.data !== gameData.data.gameStatus)
-    //             {
-    //                 console.log("LOADING");
-    //                 loadGameById(gameData.data._id);
-    //                 return;
-    //             }
-    //         })
-    //         .catch( err => { if (err) console.log(err) });
-
-    //     pollHandler = setTimeout(poll, 2500);
-    // }
 
     const gamePassChange = (event) => {
         setGamePassword(event.target.value);
@@ -93,6 +53,7 @@ function Games()
     };
 
     const loadGameById = (id) => {
+        console.log('loading game by id');
         Axios.get("/api/games/"+id, { withCredentials: true })
             .then(
                 res => {
@@ -137,11 +98,12 @@ function Games()
 
     const goBackToListing = () => {
         
-        setGameData(null);
+        setGameData({gameObj: null, data: {}});
         getGames();
     }
 
     const renderStatus = (status) => {
+        console.log("rendering status");
         switch(status)
         {
             case 0: return (<span>Waiting for join...</span>);
@@ -154,7 +116,7 @@ function Games()
         <>
             {userData.user ? (
                 <> 
-                    {!gameData ? (
+                    {!gameData.gameObj ? (
                         <>
                             <h2>Create Game</h2>
                             <CreateGame update={ loadGameById } />

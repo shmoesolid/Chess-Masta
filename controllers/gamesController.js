@@ -1,5 +1,6 @@
 const chesssk = require("chesssk");
 const db = require("../models");
+const { getIO, getClientByUID } = require("../clients");
 
 // enum for game status
 const GameStatus = Object.freeze(
@@ -17,6 +18,16 @@ const GameStatus = Object.freeze(
     }
 );
 
+// use socket.io to send other player update
+const updateOtherPlayer = (msgType, playerId, gameId) => {
+
+    // get client socket by playerId
+    var clientSocket = getClientByUID(playerId);
+
+    // send it if the other client is connected to game
+    if (clientSocket !== false)
+        getIO().to(clientSocket.id).emit(msgType, gameId);
+}
 
 // Defining methods for the gamesController
 module.exports = {
@@ -146,8 +157,12 @@ module.exports = {
                                 // send back json data to our player making move
                                 res.json(result);
 
-                                // maybe here use socket.io to send to new board data to other player or just let them know
-                                //var otherPlayerId = player.host ? dbModel.clientId : dbModel.hostId;
+                                // use socket.io to send msg to other player about move update
+                                updateOtherPlayer(
+                                    "moveUpdate", 
+                                    player.host ? dbModel.clientId : dbModel.hostId, 
+                                    dbModel._id
+                                );
                             }
                         );
                 }
@@ -206,8 +221,12 @@ module.exports = {
                             // send back json data to our player making move
                             res.json(result);
 
-                            // maybe here use socket.io to send to new board data to other player or just let them know
-                            //var otherPlayerId = player.host ? dbModel.clientId : dbModel.hostId;
+                            // use socket.io to send msg to other player aka host about join (using moveUpdate for now)
+                            updateOtherPlayer(
+                                "moveUpdate", 
+                                dbModel.hostId, 
+                                dbModel._id
+                            );
                         }
                     );
             })

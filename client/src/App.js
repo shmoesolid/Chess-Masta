@@ -27,6 +27,8 @@ function App() {
 
   useEffect(() => {
 
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+
     async function check() {
       var login = await checkLoggedIn();
       if (login !== false) setUserData( login );
@@ -52,9 +54,6 @@ function App() {
   if (sidenavOpen) {
     sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
   }
-  useEffect(() => {
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-  }, []);
 
   return (
     <div className="App">

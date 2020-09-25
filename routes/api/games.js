@@ -40,5 +40,4 @@ router
     .delete(auth, gamesController.remove)
     .get(auth, gamesController.findById);
 
-
 module.exports = router;
