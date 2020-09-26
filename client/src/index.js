@@ -12,7 +12,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/" exact component={App} />
-        <Route path="/home" exact component={Home} />
+        <Route path="/home" rel="noopener noreferrer" exact component={Home} />
       </Switch>
     </Router>
   </React.StrictMode>,

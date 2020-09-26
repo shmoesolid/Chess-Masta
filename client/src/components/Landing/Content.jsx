@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Content() {
   return (
@@ -18,7 +19,7 @@ function Content() {
             </h6>
             <br />
             <h6>
-              <a className="btn btn-dark start start-two" href="/register">
+              <a className="btn btn-dark start start-two" href="/home">
                 Get Started
               </a>
             </h6>

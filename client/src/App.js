@@ -5,7 +5,8 @@ import Home from "./pages/Home";
 import Nav from "./components/Landing/LandingNav"
 import Content from "./components/Landing/Content";
 import Footer from "./components/Landing/LandingFooter";
-
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
         </div>
         <Switch>
           <Route path="/home" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
         </Switch>
       </Router>
     </div>
