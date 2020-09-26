@@ -2,13 +2,21 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
+import Nav from "./components/Landing/LandingNav"
+import Content from "./components/Landing/Content";
+import Footer from "./components/Landing/LandingFooter";
+
 
 function App() {
 
   return (
     <div>
       <Router>
-        <button><a href="/home">Home</a></button>
+        <div class="main-container">
+          <Nav />
+          <Content />
+          <Footer />
+        </div>
         <Switch>
           <Route path="/home" exact component={Home} />
         </Switch>
