@@ -44,7 +44,7 @@ function ShaneBoard(props)
   useEffect(() => {
     const socket = socketioClient("/");
     socket.on("moveUpdate", gameId => {
-        console.log("received", gameId);
+        console.log("socketio move update", gameId);
         props.update(gameId);
     });
     socket.emit('userData', {uid: userData.user._id, gid: props.data._id});
@@ -89,12 +89,10 @@ function ShaneBoard(props)
     return { top: yDisp, left: xDisp };
   }
 
-  function showCoords(event) {
-      console.log("showing coords");
+  function handleClick(event) {
     var tableChess = document.getElementById("board");
     var bounding = tableChess.getBoundingClientRect();
-    var x;
-    var y;
+    var x, y;
 
     // black on bottom
     if (blackOnBottom && blackPlayer) {
@@ -118,19 +116,9 @@ function ShaneBoard(props)
 
     // setup display vars (DEBUG)
     // var coords =
-    //   "Actual: " +
-    //   x +
-    //   ", " +
-    //   y +
-    //   "<br />Array: [ " +
-    //   chessCol +
-    //   " ][ " +
-    //   chessRow +
-    //   " ]" +
-    //   "<br />Notation: " +
-    //   NUM_TO_LETTER[chessCol] +
-    //   (chessRow + 1) +
-    //   "<br />";
+    //   "Actual: " + x + ", " + y +
+    //   "<br />Array: [ " + chessCol + " ][ " + chessRow + " ]" +
+    //   "<br />Notation: " + NUM_TO_LETTER[chessCol] + (chessRow + 1) + "<br />";
 
     // display (DEBUG)
     //document.getElementById("coords").innerHTML = coords;
@@ -139,30 +127,28 @@ function ShaneBoard(props)
     var gridCopy = [...nodesState];
     var clickedString = NUM_TO_LETTER[chessCol] + (chessRow + 1);
     var node = gridCopy[chessCol][chessRow];
+    var fromString;
 
     // handle toggle selection
     if (selected === null) {
-      console.log("selecting1");
+
       // select if piece exists
       if (node !== false && node.p !== null) {
-        console.log("selecting2");
         setSelected(node);
-        var fromString = NUM_TO_LETTER[node.x] + (node.y + 1);
+        fromString = NUM_TO_LETTER[node.x] + (node.y + 1);
         possibleMoves(fromString);
       }
     }
 
     // deselect if same node clicked
     else if (selected === node) {
-      console.log("deselecting");
       setSelected(null);
       setValidMoves([]);
     }
 
     // make the move
     else {
-      console.log("attempting move");
-      var fromString = NUM_TO_LETTER[selected.x] + (selected.y + 1);
+      fromString = NUM_TO_LETTER[selected.x] + (selected.y + 1);
       makeMove(fromString, clickedString);
       setSelected(null);
       setValidMoves([]);
@@ -203,7 +189,7 @@ function ShaneBoard(props)
       {/*chess board border*/}
       <div className="board_border">
         {/*chess board wrapper (where board table and pieces are handled)*/}
-        <div id="board" onClick={showCoords} style={{ position: "relative" }}>
+        <div id="board" onClick={handleClick} style={{ position: "relative" }}>
             <CreateBoard />
             <ValidMoves validMoves={validMoves} getCoords={getDisplayCoords} />
             <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
