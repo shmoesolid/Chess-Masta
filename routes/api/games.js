@@ -6,18 +6,18 @@ const auth = require("../../middleware/auth");
 router
     .route("/")
     .get(auth, gamesController.findAll);
-    //.put(auth, gamesController.move);
-    //.post(auth, gamesController.create);
+
+// Matches with "/api/games/chat/:id"
+router
+    .route("/chat/:id")
+    .get(auth, gamesController.getMsgsById)
+    .post(auth, gamesController.sendMsg);
 
 // Matches with "/api/games/poll/:id"
+// leaving this in for now even though not used
 router
     .route("/poll/:id")
-    .get(auth, gamesController.pollGameStatus)
-
-// Matches with "/api/games/:id/:location"
-router
-    .route("/:id/:location")
-    .get(auth, gamesController.getValidMoves);
+    .get(auth, gamesController.pollGameStatus);
 
 // Matches with "/api/games/move"
 router
@@ -27,12 +27,17 @@ router
 // Matches with "/api/games/create"
 router
     .route("/create")
-    .post(auth, gamesController.create)
+    .post(auth, gamesController.create);
 
 // Matches with "/api/games/join"
 router
     .route("/join")
-    .post(auth, gamesController.join)
+    .post(auth, gamesController.join);
+
+// Matches with "/api/games/:id/:location"
+router
+    .route("/:id/:location")
+    .get(auth, gamesController.getValidMoves);
 
 // Matches with "/api/games/:id"
 router

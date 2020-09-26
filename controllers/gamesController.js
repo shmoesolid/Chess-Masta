@@ -19,6 +19,7 @@ const GameStatus = Object.freeze(
 );
 
 // use socket.io to send other player update
+// generalized function for resuse
 const updateOtherPlayer = (msgType, playerId, gameId) => {
 
     // get client socket by playerId
@@ -32,7 +33,10 @@ const updateOtherPlayer = (msgType, playerId, gameId) => {
 // Defining methods for the gamesController
 module.exports = {
 
-    findAll: function(req, res) {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game finding
+
+    findAll: function(req, res) { // get
         db.Game
             .find(req.query)
             //.sort({ date: -1 })
@@ -40,15 +44,18 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
 
-    findById: function(req, res) {
+    findById: function(req, res) { // get
         db.Game
             .findById(req.params.id)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game updates
+
     // THIS IS TEMPORARY.. socket.io to take over this
-    pollGameStatus: function(req, res) {
+    pollGameStatus: function(req, res) { // get
         db.Game
             .findById(req.params.id)
             .then(dbModel => res.json(dbModel.gameStatus))
@@ -58,7 +65,7 @@ module.exports = {
             });
     },
 
-    getValidMoves: function(req, res) {
+    getValidMoves: function(req, res) { // get
         db.Game
             .findById(req.params.id)
             .then(
@@ -169,6 +176,9 @@ module.exports = {
             ).catch(err => res.status(422).json(err));
     },
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game managing
+
     create: function(req, res) { // post
 
         // assign
@@ -238,5 +248,16 @@ module.exports = {
             .deleteOne({_id: req.params.id})
             .then( res.json("deleted") )
             .catch(err => res.status(422).json(err));
+    },
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game messaging
+
+    getMsgsById: function(req, res) { // get
+
+    },
+
+    sendMsg: function(req, res) { // post
+
     }
 };
