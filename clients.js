@@ -1,4 +1,6 @@
 
+// centralized client handler for socketio
+// listeners established in server.js
 // not the best way to do this maybe but this is the only way
 // i could think to where i could merge api routes with client updating
 var _clients = [];
@@ -19,7 +21,6 @@ exports.getClients = function() {
 exports.getClientByUID = function(uid) {
     for(var i=0; i<_clients.length; i++)
     {
-        console.log(_clients[i].uid, "vs", uid.toString());
         if (_clients[i].uid === uid.toString())
             return _clients[i];
     }

@@ -20,14 +20,15 @@ const GameStatus = Object.freeze(
 
 // use socket.io to send other player update
 // generalized function for resuse
-const updateOtherPlayer = (msgType, playerId, gameId) => {
+// msg can be gameId or actual msg from other client
+const updatePlayer = (msgType, playerId, msg) => {
 
     // get client socket by playerId
     var clientSocket = getClientByUID(playerId);
 
     // send it if the other client is connected to game
     if (clientSocket !== false)
-        getIO().to(clientSocket.id).emit(msgType, gameId);
+        getIO().to(clientSocket.id).emit(msgType, msg);
 }
 
 // Defining methods for the gamesController
@@ -165,7 +166,7 @@ module.exports = {
                                 res.json(result);
 
                                 // use socket.io to send msg to other player about move update
-                                updateOtherPlayer(
+                                updatePlayer(
                                     "moveUpdate", 
                                     player.host ? dbModel.clientId : dbModel.hostId, 
                                     dbModel._id
@@ -232,7 +233,7 @@ module.exports = {
                             res.json(result);
 
                             // use socket.io to send msg to other player aka host about join (using moveUpdate for now)
-                            updateOtherPlayer(
+                            updatePlayer(
                                 "moveUpdate", 
                                 dbModel.hostId, 
                                 dbModel._id
@@ -254,10 +255,37 @@ module.exports = {
     // game messaging
 
     getMsgsById: function(req, res) { // get
-
+        db.Game
+            .findById(req.params.id)
+            .then( (dbModel) => res.json(dbModel.chat) )
+            .catch(err => res.status(422).json(err));
     },
 
     sendMsg: function(req, res) { // post
+        var gameId = req.body.id;
+        var msg = req.body.msg;
+        var userId = req.user;
 
+        db.Game.findByIdAndUpdate(
+            gameId, 
+            { $push: { chat: msg } }, 
+            { new: true, upsert: true },
+            function(err, dbModel) {
+
+                // error 
+                if (err) return res.status(422).json(err);
+
+                // send back that we updated
+                // shouldn't need to waste bw sending back the whole chat
+                res.json(true);
+
+                // handle socketio
+                updatePlayer(
+                    "msgUpdate", 
+                    (userId === dbModel.hostId) ? dbModel.hostId : dbModel.clientId, 
+                    msg
+                );
+            }
+        );
     }
 };
