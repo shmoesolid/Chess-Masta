@@ -30,6 +30,7 @@ export default function Login() {
   };
   return (
     <div className="page">
+      <div className="space"></div>
       <h2>Log in</h2>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />

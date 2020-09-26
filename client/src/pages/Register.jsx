@@ -37,6 +37,7 @@ export default function Register() {
   };
   return (
     <div className="page">
+      <div className="space"></div>
       <h2>New User? Create an Account.</h2>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />

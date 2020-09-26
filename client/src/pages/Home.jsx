@@ -64,8 +64,8 @@ function Home() {
               <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ml-auto">
-                  <Nav.Item>{userData.user ? (<p>Welcome, {userData.user.displayName}!</p>) : (<><Link to="/login">Login</Link></>)}</Nav.Item>
+                <Nav className="ml-auto welcome">
+                  <Nav.Item>{userData.user ? (<p>Welcome, {userData.user.displayName}!</p>) : (<p><Link to="/login">Login</Link></p>)}</Nav.Item>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
