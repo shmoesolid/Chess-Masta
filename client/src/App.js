@@ -13,7 +13,7 @@ function App() {
   return (
     <div>
       <Router>
-        <div class="main-container">
+        <div className="main-container">
           <Nav />
           <Content />
           <Footer />
