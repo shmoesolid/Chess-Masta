@@ -19,20 +19,27 @@ const GameStatus = Object.freeze(
 );
 
 // use socket.io to send other player update
-const updateOtherPlayer = (msgType, playerId, gameId) => {
+// generalized function for resuse
+// msg can be gameId or actual msg from other client
+const updatePlayer = (msgType, playerId, msg) => {
+
+    console.log("update player", msgType, playerId, msg);
 
     // get client socket by playerId
     var clientSocket = getClientByUID(playerId);
 
     // send it if the other client is connected to game
     if (clientSocket !== false)
-        getIO().to(clientSocket.id).emit(msgType, gameId);
+        getIO().to(clientSocket.id).emit(msgType, msg);
 }
 
 // Defining methods for the gamesController
 module.exports = {
 
-    findAll: function(req, res) {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game finding
+
+    findAll: function(req, res) { // get
         db.Game
             .find(req.query)
             //.sort({ date: -1 })
@@ -40,15 +47,18 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     },
 
-    findById: function(req, res) {
+    findById: function(req, res) { // get
         db.Game
             .findById(req.params.id)
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game updates
+
     // THIS IS TEMPORARY.. socket.io to take over this
-    pollGameStatus: function(req, res) {
+    pollGameStatus: function(req, res) { // get
         db.Game
             .findById(req.params.id)
             .then(dbModel => res.json(dbModel.gameStatus))
@@ -58,7 +68,7 @@ module.exports = {
             });
     },
 
-    getValidMoves: function(req, res) {
+    getValidMoves: function(req, res) { // get
         db.Game
             .findById(req.params.id)
             .then(
@@ -105,7 +115,7 @@ module.exports = {
                     // confirm uid matches either hostId or clientId first
                     // and set an object with the host or client data { host: bool, color: num, timer: num }
                     var player = { host: true };
-                    if (uid == dbModel.hostId) {
+                    if (uid == dbModel.hostId) { // use == here NOT ===
                         player.color = dbModel.hostColor;
                         player.timer = dbModel.hostTimer;
                     } else {
@@ -158,7 +168,7 @@ module.exports = {
                                 res.json(result);
 
                                 // use socket.io to send msg to other player about move update
-                                updateOtherPlayer(
+                                updatePlayer(
                                     "moveUpdate", 
                                     player.host ? dbModel.clientId : dbModel.hostId, 
                                     dbModel._id
@@ -168,6 +178,9 @@ module.exports = {
                 }
             ).catch(err => res.status(422).json(err));
     },
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game managing
 
     create: function(req, res) { // post
 
@@ -222,7 +235,7 @@ module.exports = {
                             res.json(result);
 
                             // use socket.io to send msg to other player aka host about join (using moveUpdate for now)
-                            updateOtherPlayer(
+                            updatePlayer(
                                 "moveUpdate", 
                                 dbModel.hostId, 
                                 dbModel._id
@@ -238,5 +251,49 @@ module.exports = {
             .deleteOne({_id: req.params.id})
             .then( res.json("deleted") )
             .catch(err => res.status(422).json(err));
+    },
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // game messaging
+
+    getMsgsById: function(req, res) { // get
+        db.Game
+            .findById(req.params.id)
+            .then( (dbModel) => {
+                var reversedChat = dbModel.chat.reverse();
+                //console.log(reversedChat);
+                res.json(reversedChat);
+            })
+            .catch(err => res.status(422).json(err));
+    },
+
+    sendMsg: function(req, res) { // post
+
+        var userId = req.user;
+        var gameId = req.body.id;
+        var username = req.body.displayName;
+        var msg = username +": "+ req.body.msg;
+
+        db.Game.findByIdAndUpdate(
+            gameId, 
+            { $push: { chat: msg } }, 
+            { new: true, upsert: true },
+            function(err, dbModel) {
+
+                // error 
+                if (err) return res.status(422).json(err);
+
+                // send back that we updated
+                // shouldn't need to waste bw sending back the whole chat
+                res.json(true);
+
+                // handle socketio, even if no go
+                updatePlayer(
+                    "msgUpdate",
+                    (userId == dbModel.hostId) ? dbModel.clientId : dbModel.hostId, // use == here NOT ===
+                    msg
+                );
+            }
+        );
     }
 };

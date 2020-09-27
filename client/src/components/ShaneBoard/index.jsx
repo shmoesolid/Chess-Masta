@@ -5,6 +5,7 @@ import UserContext from "../../context/userContext";
 import CreateBoard from "./CreateBoard";
 import ValidMoves from "./ValidMoves";
 import Pieces from "./Pieces";
+//import Chat from "./Chat";
 
 import socketioClient from "socket.io-client";
 
@@ -17,6 +18,8 @@ function ShaneBoard(props)
   );
   const [validMoves, setValidMoves] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [chat, setChat] = useState([]);
+  const [message, setMessage] = useState("");
 
   // handle black on bottom per user preference
   var blackOnBottom = userData.user.blackOnBottom;
@@ -39,6 +42,12 @@ function ShaneBoard(props)
     setNodesState(props.game._grid); // update our node state with grid
   }, [props.game._grid]);
 
+  useEffect(() => {
+    // get chat
+    getAllMsgs();
+    //setChat(chat);
+  }, []);
+
   // socket.io client, update board if other player moves
   // separate useeffect with no vars, runs once per component load
   useEffect(() => {
@@ -47,11 +56,22 @@ function ShaneBoard(props)
         console.log("socketio move update", gameId);
         props.update(gameId);
     });
+    socket.on("msgUpdate", msg => {
+        getAllMsgs();
+        // console.log("received msg:", msg);
+        // console.log('before:', chat);
+        // var tmp = chat;
+        // tmp.unshift(msg);
+        // console.log('after:', tmp);
+        // setChat(tmp);
+    });
     socket.emit('userData', {uid: userData.user._id, gid: props.data._id});
 
+    // handle component leave
     return () => { 
 
         // shut off listener and tell server we're done
+        socket.off("msgUpdate");
         socket.off("moveUpdate");
         socket.emit('disconnect');
     }
@@ -184,22 +204,80 @@ function ShaneBoard(props)
       });
   }
 
-  return (
-    <div>
-      {/*chess board border*/}
-      <div className="board_border">
-        {/*chess board wrapper (where board table and pieces are handled)*/}
-        <div id="board" onClick={handleClick} style={{ position: "relative" }}>
-            <CreateBoard />
-            <ValidMoves validMoves={validMoves} getCoords={getDisplayCoords} />
-            <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
-        </div>
-      </div>
+    function getAllMsgs() {
+        Axios
+            .get('/api/games/chat/'+ props.data._id, { withCredentials: true })
+            .then( res => {
+                //console.log("msgs received:", res.data);
+                setChat(res.data);
+            })
+            .catch((err) => {
+                if (err) console.log(err);
+            });
+    }
 
-      {/*current mouse click coords*/}
-      <div id="coords" style={{ color: "white" }} />
-    </div>
-  );
+    function sendMsg(msg) {
+        var username = userData.user.displayName;
+        Axios
+            .post(
+                '/api/games/chat', 
+                {
+                    id: props.data._id, 
+                    displayName: username, 
+                    msg
+                }, 
+                { withCredentials: true }
+            )
+            .then( () => {
+                var tmp = chat;
+                tmp.unshift(username +": "+ msg);
+                setChat(tmp);
+                setMessage("");
+            })
+            .catch((err) => {
+                if (err) console.log(err);
+            });
+    }
+
+    function handleInputChange(event)
+    {
+        setMessage(event.target.value);
+    }
+
+    function handleFormSubmit(event)
+    {
+        event.preventDefault();
+        sendMsg(message);
+    }
+
+    return (
+        <div>
+            {/*chess board border*/}
+            <div className="board_border">
+                {/*chess board wrapper (where board table and pieces are handled)*/}
+                <div id="board" onClick={handleClick} style={{ position: "relative" }}>
+                    <CreateBoard />
+                    <ValidMoves validMoves={validMoves} getCoords={getDisplayCoords} />
+                    <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
+                </div>
+            </div>
+
+            {/*chat*/}
+            <div style={{float:'left'}}>
+                <form>
+                    <input type="text" name="message" placeholder="Message..." onChange={handleInputChange} value={message} />
+                    <button onClick={handleFormSubmit}>Send</button>
+                </form>
+                <textarea 
+                    readOnly={true} 
+                    value={chat.map(msg => msg+'\n').join('')/*this stupid join to remove commas... makes my head hurt*/}
+                />
+            </div>
+            
+            {/*current mouse click coords*/}
+            <div id="coords" style={{ color: "white" }} />
+        </div>
+    );
 }
 
 export default ShaneBoard;
