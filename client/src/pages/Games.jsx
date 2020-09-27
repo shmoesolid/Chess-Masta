@@ -1,29 +1,31 @@
 import React, { useContext, useState, useEffect } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import UserContext from "../context/userContext";
-import checkLoggedIn from "../utils/checkLoggedIn";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Axios from "axios";
-import { Nav, Navbar } from "react-bootstrap";
-
+import CheSSsk from "chesssk";
 import "../css/board.css";
+
+import checkLoggedIn from "../utils/checkLoggedIn";
+import UserContext from "../context/userContext";
+
+// Components
 import CreateGame from "../components/CreateGame";
 import ShaneBoard from "../components/ShaneBoard";
-import CheSSsk from "chesssk";
-
 import SideNav from "../components/SideNav";
-import Toggle from "../components/Toggle";
+import Header from "../components/Header";
+
+// Pages
+import Instructions from "./Instructions";
+import Documentation from "./Documentation";
+import AuthOptions from "./AuthOptions";
 
 function Games() {
-  const [sidenavOpen, setSidenavOpen] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
-  const breakpoint = 933;
+
   const { userData, setUserData } = useContext(UserContext);
   const [gameList, setGameList] = useState([]);
   const [gameData, setGameData] = useState({ gameObj: null, data: {} });
   const [gamePassword, setGamePassword] = useState("");
 
   useEffect(() => {
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
 
     async function check() {
       var login = await checkLoggedIn();
@@ -32,23 +34,6 @@ function Games() {
 
     check();
   }, []);
-
-  const openHandler = () => {
-    if (!sidenavOpen) {
-      setSidenavOpen(true);
-    } else {
-      setSidenavOpen(false);
-    }
-  };
-
-  const sidenavCloseHandler = () => {
-    setSidenavOpen(false);
-  };
-
-  let sidenav;
-  if (sidenavOpen) {
-    sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
-  }
 
   useEffect(() => {
     // confirm we are have our user data
@@ -75,7 +60,6 @@ function Games() {
   const getGames = () => {
     Axios.get("/api/games", { withCredentials: true })
       .then((res) => {
-        //console.log(res.data);
         setGameList(res.data);
       })
       .catch((err) => {
@@ -157,112 +141,93 @@ function Games() {
       <div className="App">
         <>
           <Router>
-            <UserContext.Provider value={{ userData, setUserData }}>
-              <Navbar className="sticky-top">
-                {width > breakpoint ? "" : <Toggle click={openHandler} />}
-                <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="ml-auto welcome">
-                    <Nav.Item>
+            <Route>
+              <Switch>
+                <Route path="/instructions" exact component={Instructions} />
+                <Route path="/home" exact component={AuthOptions} />
+                <Route path="/documentation" exact component={Documentation} />
+                <UserContext.Provider value={{ userData, setUserData }}>
+                  <Header />
+                  <div className="row m-0">
+                    <div className="col-md-3">
+                      <SideNav />
+                    </div>
+                    <div className="col-md-9">
                       {userData.user ? (
-                        <p>
-                          <Link to="/home">
-                            Welcome, {userData.user.displayName}!
-                          </Link>
-                        </p>
-                      ) : (
-                        <p>
-                          <Link to="/login">Login</Link>
-                        </p>
-                      )}
-                    </Nav.Item>
-                  </Nav>
-                </Navbar.Collapse>
-              </Navbar>
-              <div className="row m-0">
-                <div className="col-md-3">
-                  {width < breakpoint ? (
-                    ""
-                  ) : (
-                    <SideNav close={sidenavCloseHandler} sidenav="sidenav" />
-                  )}
-                </div>
-                <div>{sidenav}</div>
-                <div className="col-md-9">
-                  {userData.user ? (
-                    <>
-                      {!gameData.gameObj ? (
                         <>
-                          <h2>Create Game</h2>
-                          <CreateGame update={loadGameById} />
-                          <br />
-                          <br />
-                          <h2>Game List</h2>
-                          <ul>
-                            {gameList.map((item, index) => {
-                              return item.hostId === userData.user.id ||
-                                item.clientId === userData.user.id ? (
-                                <li key={index}>
-                                  {item.name}&nbsp;
-                                  <button
-                                    onClick={() => loadGameById(item._id)}
-                                  >
-                                    Load
-                                  </button>
-                                  &nbsp;
-                                  <button
-                                    onClick={() => deleteGameById(item._id)}
-                                  >
-                                    Delete
-                                  </button>
-                                </li>
-                              ) : (
-                                !item.clientId && (
-                                  <li key={index}>
-                                    {item.name}&nbsp;
-                                    {item.locked && (
-                                      <input
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        placeholder="Game password..."
-                                        onChange={gamePassChange}
-                                      />
-                                    )}
-                                    <button
-                                      onClick={() => joinGameById(item._id)}
-                                    >
-                                      Join
-                                    </button>
-                                  </li>
-                                )
-                              );
-                            })}
-                          </ul>
+                          {!gameData.gameObj ? (
+                            <>
+                              <h2>Create Game</h2>
+                              <CreateGame update={loadGameById} />
+                              <br />
+                              <br />
+                              <h2>Game List</h2>
+                              <ul>
+                                {gameList.map((item, index) => {
+                                  return item.hostId === userData.user.id ||
+                                    item.clientId === userData.user.id ? (
+                                    <li key={index}>
+                                      {item.name}&nbsp;
+                                      <button
+                                        onClick={() => loadGameById(item._id)}
+                                      >
+                                        Load
+                                      </button>
+                                      &nbsp;
+                                      <button
+                                        onClick={() => deleteGameById(item._id)}
+                                      >
+                                        Delete
+                                      </button>
+                                    </li>
+                                  ) : (
+                                    !item.clientId && (
+                                      <li key={index}>
+                                        {item.name}&nbsp;
+                                        {item.locked && (
+                                          <input
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            placeholder="Game password..."
+                                            onChange={gamePassChange}
+                                          />
+                                        )}
+                                        <button
+                                          onClick={() => joinGameById(item._id)}
+                                        >
+                                          Join
+                                        </button>
+                                      </li>
+                                    )
+                                  );
+                                })}
+                              </ul>
+                            </>
+                          ) : (
+                            <>
+                              <button onClick={() => goBackToListing()}>
+                                BACK
+                              </button>
+                              {renderStatus(gameData.data.gameStatus)}
+                              <ShaneBoard
+                                game={gameData.gameObj}
+                                data={gameData.data}
+                                update={loadGameById}
+                              />
+                            </>
+                          )}
                         </>
                       ) : (
                         <>
-                          <button onClick={() => goBackToListing()}>
-                            BACK
-                          </button>
-                          {renderStatus(gameData.data.gameStatus)}
-                          <ShaneBoard
-                            game={gameData.gameObj}
-                            data={gameData.data}
-                            update={loadGameById}
-                          />
+                          <h2>Please login...</h2>
                         </>
                       )}
-                    </>
-                  ) : (
-                    <>
-                      <h2>Please login...</h2>
-                    </>
-                  )}
-                </div>
-              </div>
-            </UserContext.Provider>
+                    </div>
+                  </div>
+                </UserContext.Provider>
+              </Switch>
+            </Route>
           </Router>
         </>
       </div>

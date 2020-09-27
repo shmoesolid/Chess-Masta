@@ -6,15 +6,13 @@ import {
   useHistory,
 } from "react-router-dom";
 import Axios from "axios";
-// import { Nav, Navbar } from "react-bootstrap";
 
 import checkLoggedIn from "../utils/checkLoggedIn";
 import UserContext from "../context/userContext";
 
 // Components
-import SideNav from "../components/SideNav";
-// import Toggle from "../components/Toggle";
 import Header from "../components/Header";
+import SideNav from "../components/SideNav";
 
 // Pages
 import Games from "./Games";
@@ -22,16 +20,12 @@ import Instructions from "./Instructions";
 import Documentation from "./Documentation";
 
 export default function AuthOptions() {
-  const [sidenavOpen, setSidenavOpen] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
   const [userData, setUserData] = useState({
     user: undefined,
   });
-  const breakpoint = 933;
   const history = useHistory();
 
   useEffect(() => {
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
 
     async function check() {
       var login = await checkLoggedIn();
@@ -40,15 +34,6 @@ export default function AuthOptions() {
 
     check();
   }, []);
-
-  const sidenavCloseHandler = () => {
-    setSidenavOpen(false);
-  };
-
-  let sidenav;
-  if (sidenavOpen) {
-    sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
-  }
 
   const register = () => history.push("/register");
   const login = () => history.push("/login");
@@ -82,13 +67,8 @@ export default function AuthOptions() {
                 <Header />
                 <div className="row m-0">
                   <div className="col-md-3">
-                    {width < breakpoint ? (
-                      ""
-                    ) : (
-                      <SideNav close={sidenavCloseHandler} sidenav="sidenav" />
-                    )}
+                    <SideNav />
                   </div>
-                  <div>{sidenav}</div>
                   <div className="col-md-9">
                     <div className="auth-options">
                       {userData.user ? (

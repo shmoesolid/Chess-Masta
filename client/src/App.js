@@ -7,7 +7,7 @@ import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
 import Documentation from "./pages/Documentation";
 import Home from "./pages/Home";
-
+import Instructions from "./pages/Instructions";
 import UserContext from "./context/userContext";
 
 import checkLoggedIn from "./utils/checkLoggedIn";
@@ -38,6 +38,7 @@ function App() {
               <Route path="/rooms" exact component={Games} />
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
+              <Route path="/instructions" exact component={Instructions} />
               <Route path="/documentation" exact component={Documentation} />
             </Switch>
             </>
