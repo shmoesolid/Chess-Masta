@@ -21,7 +21,7 @@ function CreateGame(props)
             ...formData,
             [name]: value
         });
-      };
+    };
 
     const handleSubmit = (event) => {
 

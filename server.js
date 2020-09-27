@@ -64,7 +64,7 @@ server.listen(PORT, err => {
 // socket.io server setup attached to listen server
 const io = socketio(server);
 const { setIO, addClient, removeClient } = require("./clients");
-setIO(io);
+setIO(io); // set for allowing gamesController to emit msgs
 
 // main connection handler for connected users
 io.on('connection', (socket) => {
