@@ -74,10 +74,10 @@ function Home() {
               <div>{sidenav}</div>
               <div className="col-md-9">
                 <Switch>
+                  <Route path="/home" exact component={AuthOptions} />
                   <Route path="/rooms" exact component={Games} />
                   <Route path="/login" exact component={Login} />
                   <Route path="/register" exact component={Register} />
-                  <Route path="/auth-options" exact component={AuthOptions} />
                   <Route path="/documentation" exact component={Documentation} />
                 </Switch>
               </div>

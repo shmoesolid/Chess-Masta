@@ -110,7 +110,7 @@ a,
 code {
   color: white;
 }
-/* form */
+/* FORM */
 
 .form label,
 .form input {
@@ -145,17 +145,18 @@ code {
   font-size: 1.1rem;
 }
 
-/* error notice */
+/* ERROR */
 
 .error-notice {
   margin: 1rem 0;
-  padding: 0.5rem;
+  padding: 0.2rem;
   border: 1px solid #e07c7c;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #f8d6d6;
+  width: 80%;
 }
 .error-notice button {
   border-radius: 50%;

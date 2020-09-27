@@ -28,7 +28,7 @@ export default function AuthOptions() {
   };
 
   return (
-    <nav className="auth-options">
+    <div className="auth-options">
       {userData.user ? (
         <>
           <div>
@@ -44,6 +44,6 @@ export default function AuthOptions() {
           <button onClick={login}>Log in</button>
         </>
       )}
-    </nav>
+    </div>
   );
 }

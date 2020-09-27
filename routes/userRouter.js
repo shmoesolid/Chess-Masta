@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
       return res
         .status(400)
         .json({
-          msg: "An account with this email already exists."
+          msg: "An account with that email already exists."
         });
 
     const salt = await bcrypt.genSalt(12);
@@ -77,7 +77,7 @@ router.post("/login", async (req, res) => {
       return res
         .status(400)
         .json({
-          msg: "No account with this email has been registered."
+          msg: "No account with that email has been registered."
         });
 
     const isMatch = await bcrypt.compare(password, user.password);
