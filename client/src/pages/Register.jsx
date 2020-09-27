@@ -1,7 +1,15 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+
+import Header from "../components/Header";
+import SideNav from "../components/SideNav";
+
+import Games from "./Games";
+import Documentation from "./Documentation";
+import AuthOptions from "./AuthOptions";
+import Instructions from "./Instructions";
 
 import "../css/ComponentStyles.css";
 import UserContext from "../context/userContext";
@@ -35,48 +43,63 @@ export default function Register() {
     }
   };
   return (
-    <div className="page">
-      <div className="space"></div>
-      <div className="row">
-        <div className="card col-md-9">
-          <h2>New User? Create an Account.</h2>
-          {error && (
-            <ErrorNotice
-              message={error}
-              clearError={() => setError(undefined)}
-            />
-          )}
-          <form className="form" onSubmit={submit}>
-            <label htmlFor="register-email">Email</label>
-            <input
-              id="register-email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+    <div className="App">
+      <Router>
+        <Route>
+          <Switch>
+            <Route path="/rooms" exact component={Games} />
+            <Route path="/home" exact component={AuthOptions} />
+            <Route path="/documentation" exact component={Documentation} />
+            <Route path="/instructions" exact component={Instructions} />
+            <div>
+              <Header />
+              <div className="row m-0">
+                <div className="col-md-3">
+                  <SideNav />
+                </div>
+                <div className="card col-md-7">
+                  <h2>New User? Create an Account.</h2>
+                  {error && (
+                    <ErrorNotice
+                      message={error}
+                      clearError={() => setError(undefined)}
+                    />
+                  )}
+                  <form className="form" onSubmit={submit}>
+                    <label htmlFor="register-email">Email</label>
+                    <input
+                      id="register-email"
+                      type="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
 
-            <label htmlFor="register-password">Password</label>
-            <input
-              id="register-password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Verify password"
-              onChange={(e) => setPasswordCheck(e.target.value)}
-            />
+                    <label htmlFor="register-password">Password</label>
+                    <input
+                      id="register-password"
+                      type="password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input
+                      type="password"
+                      placeholder="Verify password"
+                      onChange={(e) => setPasswordCheck(e.target.value)}
+                    />
 
-            <label htmlFor="register-display-name">Display name</label>
-            <input
-              id="register-display-name"
-              type="text"
-              onChange={(e) => setDisplayName(e.target.value)}
-            />
+                    <label htmlFor="register-display-name">Display name</label>
+                    <input
+                      id="register-display-name"
+                      type="text"
+                      onChange={(e) => setDisplayName(e.target.value)}
+                    />
 
-            <input type="submit" value="Register" />
-          </form>
-        </div>
-      </div>
+                    <input type="submit" value="Register" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </Switch>
+        </Route>
+      </Router>
     </div>
   );
 }

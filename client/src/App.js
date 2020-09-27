@@ -41,7 +41,7 @@ function App() {
               <Route path="/instructions" exact component={Instructions} />
               <Route path="/documentation" exact component={Documentation} />
             </Switch>
-            </>
+          </>
           </UserContext.Provider>
         </Router>
     </div>

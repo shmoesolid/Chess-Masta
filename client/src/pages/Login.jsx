@@ -1,12 +1,25 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import {
+  useHistory,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
 import UserContext from "../context/userContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 
+import Header from "../components/Header";
+import SideNav from "../components/SideNav";
+
+import Games from "./Games";
+import Documentation from "./Documentation";
+import AuthOptions from "./AuthOptions";
+import Instructions from "./Instructions";
+
 import "../css/ComponentStyles.css";
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -28,36 +41,51 @@ export default function Login() {
     }
   };
   return (
-    <div className="page align-center">
-      <div className="space"></div>
-      <div className="row">
-        <div className="card col-md-9">
-          <h2>Log in</h2>
-          {error && (
-            <ErrorNotice
-              message={error}
-              clearError={() => setError(undefined)}
-            />
-          )}
-          <form className="form" onSubmit={submit}>
-            <label htmlFor="login-email">Email</label>
-            <input
-              id="login-email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+    <div className="App">
+      <Router>
+        <Route>
+          <Switch>
+            <Route path="/rooms" exact component={Games} />
+            <Route path="/home" exact component={AuthOptions} />
+            <Route path="/documentation" exact component={Documentation} />
+            <Route path="/instructions" exact component={Instructions} />
+            <div>
+              <Header />
+              <div className="row m-0">
+                <div className="col-md-3">
+                  <SideNav />
+                </div>
+                <div className="card col-md-7">
+                  <h2>Log in</h2>
+                  {error && (
+                    <ErrorNotice
+                      message={error}
+                      clearError={() => setError(undefined)}
+                    />
+                  )}
+                  <form className="form" onSubmit={submit}>
+                    <label htmlFor="login-email">Email</label>
+                    <input
+                      id="login-email"
+                      type="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
 
-            <label htmlFor="login-password">Password</label>
-            <input
-              id="login-password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+                    <label htmlFor="login-password">Password</label>
+                    <input
+                      id="login-password"
+                      type="password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
 
-            <input type="submit" value="Log in" />
-          </form>
-        </div>
-      </div>
+                    <input type="submit" value="Log in" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </Switch>
+        </Route>
+      </Router>
     </div>
   );
 }

@@ -12,6 +12,7 @@
   background-color: #343A40;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   z-index: 11;
+  height: 3.6rem;
 }
 
 a,
@@ -97,8 +98,8 @@ a,
   border-radius: 4px;
 }
 
-.space {
-  height: 5rem;
+.card {
+  margin-top: 5%;
 }
 
 .code {

@@ -74,7 +74,7 @@ export default function AuthOptions() {
                       {userData.user ? (
                         <>
                           <br />
-                          <h5>Account Options:</h5>
+                          <h5>Account Options</h5>
                           <hr />
                           <div className="row">
                             <div className="acctOps">
