@@ -261,7 +261,7 @@ module.exports = {
             .findById(req.params.id)
             .then( (dbModel) => {
                 var reversedChat = dbModel.chat.reverse();
-                console.log(reversedChat);
+                //console.log(reversedChat);
                 res.json(reversedChat);
             })
             .catch(err => res.status(422).json(err));
