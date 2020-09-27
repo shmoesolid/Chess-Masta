@@ -94,7 +94,7 @@ a,
 }
 
 .space {
-    height: 7rem;
+    height: 5rem;
 }
 
 .code {
@@ -103,10 +103,14 @@ a,
   width: 75%;
 }
 
+.welcome {
+  margin-top: 16px;
+}
+
 code {
   color: white;
 }
-/* form */
+/* FORM */
 
 .form label,
 .form input {
@@ -121,7 +125,7 @@ code {
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"] {
-  width: 100%;
+  width: 80%;
   padding: 0.3rem;
   border: 1px solid #c2c2c2;
   border-radius: 8px;
@@ -141,32 +145,20 @@ code {
   font-size: 1.1rem;
 }
 
-/* todo list */
-
-.todo-list ul {
-  list-style: disc;
-  cursor: pointer;
-}
-
-.todo-list li:hover {
-  text-decoration: line-through;
-}
-
-/* error notice */
+/* ERROR */
 
 .error-notice {
   margin: 1rem 0;
-  padding: 0.5rem;
+  padding: 0.2rem;
   border: 1px solid #e07c7c;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #f8d6d6;
+  width: 80%;
 }
 .error-notice button {
-  width: 20px;
-  height: 20px;
   border-radius: 50%;
   background-color: #df4343;
   color: #ffffff;

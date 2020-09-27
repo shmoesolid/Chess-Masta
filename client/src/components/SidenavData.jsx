@@ -5,9 +5,9 @@ import * as IoIcons from "react-icons/io";
 
 export const SidenavData = [
   {
-    title: "Home",
-    path: "/",
-    icon: <AiIcons.AiFillHome />,
+    title: "User Profile",
+    path: "/auth-options",
+    icon: <IoIcons.IoMdPeople />,
     cName: "nav-text",
   },
   {
@@ -17,9 +17,9 @@ export const SidenavData = [
     cName: "nav-text",
   },
   {
-    title: "User Profile",
-    path: "/auth-options",
-    icon: <IoIcons.IoMdPeople />,
+    title: "How It Works",
+    path: "/how-it-works",
+    icon: <AiIcons.AiFillHome />,
     cName: "nav-text",
   }
 ];

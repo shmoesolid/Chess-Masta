@@ -22,14 +22,14 @@ export default function Login() {
       setUserData({
         user: loginRes.data
       });
-      // localStorage.setItem("auth-token", loginRes.data.token);
-      history.push("/");
+      history.push("/rooms");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }
   };
   return (
     <div className="page">
+      <div className="space"></div>
       <h2>Log in</h2>
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
