@@ -22,8 +22,7 @@ export default function Login() {
       setUserData({
         user: loginRes.data
       });
-      // localStorage.setItem("auth-token", loginRes.data.token);
-      history.push("/");
+      history.push("/rooms");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }

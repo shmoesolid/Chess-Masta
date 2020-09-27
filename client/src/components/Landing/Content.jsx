@@ -67,7 +67,7 @@ function Content() {
                 <p class="lead mb-0">
                   CheSSsk was written by developer{" "}
                   <a href="https://github.com/shmoesolid">Shane Kholer</a> and
-                  it runs all game logic for this site.
+                  it runs all game logic for this site. Use it on your next project.
                 </p>
               </div>
             </div>
