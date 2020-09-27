@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Nav, Navbar } from "react-bootstrap";
+import checkLoggedIn from "../utils/checkLoggedIn";
+import { Link } from "react-router-dom";
 
 import Toggle from "./Toggle";
 
@@ -31,14 +33,6 @@ const Header = () => {
     }
   };
 
-  const sidenavCloseHandler = () => {
-    setSidenavOpen(false);
-  };
-
-  let sidenav;
-  if (sidenavOpen) {
-    sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
-  }
   return (
     <Navbar className="sticky-top">
       {width > breakpoint ? "" : <Toggle click={openHandler} />}

@@ -3,28 +3,32 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   useHistory,
 } from "react-router-dom";
-import UserContext from "../context/userContext";
 import Axios from "axios";
-import { Nav, Navbar } from "react-bootstrap";
-
-import SideNav from "../components/SideNav";
-import Toggle from "../components/Toggle";
+// import { Nav, Navbar } from "react-bootstrap";
 
 import checkLoggedIn from "../utils/checkLoggedIn";
+import UserContext from "../context/userContext";
 
-import Games from "../pages/Games";
+// Components
+import SideNav from "../components/SideNav";
+// import Toggle from "../components/Toggle";
+import Header from "../components/Header";
+
+// Pages
+import Games from "./Games";
+import Instructions from "./Instructions";
+import Documentation from "./Documentation";
 
 export default function AuthOptions() {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const breakpoint = 933;
-  // user auth
   const [userData, setUserData] = useState({
     user: undefined,
   });
+  const breakpoint = 933;
+  const history = useHistory();
 
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.innerWidth));
@@ -37,14 +41,6 @@ export default function AuthOptions() {
     check();
   }, []);
 
-  const openHandler = () => {
-    if (!sidenavOpen) {
-      setSidenavOpen(true);
-    } else {
-      setSidenavOpen(false);
-    }
-  };
-
   const sidenavCloseHandler = () => {
     setSidenavOpen(false);
   };
@@ -53,8 +49,6 @@ export default function AuthOptions() {
   if (sidenavOpen) {
     sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
   }
-
-  const history = useHistory();
 
   const register = () => history.push("/register");
   const login = () => history.push("/login");
@@ -81,30 +75,11 @@ export default function AuthOptions() {
         <Router>
           <Route>
             <Switch>
-            <Route path="/rooms" exact component={Games} />
+              <Route path="/rooms" exact component={Games} />
+              <Route path="/instructions" exact component={Instructions} />
+              <Route path="/documentation" exact component={Documentation} />
               <UserContext.Provider value={{ userData, setUserData }}>
-                <Navbar className="sticky-top">
-                  {width > breakpoint ? "" : <Toggle click={openHandler} />}
-                  <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
-                  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                  <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto welcome">
-                      <Nav.Item>
-                        {userData.user ? (
-                          <p>
-                            <Link to="/home">
-                              Welcome, {userData.user.displayName}!
-                            </Link>
-                          </p>
-                        ) : (
-                          <p>
-                            <Link to="/login">Login</Link>
-                          </p>
-                        )}
-                      </Nav.Item>
-                    </Nav>
-                  </Navbar.Collapse>
-                </Navbar>
+                <Header />
                 <div className="row m-0">
                   <div className="col-md-3">
                     {width < breakpoint ? (
