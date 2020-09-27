@@ -7,23 +7,23 @@ import * as IoIcons from "react-icons/io";
 const SideNav = (props) => {
 return (
     <div className="sidenav">
-      <ul>
+      <ul className="p-0">
         {SidenavData.map((item, index) => {
           return (
             <li key={index} className={item.cName}>
               <Link to={item.path}>
                 {item.icon}
-                <span>&nbsp;{item.title}</span>
+                <span>&nbsp;&nbsp;{item.title}</span>
               </Link>
             </li>
           );
         })}
     </ul>
     <div className="docsLink">
-      <ul>
+      <ul className="p-0">
         <li key={5} className="nav-text docsLink">
           <Link to="/documentation">
-            <IoIcons.IoIosPaper /><span>&nbsp;Documentation</span>
+            <IoIcons.IoIosPaper /><span>&nbsp;&nbsp;Documentation</span>
           </Link>
         </li>
       </ul>

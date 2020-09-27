@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 function Content() {
   return (
-    <div>
+    <div className="whiteBg">
       <div className="container content">
         <div className="row">
           <div className="col-sm-4 talk">

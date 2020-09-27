@@ -6,6 +6,14 @@
     padding-bottom: 100px;
 }
 
+.card {
+    width: 80%;
+    padding: 25px;
+}
+
+.whiteBg {
+    background-color: #fff;
+}
 .header-a {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -94,7 +102,7 @@
 }
 
 .start-two {
-    background-color: #372F7F;
+    background-color: #378A23;
     color: wheat;
     margin-left: 0;
     font-weight: 600;
@@ -114,6 +122,18 @@
 .icon-ails {
     color: black;
     font-size: 40px;
+}
+.acctOps {
+    padding-left: 20px;;
+}
+
+#delete {
+    color: red;
+    font-size: .8rem;
+}
+
+#logout {
+    font-size: .8rem;
 }
 
 .footer {

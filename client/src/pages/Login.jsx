@@ -20,7 +20,7 @@ export default function Login() {
       const loginUser = { email, password };
       const loginRes = await Axios.post("/users/login", loginUser);
       setUserData({
-        user: loginRes.data
+        user: loginRes.data,
       });
       history.push("/rooms");
     } catch (err) {
@@ -28,29 +28,36 @@ export default function Login() {
     }
   };
   return (
-    <div className="page">
+    <div className="page align-center">
       <div className="space"></div>
-      <h2>Log in</h2>
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
-      )}
-      <form className="form" onSubmit={submit}>
-        <label htmlFor="login-email">Email</label>
-        <input
-          id="login-email"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <div className="row">
+        <div className="card col-md-9">
+          <h2>Log in</h2>
+          {error && (
+            <ErrorNotice
+              message={error}
+              clearError={() => setError(undefined)}
+            />
+          )}
+          <form className="form" onSubmit={submit}>
+            <label htmlFor="login-email">Email</label>
+            <input
+              id="login-email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-        <label htmlFor="login-password">Password</label>
-        <input
-          id="login-password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+            <label htmlFor="login-password">Password</label>
+            <input
+              id="login-password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-        <input type="submit" value="Log in" />
-      </form>
+            <input type="submit" value="Log in" />
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
