@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import UserContext from "../context/userContext";
 import checkLoggedIn from "../utils/checkLoggedIn";
 import Axios from "axios";
@@ -17,6 +17,21 @@ function Games() {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
   const breakpoint = 933;
+  const { userData, setUserData } = useContext(UserContext);
+  const [gameList, setGameList] = useState([]);
+  const [gameData, setGameData] = useState({ gameObj: null, data: {} });
+  const [gamePassword, setGamePassword] = useState("");
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+
+    async function check() {
+      var login = await checkLoggedIn();
+      if (login !== false) setUserData(login);
+    }
+
+    check();
+  }, []);
 
   const openHandler = () => {
     if (!sidenavOpen) {
@@ -34,32 +49,6 @@ function Games() {
   if (sidenavOpen) {
     sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
   }
-
-  const history = useHistory();
-
-  const register = () => history.push("/register");
-  const login = () => history.push("/login");
-  const logout = () => {
-    setUserData({
-      token: undefined,
-      user: undefined,
-    });
-    localStorage.setItem("auth-token", "");
-  };
-  const deleteUser = () => {
-    const user = { withCredentials: true };
-    Axios.delete("/users/delete", user);
-    setUserData({
-      token: undefined,
-      user: undefined,
-    });
-    history.push("/login");
-  };
-
-  const { userData, setUserData } = useContext(UserContext);
-  const [gameList, setGameList] = useState([]);
-  const [gameData, setGameData] = useState({ gameObj: null, data: {} });
-  const [gamePassword, setGamePassword] = useState("");
 
   useEffect(() => {
     // confirm we are have our user data

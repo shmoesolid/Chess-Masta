@@ -123,13 +123,13 @@ export default function AuthOptions() {
                           <hr />
                           <div className="row">
                             <div className="acctOps">
-                              <a id="logout" onClick={logout}>
+                              <div id="logout" onClick={logout}>
                                 Log out
-                              </a>
+                              </div>
                               <br />
-                              <a id="delete" onClick={deleteUser}>
+                              <div id="delete" onClick={deleteUser}>
                                 Delete Account
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </>

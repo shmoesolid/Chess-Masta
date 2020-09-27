@@ -50,7 +50,7 @@ a,
   position: fixed;
   z-index: 200;
   left: -100%;
-  animation: slide-open .75s forwards;
+  animation: slide-open 0s forwards;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
   float: top;
 }

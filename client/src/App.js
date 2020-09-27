@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Games from "./pages/Games";
 import Login from "./pages/Login";
@@ -35,7 +35,7 @@ function App() {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/home" exact component={AuthOptions} />
-              <Route exact path="/rooms" exact component={Games} />
+              <Route path="/rooms" exact component={Games} />
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
               <Route path="/documentation" exact component={Documentation} />
