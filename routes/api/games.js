@@ -10,7 +10,11 @@ router
 // Matches with "/api/games/chat/:id"
 router
     .route("/chat/:id")
-    .get(auth, gamesController.getMsgsById)
+    .get(auth, gamesController.getMsgsById);
+
+// Matches with "/api/games/chat/"
+router
+    .route("/chat")
     .post(auth, gamesController.sendMsg);
 
 // Matches with "/api/games/poll/:id"

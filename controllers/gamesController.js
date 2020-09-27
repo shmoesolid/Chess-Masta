@@ -23,6 +23,8 @@ const GameStatus = Object.freeze(
 // msg can be gameId or actual msg from other client
 const updatePlayer = (msgType, playerId, msg) => {
 
+    console.log("update player", msgType, playerId, msg);
+
     // get client socket by playerId
     var clientSocket = getClientByUID(playerId);
 
@@ -113,7 +115,7 @@ module.exports = {
                     // confirm uid matches either hostId or clientId first
                     // and set an object with the host or client data { host: bool, color: num, timer: num }
                     var player = { host: true };
-                    if (uid == dbModel.hostId) {
+                    if (uid == dbModel.hostId) { // use == here NOT ===
                         player.color = dbModel.hostColor;
                         player.timer = dbModel.hostTimer;
                     } else {
@@ -257,14 +259,20 @@ module.exports = {
     getMsgsById: function(req, res) { // get
         db.Game
             .findById(req.params.id)
-            .then( (dbModel) => res.json(dbModel.chat) )
+            .then( (dbModel) => {
+                var reversedChat = dbModel.chat.reverse();
+                console.log(reversedChat);
+                res.json(reversedChat);
+            })
             .catch(err => res.status(422).json(err));
     },
 
     sendMsg: function(req, res) { // post
-        var gameId = req.body.id;
-        var msg = req.body.msg;
+
         var userId = req.user;
+        var gameId = req.body.id;
+        var username = req.body.displayName;
+        var msg = username +": "+ req.body.msg;
 
         db.Game.findByIdAndUpdate(
             gameId, 
@@ -279,10 +287,10 @@ module.exports = {
                 // shouldn't need to waste bw sending back the whole chat
                 res.json(true);
 
-                // handle socketio
+                // handle socketio, even if no go
                 updatePlayer(
-                    "msgUpdate", 
-                    (userId === dbModel.hostId) ? dbModel.hostId : dbModel.clientId, 
+                    "msgUpdate",
+                    (userId == dbModel.hostId) ? dbModel.clientId : dbModel.hostId, // use == here NOT ===
                     msg
                 );
             }

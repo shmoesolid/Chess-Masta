@@ -19,12 +19,22 @@ exports.getClients = function() {
 }
 
 exports.getClientByUID = function(uid) {
+
+    // make sure we actually received something
+    if (!uid) return false;
+
+    // make sure it's a string
+    if (typeof uid !== 'string')
+        uid = uid.toString();
+
+    // go through and get the right client if exists
     for(var i=0; i<_clients.length; i++)
     {
-        if (_clients[i].uid === uid.toString())
+        if (_clients[i].uid === uid)
             return _clients[i];
     }
 
+    // nope
     return false;
 }
 
