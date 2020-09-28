@@ -104,6 +104,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/logout", auth, async (req, res) => {
+  res.clearCookie('token');
+  res.json({});
+});
+
 router.delete("/delete", auth, async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.user);

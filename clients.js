@@ -45,7 +45,7 @@ exports.addClient = function(data) {
 exports.removeClient = function(id) {
     for(var i=0; i<_clients.length; i++)
     {
-        if (_clients[i].id === id)
+        if (_clients[i].id == id)
             _clients.splice(i,1);
     }
 }

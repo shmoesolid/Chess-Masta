@@ -5,7 +5,6 @@ import UserContext from "../../context/userContext";
 import CreateBoard from "./CreateBoard";
 import ValidMoves from "./ValidMoves";
 import Pieces from "./Pieces";
-//import Chat from "./Chat";
 
 import socketioClient from "socket.io-client";
 
@@ -59,13 +58,8 @@ function ShaneBoard(props) {
       props.update(gameId);
     });
     socket.on("msgUpdate", (msg) => {
+      console.log("socketio msg update", msg);
       getAllMsgs();
-      // console.log("received msg:", msg);
-      // console.log('before:', chat);
-      // var tmp = chat;
-      // tmp.unshift(msg);
-      // console.log('after:', tmp);
-      // setChat(tmp);
     });
     socket.emit("userData", { uid: userData.user._id, gid: props.data._id });
 
@@ -74,7 +68,7 @@ function ShaneBoard(props) {
       // shut off listener and tell server we're done
       socket.off("msgUpdate");
       socket.off("moveUpdate");
-      socket.emit("disconnect");
+      socket.disconnect();
     };
   }, []);
 
