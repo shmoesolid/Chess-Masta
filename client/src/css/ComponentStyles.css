@@ -120,7 +120,7 @@ code {
 
 .form label,
 .form input {
-  display: block;
+  display: inline-block;
 }
 
 .form input {

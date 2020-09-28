@@ -16,6 +16,7 @@ import Games from "./Games";
 import Documentation from "./Documentation";
 import AuthOptions from "./AuthOptions";
 import Instructions from "./Instructions";
+import Register from "./Register";
 
 import "../css/ComponentStyles.css";
 
@@ -49,6 +50,7 @@ export default function Login(props) {
             <Route path="/home" exact component={AuthOptions} />
             <Route path="/documentation" exact component={Documentation} />
             <Route path="/instructions" exact component={Instructions} />
+            <Route path="/register" exact component={Register} />
             <div>
               <Header />
               <div className="row m-0">

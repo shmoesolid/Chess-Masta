@@ -18,6 +18,8 @@ import SideNav from "../components/SideNav";
 import Games from "./Games";
 import Instructions from "./Instructions";
 import Documentation from "./Documentation";
+import Login from "./Login";
+import Register from "./Register";
 
 export default function AuthOptions() {
   const [userData, setUserData] = useState({
@@ -63,6 +65,8 @@ export default function AuthOptions() {
               <Route path="/rooms" exact component={Games} />
               <Route path="/instructions" exact component={Instructions} />
               <Route path="/documentation" exact component={Documentation} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/register" exact component={Register} />
               <UserContext.Provider value={{ userData, setUserData }}>
                 <Header />
                 <div className="row m-0">

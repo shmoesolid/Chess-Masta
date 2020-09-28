@@ -10,6 +10,7 @@ import Games from "./Games";
 import Documentation from "./Documentation";
 import AuthOptions from "./AuthOptions";
 import Instructions from "./Instructions";
+import Login from "./Login";
 
 import "../css/ComponentStyles.css";
 import UserContext from "../context/userContext";
@@ -51,6 +52,7 @@ export default function Register() {
             <Route path="/home" exact component={AuthOptions} />
             <Route path="/documentation" exact component={Documentation} />
             <Route path="/instructions" exact component={Instructions} />
+            <Route path="/login" exact component={Login} />
             <div>
               <Header />
               <div className="row m-0">
@@ -85,7 +87,7 @@ export default function Register() {
                       onChange={(e) => setPasswordCheck(e.target.value)}
                     />
 
-                    <label htmlFor="register-display-name">Display name</label>
+                    <label htmlFor="register-display-name">Username</label>
                     <input
                       id="register-display-name"
                       type="text"
