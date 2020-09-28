@@ -171,7 +171,14 @@ function Games() {
                               <br />
                               <h5>Game List</h5>
                               <hr />
-                              <Table responsive="xl" size="sm" striped borderless hover variant="dark">
+                              <Table
+                                responsive="xl"
+                                size="md"
+                                striped
+                                borderless
+                                hover
+                                variant="dark"
+                              >
                                 <thead>
                                   <tr>
                                     <th>Name</th>
@@ -184,27 +191,26 @@ function Games() {
                                     item.clientId === userData.user.id ? (
                                     <tbody>
                                       <tr>
-                                        <td key={index}>
-                                          {item.name}&nbsp;</td>
-                                          <td className="small"
-                                            onClick={() =>
-                                              loadGameById(item._id)
-                                            }
-                                          >
-                                            <FaIcons.GoPlay color="green"/>
-                                          </td>
-                                          <td className="small"
-                                            onClick={() =>
-                                              deleteGameById(item._id)
-                                            }
-                                          >
-                                            <MdIcons.MdDelete color="red" />
-                                          </td>
+                                        <td key={index}>{item.name}&nbsp;</td>
+                                        <td
+                                          className="small"
+                                          onClick={() => loadGameById(item._id)}
+                                        >
+                                          <FaIcons.GoPlay color="green" />
+                                        </td>
+                                        <td
+                                          className="small"
+                                          onClick={() =>
+                                            deleteGameById(item._id)
+                                          }
+                                        >
+                                          <MdIcons.MdDelete color="red" />
+                                        </td>
                                       </tr>
                                     </tbody>
                                   ) : (
                                     !item.clientId && (
-                                      <li key={index}>
+                                      <td key={index}>
                                         {item.name}&nbsp;
                                         {item.locked && (
                                           <input
@@ -218,9 +224,9 @@ function Games() {
                                         <button
                                           onClick={() => joinGameById(item._id)}
                                         >
-                                          Join
+                                          <FaIcons.GoPlay color="green" />
                                         </button>
-                                      </li>
+                                      </td>
                                     )
                                   );
                                 })}
@@ -229,20 +235,23 @@ function Games() {
                             </>
                           ) : (
                             <>
-                              <button onClick={() => goBackToListing()}>
-                                BACK
+                              <button className="back-btn btn btn-dark" onClick={() => goBackToListing()}>
+                                  Back to games
                               </button>
+                                <div style={{ marginTop: "10px"}}>
                               {renderStatus(gameData.data.gameStatus)}
                               <ShaneBoard
                                 game={gameData.gameObj}
                                 data={gameData.data}
                                 update={loadGameById}
-                              />
+                                  />
+                                  </div>
                             </>
                           )}
                         </>
                       ) : (
                         <>
+                          <br />
                           <h2>Please login...</h2>
                         </>
                       )}

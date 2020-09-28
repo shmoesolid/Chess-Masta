@@ -28,7 +28,6 @@ export default function AuthOptions() {
   const history = useHistory();
 
   useEffect(() => {
-
     async function check() {
       var login = await checkLoggedIn();
       if (login !== false) setUserData(login);
@@ -94,8 +93,19 @@ export default function AuthOptions() {
                         </>
                       ) : (
                         <>
-                          <button onClick={register}>Register</button>
-                          <button onClick={login}>Log in</button>
+                          <br />
+                          <h5>
+                            Log in or Register a New Account to Start Playing
+                          </h5>
+                          <hr />
+                          <div className="row">
+                            <div onClick={register} className="col-md-5 card text-center card-1">
+                              <p>Register</p>
+                            </div>
+                            <div onClick={login} className="col-md-5 card text-center card-1">
+                                <p>Log in</p>
+                            </div>
+                          </div>
                         </>
                       )}
                     </div>

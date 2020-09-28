@@ -79,8 +79,8 @@ function CreateGame(props) {
             {"  "}
             <label htmlFor="locked">Lock game</label>
             <br />
-            Locked games can only be accessed by another user if they have the
-            password.
+            <i>*Locked games can only be accessed by another user if they have the
+            password.</i>
             <br />
             <br />
             {/*have this disabled at start and toggle with checkbox*/}

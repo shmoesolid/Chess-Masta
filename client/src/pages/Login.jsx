@@ -59,6 +59,7 @@ export default function Login(props) {
                 </div>
                 <div className="card col-md-7">
                   <h2>Log in</h2>
+                  <br />
                   {error && (
                     <ErrorNotice
                       message={error}
@@ -81,6 +82,8 @@ export default function Login(props) {
                     />
 
                     <input type="submit" value="Log in" />
+                    <br />
+                    {" "}<i>New user? Register <a href="/register">here.</a></i>
                   </form>
                 </div>
               </div>

@@ -59,8 +59,9 @@ export default function Register() {
                 <div className="col-md-3">
                   <SideNav />
                 </div>
-                <div className="card col-md-7">
-                  <h2>New User? Create an Account.</h2>
+                <div style={{paddingTop: "0px"}}className="card col-md-7">
+                  <h2>Create an Account</h2>
+                  <br />
                   {error && (
                     <ErrorNotice
                       message={error}
@@ -95,6 +96,8 @@ export default function Register() {
                     />
 
                     <input type="submit" value="Register" />
+                    <br />
+                    {" "}<i>Existing user? Log in <a href="/login">here.</a></i>
                   </form>
                 </div>
               </div>

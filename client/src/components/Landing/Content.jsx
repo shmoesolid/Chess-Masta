@@ -18,12 +18,12 @@ function Content() {
             </h6>
             <br />
             <h6>
-              <a className="btn btn-dark start start-two" href="/home">
+              <a className="btn btn-dark start start-two" href="/register">
                 Get Started
               </a>
             </h6>
           </div>
-          <div className="col-sm-8 showcase-img">
+          <div className="col-sm-8 showcase-img d-flex justify-content-center">
             {/* <div className="circle"></div> */}
           </div>
         </div>

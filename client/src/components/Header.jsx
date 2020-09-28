@@ -43,7 +43,7 @@ const Header = () => {
           <Nav.Item>
             {userData.user ? (
               <p>
-                <Link to="/home">Welcome, {userData.user.displayName}!</Link>
+                <Link to="/home">{userData.user.displayName}</Link>
               </p>
             ) : (
               <p>

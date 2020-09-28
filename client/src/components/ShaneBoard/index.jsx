@@ -9,8 +9,7 @@ import Pieces from "./Pieces";
 
 import socketioClient from "socket.io-client";
 
-function ShaneBoard(props) 
-{
+function ShaneBoard(props) {
   const { userData } = useContext(UserContext);
   const [nodesState, setNodesState] = useState(
     // fill 2d array grid with null
@@ -24,7 +23,8 @@ function ShaneBoard(props)
   // handle black on bottom per user preference
   var blackOnBottom = userData.user.blackOnBottom;
   var blackPlayer = false;
-  if (userData.user._id === props.data.hostId) blackPlayer = props.data.hostColor === 1;
+  if (userData.user._id === props.data.hostId)
+    blackPlayer = props.data.hostColor === 1;
   else blackPlayer = props.data.clientColor === 1;
 
   // handle board theme
@@ -35,7 +35,9 @@ function ShaneBoard(props)
 
   // other needed vars
   var NUM_TO_LETTER = ["a", "b", "c", "d", "e", "f", "g", "h"];
-  var cellSize = getComputedStyle(document.documentElement).getPropertyValue("--cell-size").slice(0, -2); // removes 'px'
+  var cellSize = getComputedStyle(document.documentElement)
+    .getPropertyValue("--cell-size")
+    .slice(0, -2); // removes 'px'
 
   // this refreshes on props.game._grid update
   useEffect(() => {
@@ -52,29 +54,28 @@ function ShaneBoard(props)
   // separate useeffect with no vars, runs once per component load
   useEffect(() => {
     const socket = socketioClient("/");
-    socket.on("moveUpdate", gameId => {
-        console.log("socketio move update", gameId);
-        props.update(gameId);
+    socket.on("moveUpdate", (gameId) => {
+      console.log("socketio move update", gameId);
+      props.update(gameId);
     });
-    socket.on("msgUpdate", msg => {
-        getAllMsgs();
-        // console.log("received msg:", msg);
-        // console.log('before:', chat);
-        // var tmp = chat;
-        // tmp.unshift(msg);
-        // console.log('after:', tmp);
-        // setChat(tmp);
+    socket.on("msgUpdate", (msg) => {
+      getAllMsgs();
+      // console.log("received msg:", msg);
+      // console.log('before:', chat);
+      // var tmp = chat;
+      // tmp.unshift(msg);
+      // console.log('after:', tmp);
+      // setChat(tmp);
     });
-    socket.emit('userData', {uid: userData.user._id, gid: props.data._id});
+    socket.emit("userData", { uid: userData.user._id, gid: props.data._id });
 
     // handle component leave
-    return () => { 
-
-        // shut off listener and tell server we're done
-        socket.off("msgUpdate");
-        socket.off("moveUpdate");
-        socket.emit('disconnect');
-    }
+    return () => {
+      // shut off listener and tell server we're done
+      socket.off("msgUpdate");
+      socket.off("moveUpdate");
+      socket.emit("disconnect");
+    };
   }, []);
 
   function clamp(num, min, max) {
@@ -151,7 +152,6 @@ function ShaneBoard(props)
 
     // handle toggle selection
     if (selected === null) {
-
       // select if piece exists
       if (node !== false && node.p !== null) {
         setSelected(node);
@@ -204,80 +204,107 @@ function ShaneBoard(props)
       });
   }
 
-    function getAllMsgs() {
-        Axios
-            .get('/api/games/chat/'+ props.data._id, { withCredentials: true })
-            .then( res => {
-                //console.log("msgs received:", res.data);
-                setChat(res.data);
-            })
-            .catch((err) => {
-                if (err) console.log(err);
-            });
-    }
+  function getAllMsgs() {
+    Axios.get("/api/games/chat/" + props.data._id, { withCredentials: true })
+      .then((res) => {
+        //console.log("msgs received:", res.data);
+        setChat(res.data);
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  }
 
-    function sendMsg(msg) {
-        var username = userData.user.displayName;
-        Axios
-            .post(
-                '/api/games/chat', 
-                {
-                    id: props.data._id, 
-                    displayName: username, 
-                    msg
-                }, 
-                { withCredentials: true }
-            )
-            .then( () => {
-                var tmp = chat;
-                tmp.unshift(username +": "+ msg);
-                setChat(tmp);
-                setMessage("");
-            })
-            .catch((err) => {
-                if (err) console.log(err);
-            });
-    }
+  function sendMsg(msg) {
+    var username = userData.user.displayName;
+    Axios.post(
+      "/api/games/chat",
+      {
+        id: props.data._id,
+        displayName: username,
+        msg,
+      },
+      { withCredentials: true }
+    )
+      .then(() => {
+        var tmp = chat;
+        tmp.unshift(username + ": " + msg);
+        setChat(tmp);
+        setMessage("");
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  }
 
-    function handleInputChange(event)
-    {
-        setMessage(event.target.value);
-    }
+  function handleInputChange(event) {
+    setMessage(event.target.value);
+  }
 
-    function handleFormSubmit(event)
-    {
-        event.preventDefault();
-        sendMsg(message);
-    }
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    sendMsg(message);
+  }
 
-    return (
-        <div>
-            {/*chess board border*/}
-            <div className="board_border">
-                {/*chess board wrapper (where board table and pieces are handled)*/}
-                <div id="board" onClick={handleClick} style={{ position: "relative" }}>
-                    <CreateBoard />
-                    <ValidMoves validMoves={validMoves} getCoords={getDisplayCoords} />
-                    <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
-                </div>
+  return (
+    <div>
+      <div className="row d-flex justify-content-center">
+        <div className="col-md-12 d-flex justify-content-center">
+          {/*chess board border*/}
+          <div className="board_border">
+            {/*chess board wrapper (where board table and pieces are handled)*/}
+            <div className="d-flex justify-content-center"
+              id="board"
+              onClick={handleClick}
+              style={{ position: "relative" }}
+            >
+              <CreateBoard />
+              <ValidMoves
+                validMoves={validMoves}
+                getCoords={getDisplayCoords}
+              />
+              <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
             </div>
-
-            {/*chat*/}
-            <div style={{float:'left'}}>
-                <form>
-                    <input type="text" name="message" placeholder="Message..." onChange={handleInputChange} value={message} />
-                    <button onClick={handleFormSubmit}>Send</button>
-                </form>
-                <textarea 
-                    readOnly={true} 
-                    value={chat.map(msg => msg+'\n').join('')/*this stupid join to remove commas... makes my head hurt*/}
-                />
-            </div>
-            
-            {/*current mouse click coords*/}
-            <div id="coords" style={{ color: "white" }} />
+          </div>
         </div>
-    );
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          {/*chat*/}
+          <div style={{ marginTop: "30px" }}>
+            <form className="chat">
+              <input
+                type="text"
+                name="message"
+                placeholder="Message..."
+                onChange={handleInputChange}
+                value={message}
+              />
+              <button
+                className="btn btn-outline-dark btn-sm"
+                id="sendBtn"
+                onClick={handleFormSubmit}
+              >
+                Send
+              </button>
+            </form>
+            <textarea
+              readOnly={true}
+              value={
+                chat
+                  .map((msg) => msg + "\n")
+                  .join(
+                    ""
+                  ) /*this stupid join to remove commas... makes my head hurt*/
+              }
+            />
+          </div>
+          {/*current mouse click coords*/}
+          <div id="coords" style={{ color: "white" }} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default ShaneBoard;
