@@ -1,15 +1,16 @@
 import React from "react";
-import "../css/board.css";
-//import ShaneBoard from "../components/ShaneBoard";
-//import chesssk from "chesssk";
+import Nav from "../components/Landing/LandingNav"
+import Content from "../components/Landing/Content";
+import Footer from "../components/Landing/LandingFooter";
 
 function Home() {
-  //var game = new chesssk();
-  //game.setupNewGame();
-  //console.log("setting up new game...");
-
-  //return <ShaneBoard game={game} />;
-  return <></>;
+  return (
+    <div className="main-container">
+      <Nav />
+      <Content />
+      <Footer />
+    </div>
+  );
 }
 
 export default Home;

@@ -1,13 +1,12 @@
 import React from "react";
-// import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
+import * as FaIcons from "react-icons/fa";
 
 export const SidenavData = [
   {
-    title: "Home",
-    path: "/",
-    icon: <AiIcons.AiFillHome />,
+    title: "User Profile",
+    path: "/home",
+    icon: <FaIcons.FaUserCircle />,
     cName: "nav-text",
   },
   {
@@ -17,9 +16,9 @@ export const SidenavData = [
     cName: "nav-text",
   },
   {
-    title: "User Profile",
-    path: "/auth-options",
-    icon: <IoIcons.IoMdPeople />,
+    title: "How To Play",
+    path: "/instructions",
+    icon: <FaIcons.FaQuestionCircle />,
     cName: "nav-text",
   }
 ];

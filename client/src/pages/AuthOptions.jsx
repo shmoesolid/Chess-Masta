@@ -1,49 +1,84 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import UserContext from "../context/userContext";
 import Axios from "axios";
+
+import UserContext from "../context/userContext";
+
+// Components
+import Header from "../components/Header";
+import SideNav from "../components/SideNav";
 
 export default function AuthOptions() {
   const { userData, setUserData } = useContext(UserContext);
-
   const history = useHistory();
+
+  useEffect(() => {
+    
+  }, []);
 
   const register = () => history.push("/register");
   const login = () => history.push("/login");
   const logout = () => {
+    Axios.get("/users/logout", { withCredentials: true });
     setUserData({
-      token: undefined,
-      user: undefined,
+      user: undefined
     });
-    localStorage.setItem("auth-token", "");
+    history.push("/");
   };
   const deleteUser = () => {
-    const user = { withCredentials: true };
-    Axios.delete("/users/delete", user);
+    Axios.delete("/users/delete", { withCredentials: true });
     setUserData({
-      token: undefined,
       user: undefined,
     });
     history.push("/login");
   };
 
   return (
-    <nav className="auth-options">
-      {userData.user ? (
-        <>
-          <div>
-            <button onClick={logout}>Log out</button>
+    <div>
+        <Header />
+        <div className="row m-0">
+          <div className="col-md-3">
+            <SideNav />
           </div>
-          <div>
-            <button onClick={deleteUser}>Delete Account</button>
+          <div className="col-md-9">
+            <div className="auth-options">
+              {userData.user ? (
+                <>
+                  <br />
+                  <h5>Account Options</h5>
+                  <hr />
+                  <div className="row">
+                    <div className="acctOps">
+                      <div id="logout" onClick={logout}>
+                        Log out
+                      </div>
+                      <br />
+                      <div id="delete" onClick={deleteUser}>
+                        Delete Account
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <br />
+                  <h5>
+                    Log in or Register a New Account to Start Playing
+                  </h5>
+                  <hr />
+                  <div className="row">
+                    <div onClick={register} className="col-md-5 card text-center card-1">
+                      <p>Register</p>
+                    </div>
+                    <div onClick={login} className="col-md-5 card text-center card-1">
+                        <p>Log in</p>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </>
-      ) : (
-        <>
-          <button onClick={register}>Register</button>
-          <button onClick={login}>Log in</button>
-        </>
-      )}
-    </nav>
+        </div>
+    </div>
   );
 }

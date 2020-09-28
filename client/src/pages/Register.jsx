@@ -3,6 +3,9 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 
+import Header from "../components/Header";
+import SideNav from "../components/SideNav";
+
 import "../css/ComponentStyles.css";
 import UserContext from "../context/userContext";
 
@@ -29,47 +32,60 @@ export default function Register() {
       setUserData({
         user: loginRes.data,
       });
-      // localStorage.setItem("auth-token", loginRes.data.token);
-      history.push("/");
+      history.push("/rooms");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }
   };
   return (
-    <div className="page">
-      <h2>New User? Create an Account.</h2>
-      {error && (
-        <ErrorNotice message={error} clearError={() => setError(undefined)} />
-      )}
-      <form className="form" onSubmit={submit}>
-        <label htmlFor="register-email">Email</label>
-        <input
-          id="register-email"
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <div>
+      <Header />
+      <div className="row m-0">
+        <div className="col-md-3">
+          <SideNav />
+        </div>
+        <div style={{paddingTop: "0px"}}className="card col-md-7">
+          <h2>Create an Account</h2>
+          <br />
+          {error && (
+            <ErrorNotice
+              message={error}
+              clearError={() => setError(undefined)}
+            />
+          )}
+          <form className="form" onSubmit={submit}>
+            <label htmlFor="register-email">Email</label>
+            <input
+              id="register-email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-        <label htmlFor="register-password">Password</label>
-        <input
-          id="register-password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Verify password"
-          onChange={(e) => setPasswordCheck(e.target.value)}
-        />
+            <label htmlFor="register-password">Password</label>
+            <input
+              id="register-password"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Verify password"
+              onChange={(e) => setPasswordCheck(e.target.value)}
+            />
 
-        <label htmlFor="register-display-name">Display name</label>
-        <input
-          id="register-display-name"
-          type="text"
-          onChange={(e) => setDisplayName(e.target.value)}
-        />
+            <label htmlFor="register-display-name">Username</label>
+            <input
+              id="register-display-name"
+              type="text"
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
 
-        <input type="submit" value="Register" />
-      </form>
+            <input type="submit" value="Register" />
+            <br />
+            {" "}<i>Existing user? Log in <a href="/login">here.</a></i>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,93 +1,73 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Nav, Navbar } from "react-bootstrap";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
-import Home from "./pages/Home";
 import Games from "./pages/Games";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
 import Documentation from "./pages/Documentation";
-
-import SideNav from "./components/SideNav";
-import Toggle from "./components/Toggle";
-
+import Home from "./pages/Home";
+import Instructions from "./pages/Instructions";
 import UserContext from "./context/userContext";
 
 import checkLoggedIn from "./utils/checkLoggedIn";
 
 function App() {
-  const [sidenavOpen, setSidenavOpen] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
-  const breakpoint = 933;
-  // user auth
-  const [userData, setUserData] = useState({
-    user: undefined
-  });
+  const [isLoading, setLoading] = useState(true);
+  const [userData, setUserData] = useState({ user: undefined });
+  const value = { userData, setUserData };
 
   useEffect(() => {
+    if (userData.user)
+      return;
 
     async function check() {
       var login = await checkLoggedIn();
-      if (login !== false) setUserData( login );
+      if (login !== false) setUserData(login);
+      setLoading(false);
     }
 
     check();
-    
-  }, []);
 
-  const openHandler = () => {
-    if (!sidenavOpen) {
-      setSidenavOpen(true);
-    } else {
-      setSidenavOpen(false);
-    }
-  };
+    return () => {};
+  }, [userData, isLoading]);
 
-  const sidenavCloseHandler = () => {
-    setSidenavOpen(false);
-  };
-
-  let sidenav;
-  if (sidenavOpen) {
-    sidenav = <SideNav close={sidenavCloseHandler} sidenav="sidenav" />;
-  }
-  useEffect(() => {
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-  }, []);
+  if (isLoading) return <>Loading...</>;
 
   return (
+
     <div className="App">
-      <>
-        <Router>
-          <UserContext.Provider value={{ userData, setUserData }}>
-            <Navbar className="sticky-top">
-              {width > breakpoint ? "" : <Toggle click={openHandler} />}
-              <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ml-auto">
-                  <Nav.Item>{userData.user ? (<p>Welcome, {userData.user.displayName}!</p>) : (<><Link to="/login">Login</Link></>)}</Nav.Item>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-            <div className="row m-0">
-              <div className="col-md-3">{width < breakpoint ? "" : <SideNav close={sidenavCloseHandler} sidenav="sidenav" />}</div>
-              <div>{sidenav}</div>
-              <div className="col-md-9">
-                <Switch>
-                  <Route path="/" exact component={Home} />
-                  <Route path="/rooms" exact component={Games} />
-                  <Route path="/login" exact component={Login} />
-                  <Route path="/register" exact component={Register} />
-                  <Route path="/auth-options" exact component={AuthOptions} />
-                  <Route path="/documentation" exact component={Documentation} />
-                </Switch>
-              </div>
-            </div>
-          </UserContext.Provider>
-        </Router>
-      </>
+      <Router>
+        <Switch>
+          <Route path="/" exact >
+            <UserContext.Provider value={value}><Home /></UserContext.Provider>
+          </Route>
+          <Route path="/home" exact >
+            <UserContext.Provider value={value}><AuthOptions /></UserContext.Provider>
+          </Route>
+          <Route path="/rooms" exact >
+            <UserContext.Provider value={value}>
+              {userData.user ? <Games /> : <Redirect to="/login" />}
+            </UserContext.Provider>
+          </Route>
+          <Route path="/login" exact >
+            <UserContext.Provider value={value}>
+              {userData.user ? <Redirect to="/rooms" /> : <Login />}
+            </UserContext.Provider>
+          </Route>
+          <Route path="/register" exact >
+            <UserContext.Provider value={value}>
+              {userData.user ? <Redirect to="/rooms" /> : <Register />}
+            </UserContext.Provider>
+          </Route>
+          <Route path="/instructions" exact >
+            <UserContext.Provider value={value}><Instructions /></UserContext.Provider>
+          </Route>
+          <Route path="/documentation" exact >
+            <UserContext.Provider value={value}><Documentation /></UserContext.Provider>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

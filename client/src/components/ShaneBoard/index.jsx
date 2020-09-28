@@ -2,6 +2,12 @@ import Axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
 import UserContext from "../../context/userContext";
 
+import CreateBoard from "./CreateBoard";
+import ValidMoves from "./ValidMoves";
+import Pieces from "./Pieces";
+
+import socketioClient from "socket.io-client";
+
 function ShaneBoard(props) {
   const { userData } = useContext(UserContext);
   const [nodesState, setNodesState] = useState(
@@ -10,6 +16,9 @@ function ShaneBoard(props) {
   );
   const [validMoves, setValidMoves] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [chat, setChat] = useState([]);
+  const [message, setMessage] = useState("");
+
   // handle black on bottom per user preference
   var blackOnBottom = userData.user.blackOnBottom;
   var blackPlayer = false;
@@ -28,13 +37,40 @@ function ShaneBoard(props) {
   var cellSize = getComputedStyle(document.documentElement)
     .getPropertyValue("--cell-size")
     .slice(0, -2); // removes 'px'
-  //   var selected = null;
-  var game; // using still for getting node by string
+
+  // this refreshes on props.game._grid update
+  useEffect(() => {
+    setNodesState(props.game._grid); // update our node state with grid
+  }, [props.game._grid]);
 
   useEffect(() => {
-    game = props.game; // update game for now
-    setNodesState(props.game._grid); // update our node state with grid
-  });
+    // get chat
+    getAllMsgs();
+    //setChat(chat);
+  }, []);
+
+  // socket.io client, update board if other player moves
+  // separate useeffect with no vars, runs once per component load
+  useEffect(() => {
+    const socket = socketioClient("/");
+    socket.on("moveUpdate", (gameId) => {
+      console.log("socketio move update", gameId);
+      props.update(gameId);
+    });
+    socket.on("msgUpdate", (msg) => {
+      console.log("socketio msg update", msg);
+      getAllMsgs();
+    });
+    socket.emit("userData", { uid: userData.user._id, gid: props.data._id });
+
+    // handle component leave
+    return () => {
+      // shut off listener and tell server we're done
+      socket.off("msgUpdate");
+      socket.off("moveUpdate");
+      socket.disconnect();
+    };
+  }, []);
 
   function clamp(num, min, max) {
     return Math.min(Math.max(num, min), max);
@@ -68,11 +104,10 @@ function ShaneBoard(props) {
     return { top: yDisp, left: xDisp };
   }
 
-  function showCoords(event) {
+  function handleClick(event) {
     var tableChess = document.getElementById("board");
     var bounding = tableChess.getBoundingClientRect();
-    var x;
-    var y;
+    var x, y;
 
     // black on bottom
     if (blackOnBottom && blackPlayer) {
@@ -95,59 +130,43 @@ function ShaneBoard(props) {
     var chessRow = floorBySize(y);
 
     // setup display vars (DEBUG)
-    var coords =
-      "Actual: " +
-      x +
-      ", " +
-      y +
-      "<br />Array: [ " +
-      chessCol +
-      " ][ " +
-      chessRow +
-      " ]" +
-      "<br />Notation: " +
-      NUM_TO_LETTER[chessCol] +
-      (chessRow + 1) +
-      "<br />";
+    // var coords =
+    //   "Actual: " + x + ", " + y +
+    //   "<br />Array: [ " + chessCol + " ][ " + chessRow + " ]" +
+    //   "<br />Notation: " + NUM_TO_LETTER[chessCol] + (chessRow + 1) + "<br />";
 
     // display (DEBUG)
-    document.getElementById("coords").innerHTML = coords;
+    //document.getElementById("coords").innerHTML = coords;
 
-    // get node by string
+    // get node by string (no longer need game for this)
+    var gridCopy = [...nodesState];
     var clickedString = NUM_TO_LETTER[chessCol] + (chessRow + 1);
-    //console.log(clickedString);
-    var node = game._getNodeByString(clickedString);
-    //console.log(node);
+    var node = gridCopy[chessCol][chessRow];
+    var fromString;
 
     // handle toggle selection
     if (selected === null) {
-      console.log("selecting1");
       // select if piece exists
       if (node !== false && node.p !== null) {
-        console.log("selecting2");
         setSelected(node);
-        var fromString = NUM_TO_LETTER[node.x] + (node.y + 1);
+        fromString = NUM_TO_LETTER[node.x] + (node.y + 1);
         possibleMoves(fromString);
       }
     }
 
     // deselect if same node clicked
     else if (selected === node) {
-      console.log("deselecting");
       setSelected(null);
       setValidMoves([]);
     }
 
     // make the move
     else {
-      console.log("attempting move");
-      var fromString = NUM_TO_LETTER[selected.x] + (selected.y + 1);
+      fromString = NUM_TO_LETTER[selected.x] + (selected.y + 1);
       makeMove(fromString, clickedString);
       setSelected(null);
       setValidMoves([]);
     }
-
-    document.getElementById("selected").textContent = selected;
   }
 
   function possibleMoves(from) {
@@ -179,83 +198,105 @@ function ShaneBoard(props) {
       });
   }
 
-  function createBoard() {
-    let table = [];
-    for (let x = 0; x < 8; x++) {
-      let children = [];
-      for (let y = 0; y < 8; y++) children.push(<td key={"row-" + y} />);
-      table.push(<tr key={"col-" + x}>{children}</tr>);
-    }
-    return table;
+  function getAllMsgs() {
+    Axios.get("/api/games/chat/" + props.data._id, { withCredentials: true })
+      .then((res) => {
+        //console.log("msgs received:", res.data);
+        setChat(res.data);
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  }
+
+  function sendMsg(msg) {
+    var username = userData.user.displayName;
+    Axios.post(
+      "/api/games/chat",
+      {
+        id: props.data._id,
+        displayName: username,
+        msg,
+      },
+      { withCredentials: true }
+    )
+      .then(() => {
+        var tmp = chat;
+        tmp.unshift(username + ": " + msg);
+        setChat(tmp);
+        setMessage("");
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  }
+
+  function handleInputChange(event) {
+    setMessage(event.target.value);
+  }
+
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    sendMsg(message);
   }
 
   return (
     <div>
-      {/*chess board border*/}
-      <div className="board_border">
-        {/*chess board wrapper (where board table and pieces are handled)*/}
-        <div id="board" onClick={showCoords} style={{ position: "relative" }}>
-          {/*board styling*/}
-          <table id="t01">
-            <tbody>{createBoard()}</tbody>
-          </table>
-          {/* possible moves */}
-          {validMoves.map((item, index) => {
-            var display = getDisplayCoords(item);
-            return (
-              <img
-                key={"dot-" + index}
-                src={`assets/img/dot.png`}
-                alt={"possible-move"}
-                style={{
-                  position: "absolute",
-                  top: display.top,
-                  left: display.left,
-                  zIndex: 5,
-                }}
+      <div className="row">
+        <div className="col-md-12">
+          {/*chess board border*/}
+          <div className="board_border">
+            {/*chess board wrapper (where board table and pieces are handled)*/}
+            <div 
+              id="board"
+              onClick={handleClick}
+              style={{ position: "relative" }}
+            >
+              <CreateBoard />
+              <ValidMoves
+                validMoves={validMoves}
+                getCoords={getDisplayCoords}
               />
-            );
-          })}
-          {/*pieces render*/}
-          {nodesState.map((col, cIndex) => {
-            return col.map((node, nIndex) => {
-              // returning something here so it shuts up about the stupid key
-              if (node === null || node.p === null)
-                return (
-                  <div
-                    style={{ position: "absolute" }}
-                    key={"null-" + cIndex + nIndex}
-                  ></div>
-                );
-
-              // setup our image
-              var c = node.p.color.toLowerCase();
-              var t = node.p.type.toLowerCase();
-              var display = getDisplayCoords(node);
-              return (
-                <img
-                  key={"piece-" + cIndex + nIndex}
-                  src={`assets/img/${c}${t}.gif`}
-                  alt={c + t + " chess piece"}
-                  style={{
-                    position: "absolute",
-                    top: display.top,
-                    left: display.left,
-                    zIndex: 10,
-                  }}
-                />
-              );
-            });
-          })}
+              <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
+            </div>
+          </div>
         </div>
       </div>
-
-      {/*current mouse click coords*/}
-      <div style={{ color: "white" }}>
-        Selected:<span id="selected"></span>
+      <div className="row">
+        <div className="col-md-12">
+          {/*chat*/}
+          <div style={{ marginTop: "30px" }}>
+            <form className="chat">
+              <input
+                type="text"
+                name="message"
+                placeholder="Message..."
+                onChange={handleInputChange}
+                value={message}
+              />
+              <button
+                className="btn btn-outline-dark btn-sm"
+                id="sendBtn"
+                onClick={handleFormSubmit}
+              >
+                Send
+              </button>
+            </form>
+            <textarea
+              readOnly={true}
+              value={
+                chat
+                  .map((msg) => msg + "\n")
+                  .join(
+                    ""
+                  ) /*this stupid join to remove commas... makes my head hurt*/
+              }
+            />
+          </div>
+          {/*current mouse click coords*/}
+          <div id="coords" style={{ color: "white" }} />
+        </div>
       </div>
-      <br />
-      <div id="coords" style={{ color: "white" }} />
     </div>
   );
 }

@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
       return res
         .status(400)
         .json({
-          msg: "An account with this email already exists."
+          msg: "An account with that email already exists."
         });
 
     const salt = await bcrypt.genSalt(12);
@@ -77,7 +77,7 @@ router.post("/login", async (req, res) => {
       return res
         .status(400)
         .json({
-          msg: "No account with this email has been registered."
+          msg: "No account with that email has been registered."
         });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -85,7 +85,7 @@ router.post("/login", async (req, res) => {
       msg: "Invalid credentials."
     });
 
-    const expiration = process.env.NODE_ENV !== 'production' ? 604800000 : 604800000;
+    const expiration = process.env.NODE_ENV !== 'production' ? 900000 : 604800000;
     const token = jwt.sign({
       id: user._id
     }, process.env.JWT_SECRET, {
@@ -102,6 +102,11 @@ router.post("/login", async (req, res) => {
       error: err.message
     });
   }
+});
+
+router.get("/logout", auth, async (req, res) => {
+  res.clearCookie('token');
+  res.json({});
 });
 
 router.delete("/delete", auth, async (req, res) => {

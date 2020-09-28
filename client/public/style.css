@@ -1,0 +1,411 @@
+body {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+header.masthead {
+    position: relative;
+    background-color: #343a40;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+header.masthead h1 {
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    header.masthead {
+        padding-top: 12rem;
+        padding-bottom: 12rem;
+    }
+
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+.showcase .showcase-text {
+    padding: 3rem;
+}
+
+.showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    .showcase .showcase-text {
+        padding: 7rem;
+    }
+}
+
+.features-icons {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.features-icons .features-icons-item {
+    max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+}
+
+
+.testimonials {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.testimonials .testimonial-item {
+    max-width: 18rem;
+}
+
+.testimonials .testimonial-item img {
+    max-width: 12rem;
+    box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
+.call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url("../img/bg-masthead.jpg") no-repeat center center;
+    background-size: cover;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.call-to-action .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+footer.footer {
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+}
+
+.main-container {
+    min-height: 100vh;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 100px;
+}
+
+.card {
+    width: 80%;
+    padding: 25px;
+    margin: 15px;
+}
+
+.card-1 {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.card-1:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.whiteBg {
+    background-color: #fff;
+}
+
+.header-a {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.alink {
+    /* background-color: red; */
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.alink {
+    color: black;
+    float: right;
+}
+
+.nav-link {
+    color: black !important;
+}
+
+.alink ul {
+    float: left;
+}
+
+.nav-container .start {
+    font-weight: 600;
+    color: black;
+}
+
+.navbar-nav>li {
+    padding-left: 15px;
+    padding-right: 5px;
+}
+
+.start {
+    border-radius: 9px;
+    border-width: 0.1em;
+    font-size: 15px;
+    padding: 10px 20px 10px 20px;
+    margin-left: 30px;
+}
+
+.start:hover {
+    color: white;
+}
+
+.brand {
+    font-weight: bolder;
+}
+
+.talk {
+    padding-top: 100px;
+}
+
+.talk>h1 {
+    font-size: 60px !important;
+    font-weight: bold;
+    color: black;
+}
+
+.showcase-img {
+    background-image: url('./LandingChess.png');
+    background-color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 100%;
+    height: 650px;
+}
+
+@media (max-width: 1200px) {
+    .showcase-img {
+        background-size: contain;
+        max-width: 100%;
+        height: 400px;
+        background-image: url('./LandingChess.png');
+        background-color: white;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+.no-bold {
+    font-weight: 100;
+}
+
+.bold-two {
+    font-weight: 200;
+}
+
+.bold-three {
+    font-weight: 300;
+}
+
+.bold-four {
+    font-weight: 400;
+}
+
+.start-two {
+    background-color: #378A23;
+    color: wheat;
+    margin-left: 0;
+    font-weight: 600;
+}
+
+.det-ails {
+    margin-top: 50px;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    color: white
+}
+
+.icon-bra-ails {
+    padding-bottom: 30px;
+}
+
+.icon-ails {
+    color: black;
+    font-size: 40px;
+}
+
+.acctOps {
+    padding-left: 20px;
+    ;
+}
+
+#delete {
+    color: red;
+    font-size: .8rem;
+}
+
+#logout {
+    font-size: .8rem;
+}
+
+.footer {
+    color: white;
+    text-align: center;
+    background-color: #212529;
+    padding-top: 25px;
+    color: white;
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+}
+
+.author {
+    text-decoration: none !important;
+}
+
+textarea {
+    width: 100%;
+    padding: 0.3rem;
+    border: 1px solid #c2c2c2;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    font-size: 1.1rem;
+}
+
+#createGame {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.small {
+    width: 15%;
+    text-align: center;
+}
+
+.med {
+    width: 60%;
+    text-align: center;
+}
+
+.select-css {
+    display: block;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: .6em 1.4em .5em .8em;
+    width: 100%;
+    max-width: 100%;
+    /* useful when width is set to anything other than 100% */
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+    border-radius: .5em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    /* note: bg image below uses 2 urls. The first is an svg data uri for the arrow icon, and the second is the gradient. 
+        for the icon, if you want to change the color, be sure to use `%23` instead of `#`, since it's a url. You can also swap in a different svg icon or an external image reference
+        
+    */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+        linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+    background-repeat: no-repeat, repeat;
+    /* arrow icon position (1em from the right, 50% vertical) , then gradient position*/
+    background-position: right .7em top 50%, 0 0;
+    /* icon size, then gradient */
+    background-size: .65em auto, 100%;
+}
+
+/* Hide arrow icon in IE browsers */
+.select-css::-ms-expand {
+    display: none;
+}
+
+/* Hover style */
+.select-css:hover {
+    border-color: #888;
+}
+
+/* Focus style */
+.select-css:focus {
+    border-color: #aaa;
+    /* It'd be nice to use -webkit-focus-ring-color here but it doesn't work on box-shadow */
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+}
+
+/* Set options to normal weight */
+.select-css option {
+    font-weight: normal;
+}
+
+/* Support for rtl text, explicit support for Arabic and Hebrew */
+*[dir="rtl"] .select-css,
+:root:lang(ar) .select-css,
+:root:lang(iw) .select-css {
+    background-position: left .7em top 50%, 0 0;
+    padding: .6em .8em .5em 1.4em;
+}
+
+/* Disabled styles */
+.select-css:disabled,
+.select-css[aria-disabled=true] {
+    color: graytext;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+        linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+}
+
+.select-css:disabled:hover,
+.select-css[aria-disabled=true] {
+    border-color: #aaa;
+}
+
+.chat {
+    width: 100%;
+}
+
+.back-btn {
+    margin-top: 10px;
+}
+
+#sendBtn {
+    margin-left: 5px;
+    margin-bottom: 4px;
+}

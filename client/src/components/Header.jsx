@@ -1,47 +1,50 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Nav, Navbar } from "react-bootstrap";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
+import UserContext from "../context/userContext";
 
-const Styles = styled.div`
-  .navbar {
-    background-color: #222;
-    width: 100%;
-  }
-  a,
-  .navbar-nav,
-  .navbar-light .nav-link {
-    color: #9fffcb;
-    &:hover {
-      color: white;
-    }
-  }
-  .navbar-brand {
-    font-size: 1.4em;
-    color: #9fffcb;
-    &:hover {
-      color: white;
-    }
-  }
-  .form-center {
-    position: absolute !important;
-    left: 25%;
-    right: 25%;
-  }
-`;
+import Toggle from "./Toggle";
 
 const Header = () => {
+  const [sidenavOpen, setSidenavOpen] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const breakpoint = 933;
+
+  const { userData } = useContext(UserContext);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+  }, []);
+
+  const openHandler = () => {
+    if (!sidenavOpen) {
+      setSidenavOpen(true);
+    } else {
+      setSidenavOpen(false);
+    }
+  };
+
   return (
-    <Styles>
-      <Navbar>
-        <Navbar.Brand href="/">Chess Masta</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Item>`Hello, $`</Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    </Styles>
+    <Navbar className="sticky-top">
+      {width > breakpoint ? "" : <Toggle click={openHandler} />}
+      <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="ml-auto welcome">
+          <Nav.Item>
+            {userData.user ? (
+              <p>
+                <Link to="/home">{userData.user.displayName}</Link>
+              </p>
+            ) : (
+              <p>
+                <Link to="/login">Login</Link>
+              </p>
+            )}
+          </Nav.Item>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

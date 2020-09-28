@@ -1,208 +1,350 @@
 import React, { useContext, useState, useEffect } from "react";
-import UserContext from "../context/userContext";
-import checkLoggedIn from "../utils/checkLoggedIn";
-import Axios from "axios";
 
+import Axios from "axios";
+import CheSSsk from "chesssk";
 import "../css/board.css";
+import { Table } from "react-bootstrap";
+import * as FaIcons from "react-icons/go";
+import * as MdIcons from "react-icons/md";
+
+// import checkLoggedIn from "../utils/checkLoggedIn";
+import UserContext from "../context/userContext";
+
+// Components
 import CreateGame from "../components/CreateGame";
 import ShaneBoard from "../components/ShaneBoard";
-import CheSSsk from "chesssk";
+import SideNav from "../components/SideNav";
+import Header from "../components/Header";
 
-function Games() 
-{
-    const { userData, setUserData } = useContext(UserContext);
-    const [ gameList, setGameList ] = useState([]);
-    const [ gameData, setGameData ] = useState(null);
-    const [ gamePassword, setGamePassword ] = useState("");
-    //var pollHandler = null;
+function Games() {
+  const { userData } = useContext(UserContext);
+  const [gameList, setGameList] = useState([]);
+  const [gameData, setGameData] = useState({ gameObj: null, data: {} });
+  const [gamePassword, setGamePassword] = useState("");
 
-    useEffect( () => {
+  useEffect(() => {
+    if (userData.user)
+      return getGames();
 
-        //setupPoll();
+    return () => {};
+  }, []);
 
-        // confirm we are have our user data
-        // sometimes would error on refresh
-        async function check() {
-            var login = await checkLoggedIn();
-            if (login !== false) 
-            {
-                setUserData( login );
-                getGames();
-            }
-        }
-        if (typeof userData.user !== "undefined") 
-            return getGames();
-            
-        check();
-    }, []);
-    
+  const gamePassChange = (event) => {
+    setGamePassword(event.target.value);
+  };
 
-    // const setupPoll = () => {
-    //     // setup poller (TEMPORARY. socket.io to replace)
-    //     console.log("setup poll", pollHandler);
-    //     if (pollHandler !== null)
-    //     {
-    //         console.log("CLEARING");
-    //         clearTimeout(pollHandler);
-    //         pollHandler=null;
-    //     }
+  const getGames = () => {
+    Axios.get("/api/games", { withCredentials: true })
+      .then((res) => {
+        setGameList(res.data);
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  };
 
-    //     pollHandler = setTimeout(poll, 2500);
-    // }
+  const loadGameById = (id) => {
+    console.log("loading game by id");
+    Axios.get("/api/games/" + id, { withCredentials: true })
+      .then((res) => {
+        // create new game
+        var game = new CheSSsk();
 
-    // const poll = async () => {
+        // set game grid data from our boardData
+        game.setGridFromJSON(res.data.boardData);
+        console.log("loaded:", game._grid);
 
-    //     console.log("running...", gameData);
+        // set our game, plus the other stuff for reference
+        setGameData({ gameObj: game, data: res.data });
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  };
 
-    //     if (gameData === null)
-    //     {
-    //         pollHandler = setTimeout(poll, 2500);
-    //         return;
-    //     }
-            
+  const joinGameById = (id) => {
+    Axios.post(
+      "/api/games/join",
+      { id, gamePassword },
+      { withCredentials: true }
+    )
+      .then((res) => {
+        // create new game
+        var game = new CheSSsk();
 
-    //     await Axios
-    //         .get("/api/games/poll/"+gameData.data._id, { withCredentials: true })
-    //         .then( res => {
-    //             console.log(res.data, gameData.data.gameStatus);
-    //             if (res.data !== gameData.data.gameStatus)
-    //             {
-    //                 console.log("LOADING");
-    //                 loadGameById(gameData.data._id);
-    //                 return;
-    //             }
-    //         })
-    //         .catch( err => { if (err) console.log(err) });
+        // set game grid data from our boardData
+        game.setGridFromJSON(res.data.boardData);
+        console.log("joined:", game._grid);
 
-    //     pollHandler = setTimeout(poll, 2500);
-    // }
+        // set our game, plus the other stuff for reference
+        setGameData({ gameObj: game, data: res.data });
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  };
 
-    const gamePassChange = (event) => {
-        setGamePassword(event.target.value);
-    }
-
-    const getGames = () => {
-        Axios.get("/api/games", { withCredentials: true })
-            .then(
-                res => {
-                    //console.log(res.data);
-                    setGameList(res.data);
-                }
-            )
-            .catch( err => { if (err) console.log(err) });
-    };
-
-    const loadGameById = (id) => {
-        Axios.get("/api/games/"+id, { withCredentials: true })
-            .then(
-                res => {
-                    // create new game 
-                    var game = new CheSSsk();
-
-                    // set game grid data from our boardData
-                    game.setGridFromJSON(res.data.boardData);
-                    console.log("loaded:", game._grid);
-
-                    // set our game, plus the other stuff for reference
-                    setGameData({ gameObj: game, data: res.data });
-                }
-            )
-            .catch( err => { if (err) console.log(err) });
-    };
-
-    const joinGameById = (id) => {
-        Axios.post("/api/games/join", {id, gamePassword}, { withCredentials: true })
-            .then(
-                res => {
-                    // create new game 
-                    var game = new CheSSsk();
-
-                    // set game grid data from our boardData
-                    game.setGridFromJSON(res.data.boardData);
-                    console.log("joined:", game._grid);
-
-                    // set our game, plus the other stuff for reference
-                    setGameData({ gameObj: game, data: res.data });
-                }
-            ).catch( err => { if (err) console.log(err) });
-    };
-
-    const deleteGameById = (id) => {
-        Axios
-            .delete("/api/games/"+id, { withCredentials: true })
-            .then( res => {
-                getGames();
-            }).catch( err => { if (err) console.log(err) });
-    };
-
-    const goBackToListing = () => {
-        
-        setGameData(null);
+  const deleteGameById = (id) => {
+    Axios.delete("/api/games/" + id, { withCredentials: true })
+      .then((res) => {
         getGames();
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  };
+
+  const goBackToListing = () => {
+    setGameData({ gameObj: null, data: {} });
+    getGames();
+  };
+
+  const renderStatus = (status) => {
+    switch (status) {
+      case 0:
+        return <span>Waiting for join...</span>;
+      case 1:
+        return <span>White move...</span>;
+      case 2:
+        return <span>Black move...</span>;
+      default:
+        return <span>Status not used yet...</span>;
     }
+  };
 
-    const renderStatus = (status) => {
-        switch(status)
-        {
-            case 0: return (<span>Waiting for join...</span>);
-            case 1: return (<span>White move...</span>);
-            case 2: return (<span>Black move...</span>);
-        }
-    };
-
-    return (
-        <>
+  return (
+    <div>
+        <Header />
+        <div className="row m-0">
+          <div className="col-md-3">
+            <SideNav />
+          </div>
+          <div className="col-md-8">
             {userData.user ? (
-                <> 
-                    {!gameData ? (
-                        <>
-                            <h2>Create Game</h2>
-                            <CreateGame update={ loadGameById } />
-                            <br /><br />
-                            <h2>Game List</h2>
-                            <ul>
-                            {
-                                gameList.map( (item, index) => {
-                                    return item.hostId === userData.user.id || item.clientId === userData.user.id ? (
-                                        <li key={index}>
-                                            {item.name}&nbsp;
-                                            <button onClick={() => loadGameById(item._id)}>Load</button>&nbsp;
-                                            <button onClick={() => deleteGameById(item._id)}>Delete</button>
-                                        </li>
-                                        ) : !item.clientId &&
-                                            <li key={index}>
-                                                {item.name}&nbsp;
-                                                {item.locked &&
-                                                    <input 
-                                                        type="password" 
-                                                        name="password" 
-                                                        id="password" 
-                                                        placeholder="Game password..."
-                                                        onChange={gamePassChange}
-                                                    />
-                                                }
-                                                <button onClick={() => joinGameById(item._id)}>Join</button>
-                                                
-                                            </li>
-                                })
-                            }
-                            </ul>
-                        </>
-                    ) : (
-                        <>
-                            <button onClick={() => goBackToListing()}>BACK</button>
-                            {renderStatus(gameData.data.gameStatus)}
-                            <ShaneBoard 
-                                game={ gameData.gameObj } 
-                                data={ gameData.data } 
-                                update={ loadGameById }
-                            />
-                        </>
-                    )}
-                </> ): (<><h2>Please login...</h2></>)
-            }
-        </>
-    );
+              <>
+                {!gameData.gameObj ? (
+                  <>
+                    <br />
+                    <h5>Create Game</h5>
+                    <hr />
+                    <CreateGame update={loadGameById} />
+                    <br /><br /><br />
+                    <h5>Game List</h5>
+                    <hr />
+                    <Table
+                      responsive="xl"
+                      size="md"
+                      striped
+                      borderless
+                      hover
+                      variant="dark"
+                    >
+                      <thead>
+                        <tr>
+                          <th className="med">Name</th>
+                          <th >Join</th>
+                          <th >Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gameList.map((item, index) => {
+                          return item.hostId === userData.user.id ||
+                            item.clientId === userData.user.id ? (
+                            
+                              <tr key={index+0}>
+                                <td key={index+1}>{item.name}&nbsp;</td>
+                                <td key={index+2}>
+                                  <button onClick={() => loadGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
+                                    <FaIcons.GoPlay color="green" />
+                                  </button>
+                                </td>
+                                <td key={index+3}>
+                                  <button onClick={() => deleteGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
+                                    <MdIcons.MdDelete color="red" />
+                                  </button>
+                                </td>
+                              </tr>
+                            
+                          ) : (
+                            !item.clientId && (
+                              <tr key={index+0}>
+                                <td key={index+1} >{item.name}&nbsp;</td>
+                                <td key={index+2} colSpan="2">
+                                  <button onClick={() => joinGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
+                                    <FaIcons.GoPlay color="green" />
+                                  </button>
+                                  {item.locked && (
+                                    <input
+                                      type="password"
+                                      name="password"
+                                      id="password"
+                                      placeholder="Game password..."
+                                      onChange={gamePassChange}
+                                    />
+                                  )}
+                                  
+                                </td>
+                              </tr>
+                            )
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                    <br />
+                  </>
+                ) : (
+                  <>
+                    <button className="back-btn btn btn-dark" onClick={() => goBackToListing()}>
+                        Back to games
+                    </button>
+                      <div style={{ marginTop: "10px"}}>
+                    {renderStatus(gameData.data.gameStatus)}
+                    <ShaneBoard
+                      game={gameData.gameObj}
+                      data={gameData.data}
+                      update={loadGameById}
+                        />
+                        </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <br />
+                <h2>Please login...</h2>
+              </>
+            )}
+          </div>
+        </div>
+    </div>
+  );
+
+  // return (
+  //   <div>
+  //     <div className="App">
+  //       <>
+  //         <Router>
+  //           <Route>
+  //             <Switch>
+  //               <Route path="/instructions" exact component={Instructions} />
+  //               <Route path="/home" exact component={AuthOptions} />
+  //               <Route path="/documentation" exact component={Documentation} />
+  //               <Route path="/login" exact component={Login} />
+  //               <Route path="/register" exact component={Register} />
+  //               <UserContext.Provider value={{ userData, setUserData }}>
+  //                 <Header />
+  //                 <div className="row m-0">
+  //                   <div className="col-md-3">
+  //                     <SideNav />
+  //                   </div>
+  //                   <div className="col-md-8">
+  //                     {userData.user ? (
+  //                       <>
+  //                         {!gameData.gameObj ? (
+  //                           <>
+  //                             <br />
+  //                             <h5>Create Game</h5>
+  //                             <hr />
+  //                             <CreateGame update={loadGameById} />
+  //                             <br />
+  //                             <br />
+  //                             <br />
+  //                             <h5>Game List</h5>
+  //                             <hr />
+  //                             <Table
+  //                               responsive="xl"
+  //                               size="md"
+  //                               striped
+  //                               borderless
+  //                               hover
+  //                               variant="dark"
+  //                             >
+  //                               <thead>
+  //                                 <tr>
+  //                                   <th>Name</th>
+  //                                   <th className="small">Join</th>
+  //                                   <th className="small">Delete</th>
+  //                                 </tr>
+  //                               </thead>
+  //                               {gameList.map((item, index) => {
+  //                                 return item.hostId === userData.user.id ||
+  //                                   item.clientId === userData.user.id ? (
+  //                                   <tbody>
+  //                                     <tr>
+  //                                       <td key={index}>{item.name}&nbsp;</td>
+  //                                       <td
+  //                                         className="small"
+  //                                         onClick={() => loadGameById(item._id)}
+  //                                       >
+  //                                         <FaIcons.GoPlay color="green" />
+  //                                       </td>
+  //                                       <td
+  //                                         className="small"
+  //                                         onClick={() =>
+  //                                           deleteGameById(item._id)
+  //                                         }
+  //                                       >
+  //                                         <MdIcons.MdDelete color="red" />
+  //                                       </td>
+  //                                     </tr>
+  //                                   </tbody>
+  //                                 ) : (
+  //                                   !item.clientId && (
+  //                                     <td key={index}>
+  //                                       {item.name}&nbsp;
+  //                                       {item.locked && (
+  //                                         <input
+  //                                           type="password"
+  //                                           name="password"
+  //                                           id="password"
+  //                                           placeholder="Game password..."
+  //                                           onChange={gamePassChange}
+  //                                         />
+  //                                       )}
+  //                                       <button
+  //                                         onClick={() => joinGameById(item._id)}
+  //                                       >
+  //                                         <FaIcons.GoPlay color="green" />
+  //                                       </button>
+  //                                     </td>
+  //                                   )
+  //                                 );
+  //                               })}
+  //                             </Table>
+  //                             <br />
+  //                           </>
+  //                         ) : (
+  //                           <>
+  //                             <button className="back-btn btn btn-dark" onClick={() => goBackToListing()}>
+  //                                 Back to games
+  //                             </button>
+  //                               <div style={{ marginTop: "10px"}}>
+  //                             {renderStatus(gameData.data.gameStatus)}
+  //                             <ShaneBoard
+  //                               game={gameData.gameObj}
+  //                               data={gameData.data}
+  //                               update={loadGameById}
+  //                                 />
+  //                                 </div>
+  //                           </>
+  //                         )}
+  //                       </>
+  //                     ) : (
+  //                       <>
+  //                         <br />
+  //                         <h2>Please login...</h2>
+  //                       </>
+  //                     )}
+  //                   </div>
+  //                 </div>
+  //               </UserContext.Provider>
+  //             </Switch>
+  //           </Route>
+  //         </Router>
+  //       </>
+  //     </div>
+  //   </div>
+  // );
 }
 
 export default Games;

@@ -16,7 +16,7 @@ const gameSchema = new Schema(
         boardData: { type: String, default: "" }, // json
         enPassant: { type: String, default: "" },
         history: { type: String, default: "" },
-        chat: { type: String, default: "" },
+        chat: { type: [String], default: [] },
         notes: { type: String, default: "" },
 
         locked: { type: Boolean, default: false }, // true or false

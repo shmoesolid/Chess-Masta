@@ -1,84 +1,89 @@
 #toggle {
-    cursor: pointer;
-    color: #9fffcb;
-    font-size: 30px;
-    margin-left: 20px;
-    background: transparent;
-    border: none;
-    padding: 10px;
+  cursor: pointer;
+  color: #9fffcb;
+  font-size: 30px;
+  margin-left: 20px;
+  background: transparent;
+  border: none;
+  padding: 10px;
 }
 
 .navbar {
-    background-color: #222;
+  background-color: #343A40;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  z-index: 11;
+  height: 3.6rem;
 }
 
 a,
 .navbar-nav,
 .navbar-light .nav-link {
-    color: #9fffcb;
+  color: #9fffcb;
 }
+
 .navbar-nav:hover {
-        color: white;
+  color: white;
 }
 
 
 .navbar-brand {
-    font-size: 1.4em;
-    color: #9fffcb;
+  font-size: 1.4em;
+  color: #9fffcb;
 }
+
 .navbar-brand:hover {
-        color: white;
+  color: white;
 }
 
 .form-center {
-    position: absolute !important;
-    left: 25%;
-    right: 25%;
+  position: absolute !important;
+  left: 25%;
+  right: 25%;
 }
 
 .sidenav {
-    height: 100vh;
-    padding-left: 0px;
-    background-color: #222222;
-    opacity: 1;
-    color: white;
-    width: 250px;
-    position: fixed;
-    z-index: 200;
-    left: -100%;
-    animation: slide-open .75s forwards;
-    box-shadow: 1px 1px 1px 1px #1f1d1d;
-    float: top;
+  height: 100vh;
+  padding-left: 0px;
+  background-color: #343A40;
+  opacity: 1;
+  color: white;
+  width: 230px;
+  position: fixed;
+  z-index: 200;
+  left: -100%;
+  animation: slide-open 0s forwards;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  float: top;
 }
 
 .sidenav.close {
-    left: 0;
-    animation: slide-closed 1.0s forwards;
+  left: 0;
+  animation: slide-closed 1.0s forwards;
 }
 
 .nav-text {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 8px 0px 8px 16px;
-    list-style: none;
-    height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
 }
 
 .nav-text a {
-    text-decoration: none;
-    color: #f5f5f5;
-    font-size: 18px;
-    width: 95%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    border-radius: 4px;
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
 }
 
 .nav-text a:hover {
-    background-color: #1a83ff;
+  background-color: #1a83ff;
 }
 
 .docsLink {
@@ -87,14 +92,14 @@ a,
   text-decoration: none;
   color: #f5f5f5;
   font-size: 18px;
-  width: 92%;
+  width: 100%;
   display: flex;
   align-items: center;
   border-radius: 4px;
 }
 
-.space {
-    height: 7rem;
+.card {
+  margin-top: 5%;
 }
 
 .code {
@@ -103,21 +108,29 @@ a,
   width: 75%;
 }
 
+.welcome {
+  margin-top: 16px;
+}
+
 code {
   color: white;
 }
-/* form */
+
+/* FORM */
 
 .form label,
 .form input {
-  display: block;
+  display: inline-block;
 }
+
 .form input {
   margin-bottom: 1rem;
 }
+
 .form label {
   margin-bottom: 0.2rem;
 }
+
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"] {
@@ -128,11 +141,13 @@ code {
   background-color: #f0f0f0;
   font-size: 1.1rem;
 }
+
 .form input:focus {
   border: 1px solid #50a4e9;
   box-shadow: inset 0px 0px 5px rgba(38, 142, 228, 0.5);
   outline: none;
 }
+
 .form input[type="submit"] {
   padding: 0.3rem 0.5rem;
   border: 1px solid #6aa051;
@@ -141,45 +156,34 @@ code {
   font-size: 1.1rem;
 }
 
-/* todo list */
-
-.todo-list ul {
-  list-style: disc;
-  cursor: pointer;
-}
-
-.todo-list li:hover {
-  text-decoration: line-through;
-}
-
-/* error notice */
+/* ERROR */
 
 .error-notice {
   margin: 1rem 0;
-  padding: 0.5rem;
+  padding: 0.2rem;
   border: 1px solid #e07c7c;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #f8d6d6;
+  width: 80%;
 }
+
 .error-notice button {
-  width: 20px;
-  height: 20px;
   border-radius: 50%;
   background-color: #df4343;
   color: #ffffff;
 }
 
 @keyframes slide-open {
-    100% {
-        left: 0
-    }
+  100% {
+    left: 0
+  }
 }
 
 @keyframes slide-closed {
-    100% {
-        left: -100%
-    }
+  100% {
+    left: -100%
+  }
 }
