@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import Games from "./pages/Games";
 import Login from "./pages/Login";
@@ -46,13 +46,19 @@ function App() {
             <UserContext.Provider value={value}><AuthOptions /></UserContext.Provider>
           </Route>
           <Route path="/rooms" exact >
-            <UserContext.Provider value={value}><Games /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user ? <Games /> : <Redirect to="/login" />}
+            </UserContext.Provider>
           </Route>
           <Route path="/login" exact >
-            <UserContext.Provider value={value}><Login /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user ? <Redirect to="/rooms" /> : <Login />}
+            </UserContext.Provider>
           </Route>
           <Route path="/register" exact >
-            <UserContext.Provider value={value}><Register /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user ? <Redirect to="/rooms" /> : <Register />}
+            </UserContext.Provider>
           </Route>
           <Route path="/instructions" exact >
             <UserContext.Provider value={value}><Instructions /></UserContext.Provider>
@@ -64,27 +70,6 @@ function App() {
       </Router>
     </div>
   );
-
-  // return (
-
-  //   <div className="App">
-  //     <Router>
-  //       <UserContext.Provider value={{ userData, setUserData }}>
-  //         <>
-  //           <Switch>
-  //             <Route path="/" exact component={Home} />
-  //             <Route path="/home" exact component={AuthOptions} />
-  //             <Route path="/rooms" exact component={Games} />
-  //             <Route path="/login" exact component={Login} />
-  //             <Route path="/register" exact component={Register} />
-  //             <Route path="/instructions" exact component={Instructions} />
-  //             <Route path="/documentation" exact component={Documentation} />
-  //           </Switch>
-  //         </>
-  //       </UserContext.Provider>
-  //     </Router>
-  //   </div>
-  // );
 }
 
 export default App;
