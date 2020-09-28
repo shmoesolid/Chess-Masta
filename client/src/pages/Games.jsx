@@ -150,53 +150,54 @@ function Games() {
                     >
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th className="small">Join</th>
-                          <th className="small">Delete</th>
+                          <th className="med">Name</th>
+                          <th >Join</th>
+                          <th >Delete</th>
                         </tr>
                       </thead>
-                      {gameList.map((item, index) => {
-                        return item.hostId === userData.user.id ||
-                          item.clientId === userData.user.id ? (
-                          <tbody>
-                            <tr>
-                              <td key={index}>{item.name}&nbsp;</td>
-                              <td
-                                className="small"
-                                onClick={() => loadGameById(item._id)}
-                              >
-                                <FaIcons.GoPlay color="green" />
-                              </td>
-                              <td
-                                className="small"
-                                onClick={() =>
-                                  deleteGameById(item._id)
-                                }
-                              >
-                                <MdIcons.MdDelete color="red" />
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : (
-                          !item.clientId && (
-                            <td key={index}>
-                              {item.name}&nbsp;
-                              {item.locked && (
-                                <input
-                                  type="password"
-                                  name="password"
-                                  id="password"
-                                  placeholder="Game password..."
-                                  onChange={gamePassChange}
-                                />
-                              )}
-                              <button onClick={() => joinGameById(item._id)}>
-                                <FaIcons.GoPlay color="green" />
-                              </button>
-                            </td>
-                          )
-                        );
-                      })}
+                      <tbody>
+                        {gameList.map((item, index) => {
+                          return item.hostId === userData.user.id ||
+                            item.clientId === userData.user.id ? (
+                            
+                              <tr key={index+0}>
+                                <td key={index+1}>{item.name}&nbsp;</td>
+                                <td key={index+2}>
+                                  <button onClick={() => loadGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
+                                    <FaIcons.GoPlay color="green" />
+                                  </button>
+                                </td>
+                                <td key={index+3}>
+                                  <button onClick={() => deleteGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
+                                    <MdIcons.MdDelete color="red" />
+                                  </button>
+                                </td>
+                              </tr>
+                            
+                          ) : (
+                            !item.clientId && (
+                              <tr key={index+0}>
+                                <td key={index+1} >{item.name}&nbsp;</td>
+                                <td key={index+2} colSpan="2">
+                                  <button onClick={() => joinGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
+                                    <FaIcons.GoPlay color="green" />
+                                  </button>
+                                  {item.locked && (
+                                    <input
+                                      type="password"
+                                      name="password"
+                                      id="password"
+                                      placeholder="Game password..."
+                                      onChange={gamePassChange}
+                                    />
+                                  )}
+                                  
+                                </td>
+                              </tr>
+                            )
+                          );
+                        })}
+                      </tbody>
                     </Table>
                     <br />
                   </>

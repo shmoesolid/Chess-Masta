@@ -313,6 +313,11 @@ textarea {
     text-align: center;
 }
 
+.med {
+    width: 60%;
+    text-align: center;
+}
+
 .select-css {
     display: block;
     font-size: 16px;
