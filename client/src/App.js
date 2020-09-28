@@ -49,10 +49,14 @@ function App() {
             <UserContext.Provider value={value}><Games /></UserContext.Provider>
           </Route>
           <Route path="/login" exact >
-            <UserContext.Provider value={value}><Login /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user ? <Redirect to="/rooms" /> : <Login />}
+            </UserContext.Provider>
           </Route>
           <Route path="/register" exact >
-            <UserContext.Provider value={value}><Register /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user ? <Redirect to="/rooms" /> : <Register />}
+            </UserContext.Provider>
           </Route>
           <Route path="/instructions" exact >
             <UserContext.Provider value={value}><Instructions /></UserContext.Provider>

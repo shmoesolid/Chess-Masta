@@ -65,7 +65,7 @@ function Content() {
                 <h5>CheSSsk Library</h5>
                 <p className="lead mb-0">
                   CheSSsk was written by developer{" "}
-                  <a href="https://github.com/shmoesolid">Shane Kholer</a> and
+                  <a href="https://github.com/shmoesolid">Shane Koehler</a> and
                   it runs all game logic for this site. Use it on your next project.
                 </p>
               </div>
