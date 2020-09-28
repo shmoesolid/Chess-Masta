@@ -44,7 +44,7 @@ function CreateGame(props) {
             <input type="text" name="name" onChange={handleInputChange} />
             <label htmlFor="hostColor">Your color</label>{" "}
             <select
-              class="select-css"
+              className="select-css"
               name="hostColor"
               id="hostColor"
               onChange={handleInputChange}
