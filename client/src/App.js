@@ -46,7 +46,9 @@ function App() {
             <UserContext.Provider value={value}><AuthOptions /></UserContext.Provider>
           </Route>
           <Route path="/rooms" exact >
-            <UserContext.Provider value={value}><Games /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user ? <Games /> : <Redirect to="/login" />}
+            </UserContext.Provider>
           </Route>
           <Route path="/login" exact >
             <UserContext.Provider value={value}>
@@ -68,27 +70,6 @@ function App() {
       </Router>
     </div>
   );
-
-  // return (
-
-  //   <div className="App">
-  //     <Router>
-  //       <UserContext.Provider value={{ userData, setUserData }}>
-  //         <>
-  //           <Switch>
-  //             <Route path="/" exact component={Home} />
-  //             <Route path="/home" exact component={AuthOptions} />
-  //             <Route path="/rooms" exact component={Games} />
-  //             <Route path="/login" exact component={Login} />
-  //             <Route path="/register" exact component={Register} />
-  //             <Route path="/instructions" exact component={Instructions} />
-  //             <Route path="/documentation" exact component={Documentation} />
-  //           </Switch>
-  //         </>
-  //       </UserContext.Provider>
-  //     </Router>
-  //   </div>
-  // );
 }
 
 export default App;
