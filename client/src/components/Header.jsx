@@ -14,8 +14,6 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.innerWidth));
-
-    console.log("header mount", userData);
   }, []);
 
   const openHandler = () => {

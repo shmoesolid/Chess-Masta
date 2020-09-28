@@ -18,9 +18,6 @@ function App() {
   const value = { userData, setUserData };
 
   useEffect(() => {
-
-    console.log("app mount", userData, isLoading);
-
     if (userData.user)
       return;
 
@@ -32,7 +29,7 @@ function App() {
 
     check();
 
-    return () => console.log("app unmount");
+    return () => {};
   }, [userData, isLoading]);
 
   if (isLoading) return <>Loading...</>;

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-//import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import Axios from "axios";
 import CheSSsk from "chesssk";
 import "../css/board.css";
@@ -16,13 +16,6 @@ import ShaneBoard from "../components/ShaneBoard";
 import SideNav from "../components/SideNav";
 import Header from "../components/Header";
 
-// Pages
-// import Instructions from "./Instructions";
-// import Documentation from "./Documentation";
-// import AuthOptions from "./AuthOptions";
-// import Login from "./Login";
-// import Register from "./Register";
-
 function Games() {
   const { userData } = useContext(UserContext);
   const [gameList, setGameList] = useState([]);
@@ -30,12 +23,10 @@ function Games() {
   const [gamePassword, setGamePassword] = useState("");
 
   useEffect(() => {
-    console.log("games mount", userData.user);
-
     if (userData.user)
       return getGames();
 
-    return () => console.log("games unmounting");
+    return () => {};
   }, []);
 
   const gamePassChange = (event) => {

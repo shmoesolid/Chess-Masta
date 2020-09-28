@@ -5,7 +5,6 @@ import UserContext from "../../context/userContext";
 import CreateBoard from "./CreateBoard";
 import ValidMoves from "./ValidMoves";
 import Pieces from "./Pieces";
-//import Chat from "./Chat";
 
 import socketioClient from "socket.io-client";
 
@@ -53,7 +52,6 @@ function ShaneBoard(props) {
   // socket.io client, update board if other player moves
   // separate useeffect with no vars, runs once per component load
   useEffect(() => {
-    console.log("mount client");
     const socket = socketioClient("/");
     socket.on("moveUpdate", (gameId) => {
       console.log("socketio move update", gameId);
@@ -67,7 +65,6 @@ function ShaneBoard(props) {
 
     // handle component leave
     return () => {
-      console.log("unmount client");
       // shut off listener and tell server we're done
       socket.off("msgUpdate");
       socket.off("moveUpdate");
