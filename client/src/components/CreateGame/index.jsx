@@ -36,54 +36,66 @@ function CreateGame(props) {
   };
 
   return (
-    <div className="row">
-      <div className="col-md-5">
-        <form className="form">
-          <label htmlFor="gameName">Game Name</label>
-          <input type="text" name="name" onChange={handleInputChange} />
-          <label htmlFor="hostColor">Your color:</label>{" "}
-          <select name="hostColor" id="hostColor" onChange={handleInputChange}>
-            <option value="0">White</option>
-            <option value="1">Black</option>
-          </select>
-          <br />
-          <br />
-          <label htmlFor="gameNotes">Game Notes:</label>
-          <textarea name="notes" onChange={handleInputChange}></textarea>
-          <br />
-          <button
-            className="btn btn-outline-dark start"
-            id="createGame"
-            onClick={handleSubmit}
-          >
-            Create Game
-          </button>
-        </form>
+    <div>
+      <div className="row">
+        <div className="col-md-5">
+          <form className="form">
+            <label htmlFor="gameName">Game Name</label>
+            <input type="text" name="name" onChange={handleInputChange} />
+            <label htmlFor="hostColor">Your color</label>{" "}
+            <select
+              class="select-css"
+              name="hostColor"
+              id="hostColor"
+              onChange={handleInputChange}
+            >
+              <option value="0">White</option>
+              <option value="1">Black</option>
+            </select>
+            <br />
+            <label htmlFor="gameNotes">Game Notes</label>
+            <textarea name="notes" onChange={handleInputChange}></textarea>
+            <br />
+            <br />
+          </form>
+        </div>
+        <div className=" col-md-5">
+          <form className="form">
+            {" "}
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              onChange={handleInputChange}
+              disabled={passwordState.disabled}
+            />
+            <input
+              type="checkbox"
+              name="locked"
+              id="locked"
+              onChange={handleInputChange}
+            />
+            {"  "}
+            <label htmlFor="locked">Lock game</label>
+            <br />
+            Locked games can only be accessed by another user if they have the
+            password.
+            <br />
+            <br />
+            {/*have this disabled at start and toggle with checkbox*/}
+          </form>
+        </div>
       </div>
-      <div className=" col-md-5">
-        <form className="form">
-          {" "}
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            autoComplete="current-password"
-            onChange={handleInputChange}
-            disabled={passwordState.disabled}
-          />
-          <input
-            type="checkbox"
-            name="locked"
-            id="locked"
-            onChange={handleInputChange}
-          />
-          {"  "}
-          <label htmlFor="locked">Lock game</label>
-          <br />
-          Locked games can only be accessed by another user if they have the
-          password.
-          {/*have this disabled at start and toggle with checkbox*/}
-        </form>
+      <div className="row">
+        {" "}
+        <button
+          className="btn btn-outline-dark start"
+          id="createGame"
+          onClick={handleSubmit}
+        >
+          Create Game
+        </button>
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import Axios from "axios";
 import CheSSsk from "chesssk";
 import "../css/board.css";
 import { Table } from "react-bootstrap";
+import * as FaIcons from "react-icons/go";
+import * as MdIcons from "react-icons/md";
 
 import checkLoggedIn from "../utils/checkLoggedIn";
 import UserContext from "../context/userContext";
@@ -189,14 +191,14 @@ function Games() {
                                               loadGameById(item._id)
                                             }
                                           >
-                                            Load
+                                            <FaIcons.GoPlay color="green"/>
                                           </td>
                                           <td className="small"
                                             onClick={() =>
                                               deleteGameById(item._id)
                                             }
                                           >
-                                            Delete
+                                            <MdIcons.MdDelete color="red" />
                                           </td>
                                       </tr>
                                     </tbody>
