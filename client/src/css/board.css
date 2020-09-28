@@ -25,6 +25,18 @@
 	border: solid var(--border-color) var(--border-size);
 }
 
+/* resize board on mobile
+
+@media (min-width: 600px) {
+	.board_border {
+		float: left;
+		width: 
+		height: 
+		border: 
+	}
+}
+*/
+
 /* actual board */
 table#t01
 {

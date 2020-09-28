@@ -85,7 +85,7 @@ router.post("/login", async (req, res) => {
       msg: "Invalid credentials."
     });
 
-    const expiration = process.env.NODE_ENV !== 'production' ? 604800000 : 604800000;
+    const expiration = process.env.NODE_ENV !== 'production' ? 900000 : 604800000;
     const token = jwt.sign({
       id: user._id
     }, process.env.JWT_SECRET, {

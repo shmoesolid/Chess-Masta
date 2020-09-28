@@ -248,12 +248,12 @@ function ShaneBoard(props) {
 
   return (
     <div>
-      <div className="row d-flex justify-content-center">
-        <div className="col-md-12 d-flex justify-content-center">
+      <div className="row">
+        <div className="col-md-12">
           {/*chess board border*/}
           <div className="board_border">
             {/*chess board wrapper (where board table and pieces are handled)*/}
-            <div className="d-flex justify-content-center"
+            <div 
               id="board"
               onClick={handleClick}
               style={{ position: "relative" }}
