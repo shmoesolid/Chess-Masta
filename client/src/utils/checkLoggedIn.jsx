@@ -2,6 +2,8 @@ import Axios from "axios";
 
 const checkLoggedIn = async () => {
 
+    console.log("checking login..");
+
     const tokenRes = await Axios.get("/users/tokenIsValid", {
         withCredentials: true,
     });

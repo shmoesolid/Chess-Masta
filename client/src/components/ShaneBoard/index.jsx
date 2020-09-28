@@ -53,28 +53,25 @@ function ShaneBoard(props) {
   // socket.io client, update board if other player moves
   // separate useeffect with no vars, runs once per component load
   useEffect(() => {
+    console.log("mount client");
     const socket = socketioClient("/");
     socket.on("moveUpdate", (gameId) => {
       console.log("socketio move update", gameId);
       props.update(gameId);
     });
     socket.on("msgUpdate", (msg) => {
+      console.log("socketio msg update", msg);
       getAllMsgs();
-      // console.log("received msg:", msg);
-      // console.log('before:', chat);
-      // var tmp = chat;
-      // tmp.unshift(msg);
-      // console.log('after:', tmp);
-      // setChat(tmp);
     });
     socket.emit("userData", { uid: userData.user._id, gid: props.data._id });
 
     // handle component leave
     return () => {
+      console.log("unmount client");
       // shut off listener and tell server we're done
       socket.off("msgUpdate");
       socket.off("moveUpdate");
-      socket.emit("disconnect");
+      socket.disconnect();
     };
   }, []);
 

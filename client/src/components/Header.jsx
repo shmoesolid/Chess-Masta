@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Nav, Navbar } from "react-bootstrap";
-import checkLoggedIn from "../utils/checkLoggedIn";
 import { Link } from "react-router-dom";
+import UserContext from "../context/userContext";
 
 import Toggle from "./Toggle";
 
@@ -9,20 +9,13 @@ const Header = () => {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
   const breakpoint = 933;
-  // user auth
-  const [userData, setUserData] = useState({
-    user: undefined,
-  });
+
+  const { userData } = useContext(UserContext);
 
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.innerWidth));
 
-    async function check() {
-      var login = await checkLoggedIn();
-      if (login !== false) setUserData(login);
-    }
-
-    check();
+    console.log("header mount", userData);
   }, []);
 
   const openHandler = () => {

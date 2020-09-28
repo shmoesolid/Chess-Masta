@@ -62,12 +62,12 @@ server.listen(PORT, err => {
 });
 
 // socket.io server setup attached to listen server
-const io = socketio(server);
-const { setIO, addClient, removeClient } = require("./clients");
-setIO(io); // set for allowing gamesController to emit msgs
+// this handles current connections in a centralized module
+const { setIO, getIO, addClient, removeClient } = require("./clients");
+setIO(socketio(server)); // set for allowing gamesController to emit msgs
 
 // main connection handler for connected users
-io.on('connection', (socket) => {
+getIO().on('connection', (socket) => {
 
     socket.on('userData', (userData) => {
         addClient({
@@ -81,3 +81,4 @@ io.on('connection', (socket) => {
         removeClient(socket.id);
     });
 });
+

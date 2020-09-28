@@ -23,10 +23,11 @@ const GameStatus = Object.freeze(
 // msg can be gameId or actual msg from other client
 const updatePlayer = (msgType, playerId, msg) => {
 
-    console.log("update player", msgType, playerId, msg);
-
     // get client socket by playerId
     var clientSocket = getClientByUID(playerId);
+
+    // DEBUG
+    console.log("update player on socket:", clientSocket, msgType, playerId, msg);
 
     // send it if the other client is connected to game
     if (clientSocket !== false)
