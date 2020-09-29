@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserContext from "../context/userContext";
+import * as FaIcons from "react-icons/fa";
 
 import Toggle from "./Toggle";
 import SideNav from "./SideNav";
@@ -37,7 +38,11 @@ const Navigation = () => {
   return (
     <div className="sticky-top">
       <Navbar className="sticky-top">
-        {width > breakpoint ? "" : <Toggle click={openHandler} />}
+        {width > breakpoint ? (
+          ""
+        ) : (
+          <Toggle className="toggle" click={openHandler} />
+        )}
         <Navbar.Brand href="/">
           <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
         </Navbar.Brand>
@@ -47,11 +52,19 @@ const Navigation = () => {
             <Nav.Item>
               {userData.user ? (
                 <p>
-                  <Link to="/home"><img src="http://placehold.it/18x18" className="profile-image img-circle" alt="profile img"/>{" "}&nbsp;{userData.user.displayName}</Link>
+                  <Link to="/home">
+                    {userData.user.displayName}&nbsp;{" "}
+                    <FaIcons.FaUserCircle
+                      color="white"
+                      className="img-circle"
+                    />
+                  </Link>
                 </p>
               ) : (
                 <p>
-                  <Link to="/login">Login</Link>
+                  <a className="btn btn-success start" href="/login">
+                    Log in
+                  </a>{" "}
                 </p>
               )}
             </Nav.Item>

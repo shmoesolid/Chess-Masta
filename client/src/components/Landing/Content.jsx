@@ -11,15 +11,15 @@ function Content() {
             <br />
             <h6 className="bold-four">
               Chess-Masta is an interactive multiplayer chess game powered by
-              the CheSSsk(.js?) Library.
+              the CheSSsk Library.
               <br />
               <br />
               Register for an account to start creating rooms and playing games.
             </h6>
             <br />
             <h6>
-              <a className="btn btn-dark start start-two" href="/register">
-                Get Started
+              <a className="btn btn-warning" href="/register">
+                Register
               </a>
             </h6>
           </div>
@@ -29,13 +29,13 @@ function Content() {
         </div>
       </div>
 
-      <section className="features-icons bg-dark text-center det-ails">
+      <section className="features-icons bgDark text-center det-ails">
         <div className="container">
           <div className="row">
             <div className="col-lg-4">
               <div className="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                 <div className="features-icons-icon d-flex  icon-bra-ails">
-                  <i className="fas fa-user-shield m-auto text-primary icon-ails"></i>
+                  <i className="fas fa-user-shield m-auto greyIcon"></i>
                 </div>
                 <h5>Secure Sign-In</h5>
                 <p className="lead mb-0">
@@ -47,7 +47,7 @@ function Content() {
             <div className="col-lg-4">
               <div className="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                 <div className="features-icons-icon d-flex  icon-bra-ails">
-                  <i className="fas fa-people-arrows m-auto text-primary icon-ails"></i>
+                  <i className="fas fa-people-arrows m-auto greyIcon"></i>
                 </div>
                 <h5>PvP Chess Games</h5>
                 <p className="lead mb-0">
@@ -60,7 +60,7 @@ function Content() {
             <div className="col-lg-4">
               <div className="features-icons-item mx-auto mb-0 mb-lg-3">
                 <div className="features-icons-icon d-flex  icon-bra-ails">
-                  <i className="fas fa-chess m-auto text-primary icon-ails"></i>
+                  <i className="fas fa-chess m-auto greyIcon"></i>
                 </div>
                 <h5>CheSSsk Library</h5>
                 <p className="lead mb-0">
