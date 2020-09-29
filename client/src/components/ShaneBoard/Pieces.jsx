@@ -33,6 +33,8 @@ function Pieces(props)
                                 top: display.top,
                                 left: display.left,
                                 zIndex: 10,
+                                height: props.scale * 40, // scale times the height of piece which is known 40
+                                width: props.scale * 40 // scale times the height of piece which is known 40
                             }}
                         />
                     );

@@ -3,11 +3,9 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 
-import Header from "../components/Header";
-import SideNav from "../components/SideNav";
-
 import "../css/ComponentStyles.css";
 import UserContext from "../context/userContext";
+import Navigation from "../components/Header";
 
 export default function Register() {
   const [email, setEmail] = useState();
@@ -24,8 +22,8 @@ export default function Register() {
 
     try {
       const newUser = { email, password, passwordCheck, displayName };
-      await Axios.post("/users/register", newUser);
-      const loginRes = await Axios.post("/users/login", {
+      await Axios.post("/api/users/register", newUser);
+      const loginRes = await Axios.post("/api/users/login", {
         email,
         password,
       });
@@ -39,13 +37,13 @@ export default function Register() {
   };
   return (
     <div>
-      <Header />
+      <Navigation />
       <div className="row m-0">
         <div className="col-md-3">
-          <SideNav />
         </div>
-        <div style={{paddingTop: "0px"}}className="card col-md-7">
-          <h2>Create an Account</h2>
+        <div style={{ marginTop: "5%" }} className="card col-md-7">
+          <br />
+          <h2 className="title">Create an Account</h2>
           <br />
           {error && (
             <ErrorNotice
@@ -60,7 +58,6 @@ export default function Register() {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
             />
-
             <label htmlFor="register-password">Password</label>
             <input
               id="register-password"
@@ -72,17 +69,17 @@ export default function Register() {
               placeholder="Verify password"
               onChange={(e) => setPasswordCheck(e.target.value)}
             />
-
             <label htmlFor="register-display-name">Username</label>
             <input
               id="register-display-name"
               type="text"
               onChange={(e) => setDisplayName(e.target.value)}
             />
-
             <input type="submit" value="Register" />
-            <br />
-            {" "}<i>Existing user? Log in <a href="/login">here.</a></i>
+            <br />{" "}
+            <i>
+              Existing user? Log in <a href="/login">here.</a>
+            </i>
           </form>
         </div>
       </div>

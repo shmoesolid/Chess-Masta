@@ -12,6 +12,27 @@ h6 {
     font-weight: 700;
 }
 
+.title {
+    padding-left: 7px;
+}
+
+.img-circle {
+    border-radius: 50%;
+    vertical-align: text-bottom;
+}
+
+#navLogo {
+    height: 40px;
+    margin-left: 35px;
+}
+
+@media (max-width: 830px) {
+    #navLogo {
+        margin-left: 0px;
+        height: 40px;
+    }
+}
+
 header.masthead {
     position: relative;
     background-color: #343a40;
