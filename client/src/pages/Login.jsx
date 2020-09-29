@@ -9,8 +9,7 @@ import SideNav from "../components/SideNav";
 
 import "../css/ComponentStyles.css";
 
-export default function Login() 
-{
+export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -38,8 +37,9 @@ export default function Login()
         <div className="col-md-3">
           <SideNav />
         </div>
-        <div className="card col-md-7">
-          <h2>Log in</h2>
+        <div className="card col-md-7" style={{marginTop: "7%"}}>
+          <br />
+          <h2 className="title">Log in</h2>
           <br />
           {error && (
             <ErrorNotice
@@ -54,17 +54,17 @@ export default function Login()
               type="email"
               onChange={(e) => setEmail(e.target.value)}
             />
-
             <label htmlFor="login-password">Password</label>
             <input
               id="login-password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-
             <input type="submit" value="Log in" />
-            <br />
-            {" "}<i>New user? Register <a href="/register">here.</a></i>
+            <br />{" "}
+            <i>
+              New user? Register <a href="/register">here.</a>
+            </i>
           </form>
         </div>
       </div>

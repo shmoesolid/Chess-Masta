@@ -23,8 +23,7 @@ function Games() {
   const [gamePassword, setGamePassword] = useState("");
 
   useEffect(() => {
-    if (userData.user)
-      return getGames();
+    if (userData.user) return getGames();
 
     return () => {};
   }, []);
@@ -114,108 +113,128 @@ function Games() {
 
   return (
     <div>
-        <Header />
-        <div className="row m-0">
-          <div className="col-md-3">
-            <SideNav />
-          </div>
-          <div className="col-md-8">
-            {userData.user ? (
-              <>
-                {!gameData.gameObj ? (
-                  <>
-                    <br />
-                    <h5>Create Game</h5>
-                    <hr />
-                    <CreateGame update={loadGameById} />
-                    <br /><br /><br />
-                    <h5>Game List</h5>
-                    <hr />
-                    <Table
-                      responsive="xl"
-                      size="md"
-                      striped
-                      borderless
-                      hover
-                      variant="dark"
-                    >
-                      <thead>
-                        <tr>
-                          <th className="med">Name</th>
-                          <th >Join</th>
-                          <th >Delete</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gameList.map((item, index) => {
-                          return item.hostId === userData.user.id ||
-                            item.clientId === userData.user.id ? (
-                            
-                              <tr key={index+0}>
-                                <td key={index+1}>{item.name}&nbsp;</td>
-                                <td key={index+2}>
-                                  <button onClick={() => loadGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
-                                    <FaIcons.GoPlay color="green" />
-                                  </button>
-                                </td>
-                                <td key={index+3}>
-                                  <button onClick={() => deleteGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
-                                    <MdIcons.MdDelete color="red" />
-                                  </button>
-                                </td>
-                              </tr>
-                            
-                          ) : (
-                            !item.clientId && (
-                              <tr key={index+0}>
-                                <td key={index+1} >{item.name}&nbsp;</td>
-                                <td key={index+2} colSpan="2">
-                                  <button onClick={() => joinGameById(item._id)} style={{border: "0",backgroundColor: "transparent"}}>
-                                    <FaIcons.GoPlay color="green" />
-                                  </button>
-                                  {item.locked && (
-                                    <input
-                                      type="password"
-                                      name="password"
-                                      id="password"
-                                      placeholder="Game password..."
-                                      onChange={gamePassChange}
-                                    />
-                                  )}
-                                  
-                                </td>
-                              </tr>
-                            )
-                          );
-                        })}
-                      </tbody>
-                    </Table>
-                    <br />
-                  </>
-                ) : (
-                  <>
-                    <button className="back-btn btn btn-dark" onClick={() => goBackToListing()}>
-                        Back to games
-                    </button>
-                      <div style={{ marginTop: "10px"}}>
+      <Header />
+      <div className="row m-0">
+        <div className="col-md-3">
+          <SideNav />
+        </div>
+        <div className="col-md-8">
+          {userData.user ? (
+            <>
+              {!gameData.gameObj ? (
+                <>
+                  <br />
+                  <h5 className="title">Create Game</h5>
+                  <hr />
+                  <CreateGame update={loadGameById} />
+                  <br />
+                  <br />
+                  <br />
+                  <h5 className="title">Game List</h5>
+                  <hr />
+                  <Table
+                    responsive="xl"
+                    size="md"
+                    striped
+                    borderless
+                    hover
+                    variant="dark"
+                  >
+                    <thead>
+                      <tr>
+                        <th className="med">Name</th>
+                        <th>Join</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gameList.map((item, index) => {
+                        return item.hostId === userData.user.id ||
+                          item.clientId === userData.user.id ? (
+                          <tr key={index + 0}>
+                            <td key={index + 1}>{item.name}&nbsp;</td>
+                            <td key={index + 2}>
+                              <button
+                                onClick={() => loadGameById(item._id)}
+                                style={{
+                                  border: "0",
+                                  backgroundColor: "transparent",
+                                }}
+                              >
+                                <FaIcons.GoPlay color="green" />
+                              </button>
+                            </td>
+                            <td key={index + 3}>
+                              <button
+                                onClick={() => deleteGameById(item._id)}
+                                style={{
+                                  border: "0",
+                                  backgroundColor: "transparent",
+                                }}
+                              >
+                                <MdIcons.MdDelete color="red" />
+                              </button>
+                            </td>
+                          </tr>
+                        ) : (
+                          !item.clientId && (
+                            <tr key={index + 0}>
+                              <td key={index + 1}>{item.name}&nbsp;</td>
+                              <td key={index + 2} colSpan="2">
+                                <button
+                                  onClick={() => joinGameById(item._id)}
+                                  style={{
+                                    border: "0",
+                                    backgroundColor: "transparent",
+                                  }}
+                                >
+                                  <FaIcons.GoPlay color="green" />
+                                </button>
+                                {item.locked && (
+                                  <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Game password..."
+                                    onChange={gamePassChange}
+                                  />
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                  <br />
+                </>
+              ) : (
+                <>
+                  <button
+                    className="back-btn btn btn-dark"
+                    onClick={() => goBackToListing()}
+                  >
+                    Back to games
+                  </button>
+                  <div style={{ marginTop: "10px" }}>
                     {renderStatus(gameData.data.gameStatus)}
                     <ShaneBoard
                       game={gameData.gameObj}
                       data={gameData.data}
                       update={loadGameById}
-                        />
-                        </div>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                <br />
-                <h2>Please login...</h2>
-              </>
-            )}
-          </div>
+                    />
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <br />
+              <h2>Please login...</h2>
+            </>
+          )}
         </div>
+      </div>
     </div>
   );
 

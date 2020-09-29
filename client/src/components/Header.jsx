@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <Navbar className="sticky-top">
       {width > breakpoint ? "" : <Toggle click={openHandler} />}
-      <Navbar.Brand href="/">Chess Masta Logo</Navbar.Brand>
+      <Navbar.Brand href="/"><img src="../chessmastalogo.png" alt="logo" id="navLogo" /></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto welcome">

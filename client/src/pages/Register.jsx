@@ -44,8 +44,9 @@ export default function Register() {
         <div className="col-md-3">
           <SideNav />
         </div>
-        <div style={{paddingTop: "0px"}}className="card col-md-7">
-          <h2>Create an Account</h2>
+        <div style={{ marginTop: "5%" }} className="card col-md-7">
+          <br />
+          <h2 className="title">Create an Account</h2>
           <br />
           {error && (
             <ErrorNotice
@@ -60,7 +61,6 @@ export default function Register() {
               type="email"
               onChange={(e) => setEmail(e.target.value)}
             />
-
             <label htmlFor="register-password">Password</label>
             <input
               id="register-password"
@@ -72,17 +72,17 @@ export default function Register() {
               placeholder="Verify password"
               onChange={(e) => setPasswordCheck(e.target.value)}
             />
-
             <label htmlFor="register-display-name">Username</label>
             <input
               id="register-display-name"
               type="text"
               onChange={(e) => setDisplayName(e.target.value)}
             />
-
             <input type="submit" value="Register" />
-            <br />
-            {" "}<i>Existing user? Log in <a href="/login">here.</a></i>
+            <br />{" "}
+            <i>
+              Existing user? Log in <a href="/login">here.</a>
+            </i>
           </form>
         </div>
       </div>
