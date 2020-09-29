@@ -69,7 +69,7 @@ export default function Instructions() {
               will be displayed.
             </div>
             <div className="col-md-5 mx-auto">
-              <img src="../chat.png" alt="Chat" className="howToImg" />
+              <img src="../chat1.png" alt="Chat" className="howToImg" />
             </div>
           </div>
           <br />
