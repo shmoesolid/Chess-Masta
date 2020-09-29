@@ -12,6 +12,15 @@ h6 {
     font-weight: 700;
 }
 
+.title {
+    padding-left: 7px;
+}
+
+#navLogo {
+    height: 40px;
+    margin-left: 35px;
+}
+
 header.masthead {
     position: relative;
     background-color: #343a40;

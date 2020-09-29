@@ -2,9 +2,9 @@ import React from "react"
 
 function Nav() {
     return (
-        <nav className="navbar navbar-expand-sm navbar-light bg-light static-top header-a">
+        <nav className="navbar navbar-expand navbar-light bg-light static-top header-a">
             <div className="container nav-container">
-                <a className="navbar-brand brand" href="/">Chess Masta</a>
+                <a className="navbar-brand brand" href="/"><img src="../chessmastalogo.png" alt="logo" id="navLogo" /></a>
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

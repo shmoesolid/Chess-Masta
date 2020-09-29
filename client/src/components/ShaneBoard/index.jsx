@@ -295,6 +295,8 @@ function ShaneBoard(props) {
           </div>
           {/*current mouse click coords*/}
           <div id="coords" style={{ color: "white" }} />
+          <br />
+          <br />
         </div>
       </div>
     </div>

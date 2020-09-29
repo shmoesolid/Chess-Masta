@@ -98,10 +98,6 @@ a,
   border-radius: 4px;
 }
 
-.card {
-  margin-top: 5%;
-}
-
 .code {
   background-color: gray;
   border-radius: 4px;
@@ -167,11 +163,11 @@ code {
   justify-content: space-between;
   align-items: center;
   background-color: #f8d6d6;
-  width: 80%;
+  width: 100%;
 }
 
 .error-notice button {
-  border-radius: 50%;
+  border-radius: 100%;
   background-color: #df4343;
   color: #ffffff;
 }
