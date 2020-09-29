@@ -195,6 +195,7 @@ function Games() {
                                     id="password"
                                     placeholder="Game password..."
                                     onChange={gamePassChange}
+                                    maxLength="32"
                                   />
                                 )}
                               </td>

@@ -41,7 +41,7 @@ function CreateGame(props) {
         <div className="col-md-5">
           <form className="form">
             <label htmlFor="gameName">Game Name</label>
-            <input type="text" name="name" onChange={handleInputChange} />
+            <input type="text" name="name" onChange={handleInputChange} maxLength="32" />
             <label htmlFor="hostColor">Your color</label>{" "}
             <select
               className="select-css"
@@ -69,6 +69,7 @@ function CreateGame(props) {
               autoComplete="current-password"
               onChange={handleInputChange}
               disabled={passwordState.disabled}
+              maxLength="32"
             />
             <input
               type="checkbox"

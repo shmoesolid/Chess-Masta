@@ -52,6 +52,7 @@ function UserForm()
                             id="displayName" 
                             onChange={handleInputChange} 
                             value={formData.displayName} 
+                            maxLength="32"
                         />
                         <label htmlFor="blackOnBottom">Black On Bottom <i>(if your color is black)</i></label>
                         <select
@@ -89,7 +90,7 @@ function UserForm()
                             value={formData.boardWhiteColor}
                         />{" "}
                         <br />
-                        <label htmlFor="boardBorderColor">Board Boarder Color</label>
+                        <label htmlFor="boardBorderColor">Board Border Color</label>
                         <br />
                         <input
                             type="color"
