@@ -148,6 +148,38 @@ module.exports = {
         // get and possibly return
         var user = await db.User.findById(req.user);
         returnUserData(res, user);
-    }
+    },
+
+    updateUser: async function(req, res) { // post
+
+        try {
+            // collect data
+            var uid = res.user;
+            const data = {
+                displayName,
+                boardWhiteColor,
+                boardBlackColor,
+                boardBorderColor,
+                blackOnBottom
+            } = req.body;
+
+            // valid string checks
+            const pregHtmlHex = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/i;
+            if (!data.displayName) return res.status(409).json("invalid display name length");
+            if (!data.boardWhiteColor.match(pregHtmlHex)) return res.status(409).json("invalid color code");
+            if (!data.boardBlackColor.match(pregHtmlHex)) return res.status(409).json("invalid color code");
+            if (!data.boardBorderColor.match(pregHtmlHex)) return res.status(409).json("invalid color code");
+            
+            // update it
+            db.User.findByIdAndUpdate(uid, data, function(err, result) {
+                if (err) return res.json(err);
+                return res.status(200).json({});
+            });
+
+        }
+        catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    },
 
 };
