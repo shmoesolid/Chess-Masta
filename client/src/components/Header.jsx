@@ -35,7 +35,7 @@ const Navigation = () => {
   }
 
   return (
-    <div>
+    <div className="sticky-top">
       <Navbar className="sticky-top">
         {width > breakpoint ? "" : <Toggle click={openHandler} />}
         <Navbar.Brand href="/">
