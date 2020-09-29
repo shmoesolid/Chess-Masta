@@ -24,7 +24,9 @@ app.use(cors({
         "http://localhost:3000", 
         "http://localhost:3001",
         "https://chess-masta.herokuapp.com",
-        "https://chess-masta-test.herokuapp.com"
+        "https://chess-masta-test.herokuapp.com",
+        "http://chess-masta.herokuapp.com",
+        "http://chess-masta-test.herokuapp.com"
     ],
 }));
 app.use(compression());
@@ -36,10 +38,20 @@ app.use(cookieParser());
 app.use(express.json());
 
 if (process.env.NODE_ENV === "production")
+{
     app.use(express.static("client/build"));
 
+    // force ssl redirect test
+    app.use((req, res, next) => {
+        if (req.headers['x-forwarded-proto'] !== 'https')
+            return res.redirect(['https://', req.get('Host'), req.url].join(''));
+
+        return next();
+    });
+}
+    
+
 // Add routes
-app.use("/users", require("./routes/userRouter"));
 app.use(routes);
 
 // Mongoose ORM

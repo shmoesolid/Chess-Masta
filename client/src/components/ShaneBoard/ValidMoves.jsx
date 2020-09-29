@@ -20,6 +20,8 @@ function ValidMoves(props)
                             top: display.top,
                             left: display.left,
                             zIndex: 5,
+                            height: props.scale * 40, // scale times the height of dot which is known 40
+                            width: props.scale * 40 // scale times the height of dot which is known 40
                         }}
                     />
                 );
