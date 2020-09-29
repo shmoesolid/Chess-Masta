@@ -50,12 +50,14 @@ export default function Login() {
               id="login-email"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              maxLength="128"
             />
             <label htmlFor="login-password">Password</label>
             <input
               id="login-password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              maxLength="128"
             />
             <input type="submit" value="Log in" />
             <br />{" "}

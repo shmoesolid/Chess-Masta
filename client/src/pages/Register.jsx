@@ -57,23 +57,27 @@ export default function Register() {
                 id="register-email"
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
+                maxLength="128"
               />
               <label htmlFor="register-password">Password</label>
               <input
                 id="register-password"
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
+                maxLength="128"
               />
               <input
                 type="password"
                 placeholder="Verify password"
                 onChange={(e) => setPasswordCheck(e.target.value)}
+                maxLength="128"
               />
               <label htmlFor="register-display-name">Username</label>
               <input
                 id="register-display-name"
                 type="text"
                 onChange={(e) => setDisplayName(e.target.value)}
+                maxLength="32"
               />
               <input type="submit" value="Register" />
               <br />{" "}
