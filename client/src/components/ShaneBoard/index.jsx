@@ -61,8 +61,9 @@ function ShaneBoard(props) {
   }, [cellSize]);
 
   const handleResize = () => {
-    //document.getElementById('coords').innerHTML = window.innerWidth +'<br />'+cellSize;
-    var width = window.innerWidth;
+    //document.getElementById('coords').innerHTML = window.innerWidth +" vs " + window.visualViewport.width +'<br />'+cellSize;
+    //var width = window.innerWidth;
+    var width = window.visualViewport.width;
     if (width < 425) {
       if (cellSize != '40') setCellSize('40');
     }
