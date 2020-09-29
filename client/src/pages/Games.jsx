@@ -13,8 +13,8 @@ import UserContext from "../context/userContext";
 // Components
 import CreateGame from "../components/CreateGame";
 import ShaneBoard from "../components/ShaneBoard";
-import SideNav from "../components/SideNav";
-import Header from "../components/Header";
+import Navigation from "../components/Header";
+
 
 function Games() {
   const { userData } = useContext(UserContext);
@@ -113,10 +113,9 @@ function Games() {
 
   return (
     <div>
-      <Header />
+      <Navigation />
       <div className="row m-0">
         <div className="col-md-3">
-          <SideNav />
         </div>
         <div className="col-md-8">
           {userData.user ? (

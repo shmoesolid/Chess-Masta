@@ -3,11 +3,9 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 
-import Header from "../components/Header";
-import SideNav from "../components/SideNav";
-
 import "../css/ComponentStyles.css";
 import UserContext from "../context/userContext";
+import Navigation from "../components/Header";
 
 export default function Register() {
   const [email, setEmail] = useState();
@@ -39,10 +37,9 @@ export default function Register() {
   };
   return (
     <div>
-      <Header />
+      <Navigation />
       <div className="row m-0">
         <div className="col-md-3">
-          <SideNav />
         </div>
         <div style={{ marginTop: "5%" }} className="card col-md-7">
           <br />

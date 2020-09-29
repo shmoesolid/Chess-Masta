@@ -4,8 +4,7 @@ import UserContext from "../context/userContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
 
-import Header from "../components/Header";
-import SideNav from "../components/SideNav";
+import Navigation from "../components/Header";
 
 import "../css/ComponentStyles.css";
 
@@ -32,10 +31,9 @@ export default function Login() {
   };
   return (
     <div>
-      <Header />
+      <Navigation />
       <div className="row m-0">
         <div className="col-md-3">
-          <SideNav />
         </div>
         <div className="card col-md-7" style={{marginTop: "7%"}}>
           <br />
