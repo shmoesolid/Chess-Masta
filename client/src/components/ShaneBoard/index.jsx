@@ -18,6 +18,8 @@ function ShaneBoard(props) {
   const [selected, setSelected] = useState(null);
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
+  const [cellSize, setCellSize] = useState('64');
+  const maxCellSize = '64';
 
   // handle black on bottom per user preference
   var blackOnBottom = userData.user.blackOnBottom;
@@ -34,9 +36,6 @@ function ShaneBoard(props) {
 
   // other needed vars
   var NUM_TO_LETTER = ["a", "b", "c", "d", "e", "f", "g", "h"];
-  var cellSize = getComputedStyle(document.documentElement)
-    .getPropertyValue("--cell-size")
-    .slice(0, -2); // removes 'px'
 
   // this refreshes on props.game._grid update
   useEffect(() => {
@@ -46,8 +45,37 @@ function ShaneBoard(props) {
   useEffect(() => {
     // get chat
     getAllMsgs();
-    //setChat(chat);
+
+    // initial cell size set
+    handleResize();
   }, []);
+
+  useEffect(() => {
+    // updates as cellSize state updates
+    var root = document.documentElement;
+    root.style.setProperty("--cell-size", cellSize.trim() +'px');
+
+    // mount/unmount for resize listener
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [cellSize]);
+
+  const handleResize = () => {
+    //document.getElementById('coords').innerHTML = window.innerWidth +'<br />'+cellSize;
+    var width = window.innerWidth;
+    if (width < 425) {
+      if (cellSize != '40') setCellSize('40');
+    }
+    else if (width < 500) {
+      if (cellSize != '48') setCellSize('48');
+    }
+    else if (width < 600) {
+      if (cellSize != '56') setCellSize('56');
+    }
+    else {
+      if (cellSize != maxCellSize) setCellSize(maxCellSize);
+    }
+  };
 
   // socket.io client, update board if other player moves
   // separate useeffect with no vars, runs once per component load
@@ -82,8 +110,8 @@ function ShaneBoard(props) {
 
   function getDisplayCoords(node) {
     // test
-    var imageWidth = 40; // FOR NOW (IMAGE SIZE KNOWN)
-    var imageHeight = 40; // FOR NOW (IMAGE SIZE KNOWN)
+    var imageWidth = (cellSize/maxCellSize) * 40; // FOR NOW (IMAGE SIZE KNOWN)
+    var imageHeight = (cellSize/maxCellSize) * 40; // FOR NOW (IMAGE SIZE KNOWN)
     var xDisp, yDisp;
 
     if (blackOnBottom && blackPlayer) {
@@ -256,8 +284,9 @@ function ShaneBoard(props) {
               <ValidMoves
                 validMoves={validMoves}
                 getCoords={getDisplayCoords}
+                scale={cellSize/maxCellSize} 
               />
-              <Pieces nodesState={nodesState} getCoords={getDisplayCoords} />
+              <Pieces nodesState={nodesState} getCoords={getDisplayCoords} scale={cellSize/maxCellSize} />
             </div>
           </div>
         </div>
@@ -283,6 +312,7 @@ function ShaneBoard(props) {
               </button>
             </form>
             <textarea
+              style={{height:'100px'}}
               readOnly={true}
               value={
                 chat
@@ -294,7 +324,7 @@ function ShaneBoard(props) {
             />
           </div>
           {/*current mouse click coords*/}
-          <div id="coords" style={{ color: "white" }} />
+          <div id="coords" style={{ color: "black" }} />
           <br />
           <br />
         </div>
