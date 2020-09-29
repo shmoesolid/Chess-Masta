@@ -24,7 +24,9 @@ app.use(cors({
         "http://localhost:3000", 
         "http://localhost:3001",
         "https://chess-masta.herokuapp.com",
-        "https://chess-masta-test.herokuapp.com"
+        "https://chess-masta-test.herokuapp.com",
+        "http://chess-masta.herokuapp.com",
+        "http://chess-masta-test.herokuapp.com"
     ],
 }));
 app.use(compression());
