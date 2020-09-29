@@ -37,7 +37,7 @@ const Navigation = () => {
   return (
     <div className="sticky-top">
       <Navbar className="sticky-top">
-        {width > breakpoint ? "" : <Toggle click={openHandler} />}
+        {width > breakpoint ? "" : <Toggle className="toggle" click={openHandler} />}
         <Navbar.Brand href="/">
           <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
         </Navbar.Brand>

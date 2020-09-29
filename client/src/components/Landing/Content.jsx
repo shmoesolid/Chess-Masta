@@ -11,7 +11,7 @@ function Content() {
             <br />
             <h6 className="bold-four">
               Chess-Masta is an interactive multiplayer chess game powered by
-              the CheSSsk(.js?) Library.
+              the CheSSsk Library.
               <br />
               <br />
               Register for an account to start creating rooms and playing games.
