@@ -25,13 +25,6 @@ function ShaneBoard(props) {
     player: (userData.user._id === props.data.hostId) ? (props.data.hostColor === 1) : (props.data.clientColor === 1)
   });
 
-  // handle black on bottom per user preference
-  // var blackOnBottom = userData.user.blackOnBottom;
-  // var blackPlayer = false;
-  // if (userData.user._id === props.data.hostId)
-  //   blackPlayer = props.data.hostColor === 1;
-  // else blackPlayer = props.data.clientColor === 1;
-
   useEffect(() => {
     // black on bottom
     setBlack({
@@ -75,8 +68,7 @@ function ShaneBoard(props) {
 
   const handleResize = () => {
     //document.getElementById('coords').innerHTML = window.innerWidth +" vs " + window.visualViewport.width +'<br />'+cellSize;
-    //var width = window.innerWidth;
-    var width = window.visualViewport.width;
+    var width = (typeof window.visualViewport === "undefined") ? window.innerWidth : window.visualViewport.width;
     if (width < 425) {
       if (cellSize !== '40') setCellSize('40');
     }
