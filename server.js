@@ -11,6 +11,7 @@ const morgan = require('morgan');
 const compression = require('compression');
 const routes = require("./routes");
 const socketio = require("socket.io");
+const sslRedirect = require("heroku-ssl-redirect");
 
 const normalizPort = port => parseInt(port, 10);
 const PORT = normalizPort(process.env.PORT || 3001);
@@ -34,6 +35,7 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.json());
+app.use(sslRedirect);
 
 if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
