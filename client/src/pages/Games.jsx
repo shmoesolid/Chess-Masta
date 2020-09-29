@@ -135,9 +135,8 @@ function Games() {
                     responsive="xl"
                     size="md"
                     striped
-                    borderless
+                    bordered
                     hover
-                    variant="dark"
                   >
                     <thead>
                       <tr>

@@ -90,7 +90,7 @@ function CreateGame(props) {
       <div className="row">
         {" "}
         <button
-          className="btn btn-outline-dark start"
+          className="btn btn-outline-success"
           id="createGame"
           onClick={handleSubmit}
         >

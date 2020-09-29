@@ -19,7 +19,7 @@
 a,
 .navbar-nav,
 .navbar-light .nav-link {
-  color: #9fffcb;
+  color: #3fcf80;
 }
 
 .navbar-nav:hover {
@@ -29,7 +29,7 @@ a,
 
 .navbar-brand {
   font-size: 1.4em;
-  color: #9fffcb;
+  color: #3fcf80;
 }
 
 .navbar-brand:hover {
