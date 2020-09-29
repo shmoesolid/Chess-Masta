@@ -35,7 +35,7 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(sslRedirect);
+app.use(sslRedirect());
 
 if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
