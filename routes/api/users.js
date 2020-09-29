@@ -5,7 +5,8 @@ const auth = require("../../middleware/auth");
 // Matches with "/api/users/"
 router
     .route("/")
-    .get(auth, usersController.getUser);
+    .get(auth, usersController.getUser)
+    .post(auth, usersController.updateUser);
 
 // Matches with "/api/users/logout"
 router
