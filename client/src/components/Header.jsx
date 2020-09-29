@@ -47,7 +47,7 @@ const Navigation = () => {
             <Nav.Item>
               {userData.user ? (
                 <p>
-                  <Link to="/home"><img src="http://placehold.it/18x18" class="profile-image img-circle" alt="profile img"/>{" "}&nbsp;{userData.user.displayName}</Link>
+                  <Link to="/home"><img src="http://placehold.it/18x18" className="profile-image img-circle" alt="profile img"/>{" "}&nbsp;{userData.user.displayName}</Link>
                 </p>
               ) : (
                 <p>
