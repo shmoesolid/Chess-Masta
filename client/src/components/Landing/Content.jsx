@@ -19,7 +19,7 @@ function Content() {
             <br />
             <h6>
               <a className="btn btn-dark start start-two" href="/register">
-                Get Started
+                Register
               </a>
             </h6>
           </div>
@@ -35,7 +35,7 @@ function Content() {
             <div className="col-lg-4">
               <div className="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                 <div className="features-icons-icon d-flex  icon-bra-ails">
-                  <i className="fas fa-user-shield m-auto text-primary icon-ails"></i>
+                  <i className="fas fa-user-shield m-auto greyIcon"></i>
                 </div>
                 <h5>Secure Sign-In</h5>
                 <p className="lead mb-0">
@@ -47,7 +47,7 @@ function Content() {
             <div className="col-lg-4">
               <div className="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                 <div className="features-icons-icon d-flex  icon-bra-ails">
-                  <i className="fas fa-people-arrows m-auto text-primary icon-ails"></i>
+                  <i className="fas fa-people-arrows m-auto greyIcon"></i>
                 </div>
                 <h5>PvP Chess Games</h5>
                 <p className="lead mb-0">
@@ -60,7 +60,7 @@ function Content() {
             <div className="col-lg-4">
               <div className="features-icons-item mx-auto mb-0 mb-lg-3">
                 <div className="features-icons-icon d-flex  icon-bra-ails">
-                  <i className="fas fa-chess m-auto text-primary icon-ails"></i>
+                  <i className="fas fa-chess m-auto greyIcon"></i>
                 </div>
                 <h5>CheSSsk Library</h5>
                 <p className="lead mb-0">

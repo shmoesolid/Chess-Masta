@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserContext from "../context/userContext";
+import * as FaIcons from "react-icons/fa";
 
 import Toggle from "./Toggle";
 import SideNav from "./SideNav";
@@ -47,7 +48,7 @@ const Navigation = () => {
             <Nav.Item>
               {userData.user ? (
                 <p>
-                  <Link to="/home"><img src="http://placehold.it/18x18" class="profile-image img-circle" alt="profile img"/>{" "}&nbsp;{userData.user.displayName}</Link>
+                  <Link to="/home">{userData.user.displayName}&nbsp;{" "}<FaIcons.FaUserCircle color="white" className="img-circle" /></Link>
                 </p>
               ) : (
                 <p>

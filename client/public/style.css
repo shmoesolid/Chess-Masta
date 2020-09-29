@@ -16,20 +16,24 @@ h6 {
     padding-left: 7px;
 }
 
+.greyIcon {
+    color: #F2F2F2;
+}
+
 .img-circle {
     border-radius: 50%;
     vertical-align: text-bottom;
 }
 
 #navLogo {
-    height: 40px;
-    margin-left: 35px;
+    height: 25px;
+    margin-left: 40px;
 }
 
 @media (max-width: 830px) {
     #navLogo {
         margin-left: 0px;
-        height: 40px;
+        height: 30px;
     }
 }
 
@@ -302,7 +306,7 @@ footer.footer {
 .footer {
     color: white;
     text-align: center;
-    background-color: #212529;
+    background-color: #0D0D0D;
     padding-top: 25px;
     color: white;
     position: absolute;

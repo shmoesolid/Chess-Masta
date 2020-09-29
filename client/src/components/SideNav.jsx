@@ -2,11 +2,12 @@ import React from "react";
 import "../css/ComponentStyles.css";
 import { SidenavData } from "./SidenavData";
 import { Link } from "react-router-dom";
-import * as IoIcons from "react-icons/io";
+import * as FcIcons from "react-icons/fc";
 
 const SideNav = (props) => {
   return (
     <div className="sidenav">
+      <br />
       <ul className="p-0">
         {SidenavData.map((item, index) => {
           return (
@@ -23,7 +24,7 @@ const SideNav = (props) => {
         <ul className="p-0">
           <li key={5} className="nav-text docsLink">
             <Link to="/documentation">
-              <IoIcons.IoIosPaper />
+              <FcIcons.FcViewDetails />
               <span>&nbsp;&nbsp;Documentation</span>
             </Link>
           </li>

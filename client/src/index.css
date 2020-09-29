@@ -13,7 +13,8 @@ h6 {
 }
 
 body {
-	background: white;
+	background: #F2F2F2;
+	background-attachment: fit;
 }
 
 @keyframes gradient {
