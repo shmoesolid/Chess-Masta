@@ -40,20 +40,38 @@ export default function Instructions() {
             Use CheSSsk for Move Suggestions and Validation
           </h5>
           <hr />
-          Once you have joined a game and it's your turn you will be able to
-          select your piece and make your move. CheSSsk will handle move
-          validation so you won't be able to make any illegal moves. CheSSsk
-          also provides suggestions for each piece so you can visualize your
-          move before you make it.
+          <div className="row">
+            <div className="col-md-5">
+              Once you have joined a game and it's your turn you will be able to
+              select your piece and make your move. CheSSsk will handle move
+              validation so you won't be able to make any illegal moves. CheSSsk
+              also provides suggestions for each piece so you can visualize your
+              move before you make it.
+            </div>
+            <div className="col-md-5 mx-auto">
+              <img
+                src="../moveSuggestion.png"
+                alt="Move Suggestion"
+                className="howToImg"
+              />
+            </div>
+          </div>
           <br />
           <br />
           <br />
           <h5 className="title">Chat With Your Opponent</h5>
           <hr />
-          Use Socket.io to chat with your opponents and get automatic board
-          updates whenever your opponent makes a move. Chat boards are unique
-          per game so only messages between the players currently playing in a
-          game will be displayed.
+          <div className="row">
+            <div className="col-md-5">
+              Use Socket.io to chat with your opponents and get automatic board
+              updates whenever they make a move. Chat boards are unique per game
+              so only messages between the players currently playing in a game
+              will be displayed.
+            </div>
+            <div className="col-md-5 mx-auto">
+              <img src="../chat.png" alt="Chat" className="howToImg" />
+            </div>
+          </div>
           <br />
           <br />
           <br />
