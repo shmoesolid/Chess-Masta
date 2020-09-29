@@ -38,7 +38,11 @@ const Navigation = () => {
   return (
     <div className="sticky-top">
       <Navbar className="sticky-top">
-        {width > breakpoint ? "" : <Toggle className="toggle" click={openHandler} />}
+        {width > breakpoint ? (
+          ""
+        ) : (
+          <Toggle className="toggle" click={openHandler} />
+        )}
         <Navbar.Brand href="/">
           <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
         </Navbar.Brand>
@@ -48,11 +52,19 @@ const Navigation = () => {
             <Nav.Item>
               {userData.user ? (
                 <p>
-                  <Link to="/home">{userData.user.displayName}&nbsp;{" "}<FaIcons.FaUserCircle color="white" className="img-circle" /></Link>
+                  <Link to="/home">
+                    {userData.user.displayName}&nbsp;{" "}
+                    <FaIcons.FaUserCircle
+                      color="white"
+                      className="img-circle"
+                    />
+                  </Link>
                 </p>
               ) : (
                 <p>
-                  <Link to="/login">Login</Link>
+                  <a className="btn btn-success start" href="/login">
+                    Log in
+                  </a>{" "}
                 </p>
               )}
             </Nav.Item>

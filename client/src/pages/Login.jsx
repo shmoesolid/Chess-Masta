@@ -35,7 +35,7 @@ export default function Login() {
       <div className="row m-0">
         <div className="col-md-3">
         </div>
-        <div className="card card-1 col-md-7" style={{marginTop: "7%"}}>
+        <div style={{float: "left"}} className="card card-1 col-md-7">
           <br />
           <h2 className="title">Log in</h2>
           <br />

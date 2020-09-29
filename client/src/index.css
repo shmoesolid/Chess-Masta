@@ -1,5 +1,5 @@
 body {
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h1,
@@ -8,12 +8,12 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 700;
+	font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 700;
 }
 
 body {
-	background: #F2F2F2;
+	background: #f2f2f2;
 	background-attachment: fit;
 }
 
@@ -21,15 +21,17 @@ body {
 	0% {
 		background-position: 0% 50%;
 	}
+
 	50% {
 		background-position: 100% 50%;
 	}
+
 	100% {
 		background-position: 0% 50%;
 	}
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
 }

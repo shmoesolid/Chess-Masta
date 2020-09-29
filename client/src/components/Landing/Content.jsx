@@ -18,7 +18,7 @@ function Content() {
             </h6>
             <br />
             <h6>
-              <a className="btn btn-dark start start-two" href="/register">
+              <a className="btn btn-warning" href="/register">
                 Register
               </a>
             </h6>
@@ -29,7 +29,7 @@ function Content() {
         </div>
       </div>
 
-      <section className="features-icons bg-dark text-center det-ails">
+      <section className="features-icons bgDark text-center det-ails">
         <div className="container">
           <div className="row">
             <div className="col-lg-4">

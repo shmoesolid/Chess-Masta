@@ -10,10 +10,10 @@
 }
 
 .navbar {
-  background-color: #343A40;
+  background-color: #1D1E22;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   z-index: 11;
-  height: 3.0rem;
+  height: 3.3rem;
 }
 
 a,
@@ -45,7 +45,7 @@ a,
 .sidenav {
   height: 100vh;
   padding-left: 0px;
-  background-color: #343A40;
+  background-color: #1D1E22;
   opacity: 1;
   color: white;
   width: 230px;
@@ -135,7 +135,7 @@ code {
   padding: 0.3rem;
   border: 1px solid #c2c2c2;
   border-radius: 8px;
-  background-color: #f0f0f0;
+  background-color: white;
   font-size: 1.1rem;
 }
 
