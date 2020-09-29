@@ -33,9 +33,8 @@ export default function Login() {
     <div>
       <Navigation />
       <div className="row m-0">
-        <div className="col-md-3">
-        </div>
-        <div style={{float: "left"}} className="card card-1 col-md-7">
+        <div className="col-md-3"></div>
+        <div style={{ float: "left" }} className="card card-1 col-md-7">
           <br />
           <h2 className="title">Log in</h2>
           <br />
