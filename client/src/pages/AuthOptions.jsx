@@ -14,14 +14,14 @@ export default function AuthOptions() {
   const register = () => history.push("/register");
   const login = () => history.push("/login");
   const logout = () => {
-    Axios.get("/users/logout", { withCredentials: true });
+    Axios.get("/api/users/logout", { withCredentials: true });
     setUserData({
       user: undefined,
     });
     history.push("/");
   };
   const deleteUser = () => {
-    Axios.delete("/users/delete", { withCredentials: true });
+    Axios.delete("/api/users/delete", { withCredentials: true });
     setUserData({
       user: undefined,
     });

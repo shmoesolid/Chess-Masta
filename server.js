@@ -39,7 +39,6 @@ if (process.env.NODE_ENV === "production")
     app.use(express.static("client/build"));
 
 // Add routes
-app.use("/users", require("./routes/userRouter"));
 app.use(routes);
 
 // Mongoose ORM

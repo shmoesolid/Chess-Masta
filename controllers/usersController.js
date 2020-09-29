@@ -20,7 +20,7 @@ const returnUserData = (res, data) => {
 
 module.exports = {
 
-    login: async function(res, req) {
+    login: async function(req, res) {
         try {
             const {
                 email,
