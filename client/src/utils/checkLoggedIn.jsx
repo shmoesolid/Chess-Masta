@@ -7,7 +7,7 @@ const checkLoggedIn = async () => {
     });
     if (tokenRes.data) {
         const userRes = await Axios.get("/api/users", {
-        withCredentials: true,
+            withCredentials: true,
         });
         return {
             user: userRes.data,

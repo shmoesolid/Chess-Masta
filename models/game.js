@@ -9,7 +9,7 @@ const gameSchema = new Schema(
         hostColor: { type: Number, default: 0 }, // 0 = white, 1 = black
         hostTimer: { type: Number, default: null }, // time left
 
-        clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
         clientColor: { type: Number, default: 1 }, // 0 = white, 1 = black
         clientTimer: { type: Number, default: null }, // time left
 

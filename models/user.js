@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   },
   boardWhiteColor: {
     type: String,
-    default: "#ccc"
+    default: "#cccccc"
   },
   boardBlackColor: {
     type: String,
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   boardBorderColor: {
     type: String,
-    default: "#000"
+    default: "#000000"
   },
 
   // unused but plans for:

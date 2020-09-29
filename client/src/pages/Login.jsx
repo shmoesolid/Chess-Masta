@@ -33,9 +33,8 @@ export default function Login() {
     <div>
       <Navigation />
       <div className="row m-0">
-        <div className="col-md-3">
-        </div>
-        <div className="card col-md-7" style={{marginTop: "7%"}}>
+        <div className="col-md-3"></div>
+        <div style={{ float: "left" }} className="card card-1 col-md-7">
           <br />
           <h2 className="title">Log in</h2>
           <br />
@@ -51,12 +50,14 @@ export default function Login() {
               id="login-email"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              maxLength="128"
             />
             <label htmlFor="login-password">Password</label>
             <input
               id="login-password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              maxLength="128"
             />
             <input type="submit" value="Log in" />
             <br />{" "}

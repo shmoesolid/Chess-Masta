@@ -215,6 +215,8 @@ module.exports = {
             .findById(gameId)
             .then( dbModel => {
                 // if clientId in use, return
+                if (dbModel.clientId)
+                    return res.status(409).json("someone else already joined this game");
 
                 // confirm password (don't care about hashing atm)
                 if (dbModel.locked && dbModel.password !== gamePass)

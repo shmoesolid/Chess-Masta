@@ -39,48 +39,53 @@ export default function Register() {
     <div>
       <Navigation />
       <div className="row m-0">
-        <div className="col-md-3">
-        </div>
-        <div style={{ marginTop: "5%" }} className="card col-md-7">
-          <br />
-          <h2 className="title">Create an Account</h2>
-          <br />
-          {error && (
-            <ErrorNotice
-              message={error}
-              clearError={() => setError(undefined)}
-            />
-          )}
-          <form className="form" onSubmit={submit}>
-            <label htmlFor="register-email">Email</label>
-            <input
-              id="register-email"
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="register-password">Password</label>
-            <input
-              id="register-password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Verify password"
-              onChange={(e) => setPasswordCheck(e.target.value)}
-            />
-            <label htmlFor="register-display-name">Username</label>
-            <input
-              id="register-display-name"
-              type="text"
-              onChange={(e) => setDisplayName(e.target.value)}
-            />
-            <input type="submit" value="Register" />
-            <br />{" "}
-            <i>
-              Existing user? Log in <a href="/login">here.</a>
-            </i>
-          </form>
+        <div className="col-md-3"></div>
+        <div style={{float: "left"}} className="card card-1 col-md-7">
+          <div>
+            <br />
+            <h2 className="title">Create an Account</h2>
+            <br />
+            {error && (
+              <ErrorNotice
+                message={error}
+                clearError={() => setError(undefined)}
+              />
+            )}
+            <form className="form" onSubmit={submit}>
+              <label htmlFor="register-email">Email</label>
+              <input
+                id="register-email"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                maxLength="128"
+              />
+              <label htmlFor="register-password">Password</label>
+              <input
+                id="register-password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                maxLength="128"
+              />
+              <input
+                type="password"
+                placeholder="Verify password"
+                onChange={(e) => setPasswordCheck(e.target.value)}
+                maxLength="128"
+              />
+              <label htmlFor="register-display-name">Username</label>
+              <input
+                id="register-display-name"
+                type="text"
+                onChange={(e) => setDisplayName(e.target.value)}
+                maxLength="32"
+              />
+              <input type="submit" value="Register" />
+              <br />{" "}
+              <i>
+                Existing user? Log in <a href="/login">here.</a>
+              </i>
+            </form>
+          </div>
         </div>
       </div>
     </div>
