@@ -48,7 +48,10 @@ export default function Instructions() {
               also provides suggestions for each piece so you can visualize your
               move before you make it.
             </div>
-            <div className="col-md-5 mx-auto">
+            <div
+              style={{ marginTop: "25px" }}
+              className="col-md-5 mx-auto text-center justify-content-center align-center"
+            >
               <img
                 src="../moveSuggestion.png"
                 alt="Move Suggestion"
@@ -68,7 +71,10 @@ export default function Instructions() {
               so only messages between the players currently playing in a game
               will be displayed.
             </div>
-            <div className="col-md-5 mx-auto">
+            <div
+              style={{ marginTop: "25px" }}
+              className="col-md-5 mx-auto text-center justify-content-center align-center"
+            >
               <img src="../chat1.png" alt="Chat" className="howToImg" />
             </div>
           </div>
