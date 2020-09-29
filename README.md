@@ -13,12 +13,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     * https://chess-masta.herokuapp.com/
 
 - Screenshots:
-    * https://shmoesolid.github.io/chess-masta/public/media/ss1.png
-    * https://shmoesolid.github.io/chess-masta/public/media/ss2.png
-    * https://shmoesolid.github.io/chess-masta/public/media/ss3.png
-    * https://shmoesolid.github.io/chess-masta/public/media/ss4.png
-    * https://shmoesolid.github.io/chess-masta/public/media/ss5.png
-    * https://shmoesolid.github.io/chess-masta/public/media/ss6.png
+    * https://shmoesolid.github.io/chess-masta/media/ss1.png
+    * https://shmoesolid.github.io/chess-masta/media/ss2.png
+    * https://shmoesolid.github.io/chess-masta/media/ss3.png
+    * https://shmoesolid.github.io/chess-masta/media/ss4.png
+    * https://shmoesolid.github.io/chess-masta/media/ss5.png
+    * https://shmoesolid.github.io/chess-masta/media/ss6.png
 
 ## Table of Contents
 
