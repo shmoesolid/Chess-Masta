@@ -154,7 +154,7 @@ module.exports = {
 
         try {
             // collect data
-            var uid = res.user;
+            var id = req.user;
             const data = {
                 displayName,
                 boardWhiteColor,
@@ -171,9 +171,9 @@ module.exports = {
             if (!data.boardBorderColor.match(pregHtmlHex)) return res.status(409).json("invalid color code");
             
             // update it
-            db.User.findByIdAndUpdate(uid, data, function(err, result) {
+            db.User.findByIdAndUpdate(id, data, function(err, result) {
                 if (err) return res.json(err);
-                return res.status(200).json({});
+                returnUserData(res, result);
             });
 
         }
