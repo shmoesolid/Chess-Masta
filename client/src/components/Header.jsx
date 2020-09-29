@@ -9,7 +9,7 @@ import SideNav from "./SideNav";
 const Navigation = () => {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const breakpoint = 933;
+  const breakpoint = 830;
 
   const { userData } = useContext(UserContext);
 
@@ -35,7 +35,7 @@ const Navigation = () => {
   }
 
   return (
-    <div>
+    <div className="sticky-top">
       <Navbar className="sticky-top">
         {width > breakpoint ? "" : <Toggle click={openHandler} />}
         <Navbar.Brand href="/">
@@ -47,7 +47,7 @@ const Navigation = () => {
             <Nav.Item>
               {userData.user ? (
                 <p>
-                  <Link to="/home">{userData.user.displayName}</Link>
+                  <Link to="/home"><img src="http://placehold.it/18x18" class="profile-image img-circle" alt="profile img"/>{" "}&nbsp;{userData.user.displayName}</Link>
                 </p>
               ) : (
                 <p>
