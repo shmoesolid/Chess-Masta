@@ -54,7 +54,7 @@ function CreateGame(props) {
             </select>
             <br />
             <label htmlFor="gameNotes">Game Notes</label>
-            <textarea name="notes" onChange={handleInputChange}></textarea>
+            <textarea name="notes" onChange={handleInputChange} maxLength="128"></textarea>
             <br />
             <br />
           </form>
