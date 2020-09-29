@@ -140,7 +140,7 @@ function Games() {
                   >
                     <thead>
                       <tr>
-                        <th className="med">Name</th>
+                        <th className="med">Name <i>(Notes)</i></th>
                         <th>Join</th>
                         <th>Delete</th>
                       </tr>
@@ -150,7 +150,7 @@ function Games() {
                         return item.hostId === userData.user.id ||
                           item.clientId === userData.user.id ? (
                           <tr key={index + 0}>
-                            <td key={index + 1}>{item.name}&nbsp;</td>
+                            <td key={index + 1}>{item.name}&nbsp;{item.notes ? <i>({item.notes})</i> : <i>(No game notes...)</i>}</td>
                             <td key={index + 2}>
                               <button
                                 onClick={() => loadGameById(item._id)}
@@ -177,7 +177,7 @@ function Games() {
                         ) : (
                           !item.clientId && (
                             <tr key={index + 0}>
-                              <td key={index + 1}>{item.name}&nbsp;</td>
+                              <td key={index + 1}>{item.name}&nbsp;{item.notes ? <i>({item.notes})</i> : <i>(No game notes...)</i>}</td>
                               <td key={index + 2} colSpan="2">
                                 <button
                                   onClick={() => joinGameById(item._id)}
