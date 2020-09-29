@@ -20,19 +20,32 @@ function ShaneBoard(props) {
   const [message, setMessage] = useState("");
   const [cellSize, setCellSize] = useState('64');
   const maxCellSize = '64';
+  const [black, setBlack] = useState({
+    onBottom: userData.user.blackOnBottom,
+    player: (userData.user._id === props.data.hostId) ? (props.data.hostColor === 1) : (props.data.clientColor === 1)
+  });
 
   // handle black on bottom per user preference
-  var blackOnBottom = userData.user.blackOnBottom;
-  var blackPlayer = false;
-  if (userData.user._id === props.data.hostId)
-    blackPlayer = props.data.hostColor === 1;
-  else blackPlayer = props.data.clientColor === 1;
+  // var blackOnBottom = userData.user.blackOnBottom;
+  // var blackPlayer = false;
+  // if (userData.user._id === props.data.hostId)
+  //   blackPlayer = props.data.hostColor === 1;
+  // else blackPlayer = props.data.clientColor === 1;
 
-  // handle board theme
-  var root = document.documentElement;
-  root.style.setProperty("--light-color", userData.user.boardWhiteColor);
-  root.style.setProperty("--dark-color", userData.user.boardBlackColor);
-  root.style.setProperty("--border-color", userData.user.boardBorderColor);
+  useEffect(() => {
+    // black on bottom
+    setBlack({
+      onBottom: userData.user.blackOnBottom,
+      player: (userData.user._id === props.data.hostId) ? (props.data.hostColor === 1) : (props.data.clientColor === 1)
+    });
+
+    // handle board theme
+    var root = document.documentElement;
+    root.style.setProperty("--light-color", userData.user.boardWhiteColor);
+    root.style.setProperty("--dark-color", userData.user.boardBlackColor);
+    root.style.setProperty("--border-color", userData.user.boardBorderColor);
+
+  }, [userData]);
 
   // other needed vars
   var NUM_TO_LETTER = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -65,16 +78,16 @@ function ShaneBoard(props) {
     //var width = window.innerWidth;
     var width = window.visualViewport.width;
     if (width < 425) {
-      if (cellSize != '40') setCellSize('40');
+      if (cellSize !== '40') setCellSize('40');
     }
     else if (width < 500) {
-      if (cellSize != '48') setCellSize('48');
+      if (cellSize !== '48') setCellSize('48');
     }
     else if (width < 600) {
-      if (cellSize != '56') setCellSize('56');
+      if (cellSize !== '56') setCellSize('56');
     }
     else {
-      if (cellSize != maxCellSize) setCellSize(maxCellSize);
+      if (cellSize !== maxCellSize) setCellSize(maxCellSize);
     }
   };
 
@@ -115,7 +128,7 @@ function ShaneBoard(props) {
     var imageHeight = (cellSize/maxCellSize) * 40; // FOR NOW (IMAGE SIZE KNOWN)
     var xDisp, yDisp;
 
-    if (blackOnBottom && blackPlayer) {
+    if (black.onBottom && black.player) {
       // x moves with board and needs inverse
       xDisp = cellSize * 8 - node.x * cellSize - imageWidth - imageWidth / 4;
 
@@ -139,7 +152,7 @@ function ShaneBoard(props) {
     var x, y;
 
     // black on bottom
-    if (blackOnBottom && blackPlayer) {
+    if (black.onBottom && black.player) {
       x = Math.abs(event.clientX - bounding.right);
       y = event.clientY - bounding.top;
     }

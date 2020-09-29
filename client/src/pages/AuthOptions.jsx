@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
 import UserContext from "../context/userContext";
+import UserForm from "../components/UserForm";
 
 // Components
 import Navigation from "../components/Header";
@@ -37,8 +38,11 @@ export default function AuthOptions() {
           <div className="auth-options">
             {userData.user ? (
               <>
-                <br />
-                <br />
+                <br /><br />
+                <h5 className="title">User Options</h5>
+                <hr />
+                <UserForm />
+                <br /><br />
                 <h5 className="title">Account Options</h5>
                 <hr />
                 <div style={{marginLeft: "5px"}} className="row title">
