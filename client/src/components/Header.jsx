@@ -10,7 +10,7 @@ import SideNav from "./SideNav";
 const Navigation = () => {
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const breakpoint = 830;
+  const breakpoint = 900;
 
   const { userData } = useContext(UserContext);
 
