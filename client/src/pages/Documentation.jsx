@@ -12,7 +12,7 @@ export default function Documentation() {
       <div className="row m-0">
         <div className="col-md-3">
         </div>
-        <div className="col-md-9">
+        <div className="col-md-8 card-1">
           <br />
           <h1>CheSSsk Library</h1>
           <hr />

@@ -45,13 +45,14 @@ h6 {
 
 #navLogo {
     height: 37px;
-    margin-left: 40px;
+    margin-left: 0px;
 }
 
 @media (max-width: 830px) {
     #navLogo {
         margin-left: 0px;
         height: 30px;
+        display: none;
     }
 }
 
@@ -77,6 +78,14 @@ header.masthead h1 {
     font-size: 2rem;
 }
 
+.navbar {
+    background-color: #1D1E22;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    z-index: 11;
+    height: 3.3rem;
+}
+
+
 @media (min-width: 768px) {
     header.masthead {
         padding-top: 12rem;
@@ -86,6 +95,7 @@ header.masthead h1 {
     header.masthead h1 {
         font-size: 3rem;
     }
+
 }
 
 .showcase .showcase-text {

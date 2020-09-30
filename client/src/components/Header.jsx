@@ -36,47 +36,85 @@ const Navigation = () => {
   }
 
   return (
-    <div className="sticky-top">
-      <Navbar className="sticky-top">
-        {width > breakpoint ? (
+    <div>
+      <div>
+        <div>{sidenav}</div>
+        {width < breakpoint ? (
           ""
         ) : (
-          <Toggle className="toggle" click={openHandler} />
+          <SideNav close={sidenavCloseHandler} sidenav="sidenav" />
         )}
-        <Navbar.Brand href="/">
-          <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto welcome">
-            <Nav.Item>
-              {userData.user ? (
-                <p>
-                  <Link to="/home">
-                    {userData.user.displayName}&nbsp;{" "}
-                    <FaIcons.FaUserCircle
-                      color="white"
-                      className="img-circle"
-                    />
-                  </Link>
-                </p>
-              ) : (
-                <p>
-                  <a className="btn btn-success start" href="/login">
-                    Log in
-                  </a>{" "}
-                </p>
+      </div>
+      <div>
+        {width > breakpoint ? <Navbar style={{ marginLeft: "230px" }}>
+          {width > breakpoint ? (
+            ""
+          ) : (
+              <Toggle className="toggle" click={openHandler} />
+            )}
+          <Navbar.Brand href="/">
+            <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ml-auto welcome">
+              <Nav.Item>
+                {userData.user ? (
+                  <p>
+                    <Link to="/home">
+                      {userData.user.displayName}&nbsp;{" "}
+                      <FaIcons.FaUserCircle
+                        color="white"
+                        className="img-circle"
+                      />
+                    </Link>
+                  </p>
+                ) : (
+                    <p>
+                      <a className="btn btn-success start" href="/login">
+                        Log in
+                    </a>{" "}
+                    </p>
+                  )}
+              </Nav.Item>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar> : <Navbar style={{ marginLeft: "0px" }}>
+            {width > breakpoint ? (
+              ""
+            ) : (
+                <Toggle className="toggle" click={openHandler} />
               )}
-            </Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      <div>{sidenav}</div>
-      {width < breakpoint ? (
-        ""
-      ) : (
-        <SideNav close={sidenavCloseHandler} sidenav="sidenav" />
-      )}
+            <Navbar.Brand href="/">
+              <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ml-auto welcome">
+                <Nav.Item>
+                  {userData.user ? (
+                    <p>
+                      <Link to="/home">
+                        {userData.user.displayName}&nbsp;{" "}
+                        <FaIcons.FaUserCircle
+                          color="white"
+                          className="img-circle"
+                        />
+                      </Link>
+                    </p>
+                  ) : (
+                      <p>
+                        <a className="btn btn-success start" href="/login">
+                          Log in
+                    </a>{" "}
+                      </p>
+                    )}
+                </Nav.Item>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>}
+        <br />
+      </div>
     </div>
   );
 };

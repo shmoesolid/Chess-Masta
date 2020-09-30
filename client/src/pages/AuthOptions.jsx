@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
 import UserContext from "../context/userContext";
-import UserForm from "../components/UserForm";
 
 // Components
 import Navigation from "../components/Header";
+import UserForm from "../components/UserForm";
 
 export default function AuthOptions() {
   const { userData, setUserData } = useContext(UserContext);
