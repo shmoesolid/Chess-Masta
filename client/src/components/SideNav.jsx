@@ -8,6 +8,9 @@ const SideNav = (props) => {
   return (
     <div className="sidenav">
       <br />
+      <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
+      <hr />
+      <br />
       <ul className="p-0">
         {SidenavData.map((item, index) => {
           return (

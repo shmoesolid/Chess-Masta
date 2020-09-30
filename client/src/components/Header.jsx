@@ -36,7 +36,8 @@ const Navigation = () => {
   }
 
   return (
-    <div>
+    <>
+      {" "}
       {width > breakpoint ? (
         <div>
           <div>
@@ -55,9 +56,6 @@ const Navigation = () => {
                 ) : (
                   <Toggle className="toggle" click={openHandler} />
                 )}
-                <Navbar.Brand href="/">
-                  <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
-                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="ml-auto welcome">
@@ -130,9 +128,6 @@ const Navigation = () => {
             ) : (
               <Toggle className="toggle" click={openHandler} />
             )}
-            <Navbar.Brand href="/">
-              <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
-            </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto welcome">
@@ -166,7 +161,7 @@ const Navigation = () => {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
