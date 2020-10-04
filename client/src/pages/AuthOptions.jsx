@@ -22,6 +22,9 @@ export default function AuthOptions() {
     history.push("/");
   };
   const deleteUser = () => {
+    if (!window.confirm("Are you sure you want to delete your account?"))
+      return;
+    
     Axios.delete("/api/users/delete", { withCredentials: true });
     setUserData({
       user: undefined,

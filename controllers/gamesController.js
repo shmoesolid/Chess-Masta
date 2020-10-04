@@ -81,7 +81,9 @@ module.exports = {
                         return res.json("ERROR: Invalid board data");
                     
                     // return valid moves for the location asked
-                    res.json( game.getValidMoves(req.params.location) );
+                    var validMoves = game.getValidMoves(req.params.location);
+                    console.log(validMoves);
+                    res.json( validMoves );
                 }
             ).catch(err => res.status(422).json(err));
     },
