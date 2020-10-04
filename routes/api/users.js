@@ -28,6 +28,11 @@ router
     .route("/register")
     .post(usersController.register);
 
+// Matches with "/api/users/activate"
+router
+    .route("/activate")
+    .post(auth, usersController.activate);
+
 // Matches with "/api/users/login"
 router
     .route("/login")

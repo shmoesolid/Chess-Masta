@@ -30,7 +30,7 @@ export default function Register() {
       setUserData({
         user: loginRes.data,
       });
-      history.push("/rooms");
+      history.push("/activate");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 
 import Games from "./pages/Games";
 import Login from "./pages/Login";
+import Activate from "./pages/Activate"
 import Register from "./pages/Register";
 import AuthOptions from "./pages/AuthOptions";
 import Documentation from "./pages/Documentation";
@@ -33,30 +34,44 @@ function App() {
   }, [userData, isLoading]);
 
   if (isLoading) return <>Loading...</>;
-
+  
   return (
 
     <div className="App">
       <Router>
         <Switch>
           <Route path="/" exact >
-            <UserContext.Provider value={value}><Home /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user && userData.user.activateCode && <Redirect to="/activate" />}
+              <Home />
+            </UserContext.Provider>
           </Route>
           <Route path="/home" exact >
-            <UserContext.Provider value={value}><AuthOptions /></UserContext.Provider>
+            <UserContext.Provider value={value}>
+              {userData.user && userData.user.activateCode && <Redirect to="/activate" />}
+              <AuthOptions />
+            </UserContext.Provider>
           </Route>
           <Route path="/rooms" exact >
             <UserContext.Provider value={value}>
+              {userData.user && userData.user.activateCode && <Redirect to="/activate" />}
               {userData.user ? <Games /> : <Redirect to="/login" />}
             </UserContext.Provider>
           </Route>
           <Route path="/login" exact >
             <UserContext.Provider value={value}>
+              {userData.user && userData.user.activateCode && <Redirect to="/activate" />}
               {userData.user ? <Redirect to="/rooms" /> : <Login />}
+            </UserContext.Provider>
+          </Route>
+          <Route path="/activate" exact >
+            <UserContext.Provider value={value}>
+              {userData.user && !userData.user.activateCode ? <Redirect to="/rooms" /> : <Activate />}
             </UserContext.Provider>
           </Route>
           <Route path="/register" exact >
             <UserContext.Provider value={value}>
+              {userData.user && userData.user.activateCode && <Redirect to="/activate" />}
               {userData.user ? <Redirect to="/rooms" /> : <Register />}
             </UserContext.Provider>
           </Route>

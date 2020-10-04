@@ -24,7 +24,8 @@ export default function Login() {
       setUserData({
         user: loginRes.data,
       });
-      history.push("/rooms");
+      if (loginRes.data.activateCode) history.push("/activate");
+      else history.push("/rooms");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
     }

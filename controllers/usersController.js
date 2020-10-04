@@ -1,6 +1,18 @@
+const nodemailer = require("nodemailer");
+const EmailValidator = require("email-deep-validator");
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
+
+// setup email transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.VALIDATOR_EMAIL_USER,
+        pass: process.env.VALIDATOR_EMAIL_PASS
+    }
+});
 
 const returnUserData = (res, data) => {
 
@@ -10,6 +22,7 @@ const returnUserData = (res, data) => {
     // delete vitals
     delete user.email;
     delete user.password;
+    user.activateCode = (user.activateCode !== null) ? true : false; // send back a bool instead of code
   
     // this is just so a bunch of bugs don't happen atm
     user.id = user._id;
@@ -59,6 +72,31 @@ module.exports = {
         }
     },
 
+    activate: async function(req, res) {
+        try {
+            var id = req.user;
+            var code = req.body.activateCode;
+            var user = await db.User.findById(id);
+
+            // code not valid
+            if (user.activateCode !== code)
+                return res
+                    .status(400)
+                    .json({ msg: "Invalid code." });
+
+            // valid code, make null and return user data
+            db.User.findByIdAndUpdate(id, {activateCode: null}, function(err, result) {
+                if (err) return res.json(err);
+                returnUserData(res, result);
+            });
+
+        } catch (err) {
+            res.status(500).json({
+                error: err.message
+            });
+        }
+    },
+
     register: async function(req, res) {
         try {
             let {
@@ -83,24 +121,58 @@ module.exports = {
               return res
                 .status(400)
                 .json({ msg: "Enter the same password twice for verification." });
+
+            // do a 'deep scan' on email to confirm more legit before even attempting to send
+            const emailValidator = new EmailValidator({timeout: 5000, verifyMailbox: false});
+            const { wellFormed, validDomain } = await emailValidator.verify(email);
+
+            if (!wellFormed)
+                return res
+                    .status(400)
+                    .json({ msg: "Your email address structure does not appear to be valid." });
+
+            if (!validDomain)
+                return res
+                    .status(400)
+                    .json({ msg: "Your email address domain does not appear to be valid." });
         
+            // confirm email doesn't already exist
             const existingUser = await db.User.findOne({ email: email });
             if (existingUser)
               return res
                 .status(400)
                 .json({ msg: "An account with that email already exists." });
         
+            // generate password hash and gen activation code for email
             const salt = await bcrypt.genSalt(12);
             const passwordHash = await bcrypt.hash(password, salt);
+            const activateCode = Math.random().toString().slice(2, 8); // 6 digit code
         
             const newUser = new db.User({
                 email,
                 password: passwordHash,
                 displayName,
+                activateCode
             });
             const savedUser = await newUser.save();
-            res.json(savedUser);
+            res.json(savedUser); // send back ID
 
+            // email code to user
+            transporter.sendMail(
+                {
+                    from: process.env.VALIDATOR_EMAIL_USER,
+                    to: email,
+                    subject: "Your Validation Code for Chess-Masta",
+                    text: 
+                        "Welcome to Chess-Masta!\n\n"
+                        + "Please enter the following 6-digit code in the activation page:\n\n"
+                        + activateCode
+                },
+                function(error, info) {
+                    if (error) return console.log(error);
+                    console.log("Email sent to new user: "+ info.response);
+                }
+            );
         } catch (err) {
             res.status(500).json({
                 error: err.message
