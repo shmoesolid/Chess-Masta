@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  activateSendCount: {
+    type: Number,
+    default: 1
+  },
   displayName: {
     type: String,
     required: true

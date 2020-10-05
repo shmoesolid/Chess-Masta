@@ -33,6 +33,11 @@ router
     .route("/activate")
     .post(auth, usersController.activate);
 
+// Matches with "/api/users/resendActivation"
+router
+    .route("/resendActivation")
+    .get(auth, usersController.resendActivation);
+
 // Matches with "/api/users/login"
 router
     .route("/login")

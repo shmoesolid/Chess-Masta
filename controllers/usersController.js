@@ -5,6 +5,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
 
+// email max send count
+const MAX_SEND_COUNT = 3;
+
 // setup email transporter
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -13,6 +16,30 @@ const transporter = nodemailer.createTransport({
         pass: process.env.VALIDATOR_EMAIL_PASS
     }
 });
+
+const sendEmailCode = (email, code, res=null) =>
+{
+    transporter.sendMail(
+        {
+            from: process.env.VALIDATOR_EMAIL_USER,
+            to: email,
+            subject: "Your Validation Code for Chess-Masta",
+            text: 
+                "Welcome to Chess-Masta!\n\n"
+                + "Please enter the following 6-digit code in the activation page:\n\n"
+                + code
+        },
+        function(error, info) {
+            if (error) {
+                if (res !== null) res.status(500).json({msg: "Unable to send email, please contact site admin."});
+                return console.log(error);
+            }
+
+            if (res !== null) res.json(info.response);
+            console.log("Email sent to new user: "+ info.response);
+        }
+    );
+}
 
 const returnUserData = (res, data) => {
 
@@ -97,6 +124,37 @@ module.exports = {
         }
     },
 
+    resendActivation: async function(req, res) {
+        try {
+            var id = req.user;
+            var user = await db.User.findById(id);
+            var sendCount = user.activateSendCount;
+
+            // no spammy spam
+            if (sendCount >= MAX_SEND_COUNT)
+                return res
+                    .status(400)
+                    .json({ 
+                        msg: "You've reached your max number of email resends."
+                            + "  If you still have not received an email, please"
+                            + " contact the creators of the site." 
+                    });
+
+            // update send count
+            db.User.findByIdAndUpdate(id, {activateSendCount: (sendCount+1) }, function(err, result) {
+                if (err) console.log("UPDATE ERROR:", err);
+            });
+
+            // resend
+            sendEmailCode(user.email, user.activateCode, res);
+
+        } catch (err) {
+            res.status(500).json({
+                error: err.message
+            });
+        }
+    },
+
     register: async function(req, res) {
         try {
             let {
@@ -157,22 +215,9 @@ module.exports = {
             const savedUser = await newUser.save();
             res.json(savedUser); // send back ID
 
-            // email code to user
-            transporter.sendMail(
-                {
-                    from: process.env.VALIDATOR_EMAIL_USER,
-                    to: email,
-                    subject: "Your Validation Code for Chess-Masta",
-                    text: 
-                        "Welcome to Chess-Masta!\n\n"
-                        + "Please enter the following 6-digit code in the activation page:\n\n"
-                        + activateCode
-                },
-                function(error, info) {
-                    if (error) return console.log(error);
-                    console.log("Email sent to new user: "+ info.response);
-                }
-            );
+            // email code to user with no res
+            sendEmailCode(email, activateCode);
+
         } catch (err) {
             res.status(500).json({
                 error: err.message
