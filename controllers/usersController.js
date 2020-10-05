@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 
 // email max send count
-const MAX_SEND_COUNT = 2;
+const MAX_SEND_COUNT = 3;
 
 // setup email transporter
 const transporter = nodemailer.createTransport({
@@ -131,7 +131,7 @@ module.exports = {
             var sendCount = user.activateSendCount;
 
             // no spammy spam
-            if (sendCount > MAX_SEND_COUNT)
+            if (sendCount >= MAX_SEND_COUNT)
                 return res
                     .status(400)
                     .json({ 
