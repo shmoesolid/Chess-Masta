@@ -11,6 +11,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8
   },
+  activateCode: {
+    type: String,
+    default: null
+  },
+  activateSendCount: {
+    type: Number,
+    default: 1
+  },
   displayName: {
     type: String,
     required: true
