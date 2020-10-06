@@ -12,7 +12,7 @@ function Nav() {
 
                 <div className="collapse navbar-collapse alink" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
-                        <a className="btn btn-success" href="/login">Log in</a>
+                        <a className="btn btn-sm btn-success" href="/login">Log in</a>
                     </ul>
 
 

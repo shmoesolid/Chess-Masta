@@ -8,18 +8,21 @@ const SideNav = (props) => {
   return (
     <div className="sidenav">
       <br />
-      <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
+      <a href="/">
+        <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
+      </a>
       <hr />
-      <br />
       <ul className="p-0">
         {SidenavData.map((item, index) => {
           return (
-            <li key={index} className={item.cName}>
-              <Link to={item.path}>
-                {item.icon}
-                <span>&nbsp;&nbsp;{item.title}</span>
-              </Link>
-            </li>
+            <div>
+              <li key={index} className={item.cName}>
+                <Link to={item.path}>
+                  &nbsp; &nbsp;{item.icon}
+                  <span>&nbsp;&nbsp;{item.title}</span>
+                </Link>
+              </li>
+            </div>
           );
         })}
       </ul>
@@ -27,6 +30,7 @@ const SideNav = (props) => {
         <ul className="p-0">
           <li key={5} className="nav-text docsLink">
             <Link to="/documentation">
+              &nbsp; &nbsp;
               <FcIcons.FcViewDetails />
               <span>&nbsp;&nbsp;Documentation</span>
             </Link>

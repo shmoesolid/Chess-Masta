@@ -50,7 +50,7 @@ const Navigation = () => {
           </div>
           <div>
             {width > breakpoint ? (
-              <Navbar style={{ marginLeft: "230px" }}>
+              <Navbar style={{ marginLeft: "170px", zIndex: "220" }}>
                 {width > breakpoint ? (
                   ""
                 ) : (
@@ -72,7 +72,7 @@ const Navigation = () => {
                         </p>
                       ) : (
                         <p>
-                          <a className="btn btn-success start" href="/login">
+                          <a className="btn btn-success btn-sm start" href="/login">
                             Log in
                           </a>{" "}
                         </p>

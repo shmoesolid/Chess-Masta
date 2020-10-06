@@ -15,13 +15,15 @@ export default function Instructions() {
     <div>
       <Navigation />
       <div className="row m-0">
-        {width > breakpoint ? <div className="col-md-3"></div> : ""}
+        {width > breakpoint ? <div className="col-md-2"></div> : ""}
         {width > breakpoint ? (
           <div
-            style={{ margin: "2%", padding: "26px" }}
-            className="col-md-8 card-1"
+            style={{ margin: "2%",marginTop: "0px", padding: "26px" }}
+            className="col-md-9"
           >
-            <h5 className="title">Create An Account or Log In</h5>
+            <h4>How To Play:</h4>
+            <br />
+            <h5>Create An Account or Log In</h5>
             <hr />
             To start creating and playing games, you must first be logged into
             an account. <a href="/register">Create an account</a> or{" "}
@@ -29,7 +31,7 @@ export default function Instructions() {
             <br />
             <br />
             <br />
-            <h5 className="title">Create a Game or Join Existing Game</h5>
+            <h5>Create a Game or Join Existing Game</h5>
             <hr />
             To create a new game fill out the set up form in the games tab and
             select 'Create Game'. Games that are password protected are meant
@@ -69,7 +71,7 @@ export default function Instructions() {
             <br />
             <br />
             <br />
-            <h5 className="title">Chat With Your Opponent</h5>
+            <h5>Chat With Your Opponent</h5>
             <hr />
             <div className="row">
               <div className="col-md-5">
@@ -91,11 +93,12 @@ export default function Instructions() {
           </div>
         ) : (
           <div
-            style={{ margin: "2%", padding: "26px" }}
+            style={{ margin: "4%", padding: "26px" }}
             className="col-md-12 card-1"
           >
+            <h4>How To Play:</h4>
             <br />
-            <h5 className="title">Create An Account or Log In</h5>
+            <h5>Create An Account or Log In</h5>
             <hr />
             To start creating and playing games, you must first be logged into
             an account. <a href="/register">Create an account</a> or{" "}
@@ -103,7 +106,7 @@ export default function Instructions() {
             <br />
             <br />
             <br />
-            <h5 className="title">Create a Game or Join Existing Game</h5>
+            <h5>Create a Game or Join Existing Game</h5>
             <hr />
             To create a new game fill out the set up form in the games tab and
             select 'Create Game'. Games that are password protected are meant
@@ -143,7 +146,7 @@ export default function Instructions() {
             <br />
             <br />
             <br />
-            <h5 className="title">Chat With Your Opponent</h5>
+            <h5>Chat With Your Opponent</h5>
             <hr />
             <div className="row">
               <div className="col-md-5">

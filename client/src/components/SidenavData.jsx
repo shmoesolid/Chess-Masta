@@ -20,5 +20,11 @@ export const SidenavData = [
     path: "/instructions",
     icon: <FaIcons.FcQuestions />,
     cName: "nav-text",
+  },
+  {
+    title: "Leaderboards",
+    path: "/instructions",
+    icon: <FaIcons.FcConferenceCall />,
+    cName: "nav-text",
   }
 ];
