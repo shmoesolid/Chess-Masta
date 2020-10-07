@@ -5,6 +5,7 @@ import UserContext from "../../context/userContext";
 import CreateBoard from "./CreateBoard";
 import ValidMoves from "./ValidMoves";
 import Pieces from "./Pieces";
+import ExchangePicker from "./ExchangePicker";
 
 import socketioClient from "socket.io-client";
 
@@ -216,16 +217,35 @@ function ShaneBoard(props) {
   }
 
   function makeMove(from, to) {
-    console.log("making move");
-    Axios.put(
-      `/api/games/move`,
-      {
-        id: props.data._id,
-        from: from,
-        to: to,
-      },
-      { withCredentials: true }
-    )
+    Axios
+      .put(
+        `/api/games/move`,
+        {
+          id: props.data._id,
+          from: from,
+          to: to,
+        },
+        { withCredentials: true }
+      )
+      .then((result) => { 
+        console.log(result);
+        props.update(props.data._id);
+      })
+      .catch((err) => {
+        if (err) console.log(err);
+      });
+  }
+
+  function exchangePawn(piece) {
+    Axios
+      .put(
+        `/api/games/exchange`,
+        {
+          id: props.data._id,
+          piece
+        },
+        { withCredentials: true }
+      )
       .then(() => props.update(props.data._id))
       .catch((err) => {
         if (err) console.log(err);
@@ -278,6 +298,14 @@ function ShaneBoard(props) {
     <div>
       <div className="row">
         <div className="col-md-12">
+          {/*pawn exchange picker*/}
+          {
+            props.data.pawnExchange !== "" 
+            && 
+            (userData.user._id === props.data.hostId ? props.data.hostColor : props.data.clientColor) === props.data.gameTurn 
+            && 
+            <ExchangePicker color={props.data.gameTurn} exchangePawn={exchangePawn} scale={cellSize/maxCellSize} />
+          }
           {/*chess board border*/}
           <div className="board_border">
             {/*chess board wrapper (where board table and pieces are handled)*/}
@@ -323,9 +351,7 @@ function ShaneBoard(props) {
               value={
                 chat
                   .map((msg) => msg + "\n")
-                  .join(
-                    ""
-                  ) /*this stupid join to remove commas... makes my head hurt*/
+                  .join("")
               }
             />
           </div>

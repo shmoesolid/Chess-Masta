@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
 import UserContext from "../context/userContext";
-import UserForm from "../components/UserForm";
 
 // Components
 import Navigation from "../components/Header";
+import UserForm from "../components/UserForm";
 
 export default function AuthOptions() {
   const { userData, setUserData } = useContext(UserContext);
@@ -22,6 +22,9 @@ export default function AuthOptions() {
     history.push("/");
   };
   const deleteUser = () => {
+    if (!window.confirm("Are you sure you want to delete your account?"))
+      return;
+    
     Axios.delete("/api/users/delete", { withCredentials: true });
     setUserData({
       user: undefined,
@@ -34,7 +37,7 @@ export default function AuthOptions() {
       <Navigation />
       <div className="row m-0">
         <div className="col-md-3"></div>
-        <div className="col-md-9">
+        <div className="col-md-8">
           <div className="auth-options">
             {userData.user ? (
               <>

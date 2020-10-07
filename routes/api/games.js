@@ -23,6 +23,11 @@ router
     .route("/poll/:id")
     .get(auth, gamesController.pollGameStatus);
 
+// Matches with "/api/games/exchange"
+router
+    .route("/exchange")
+    .put(auth, gamesController.exchange);
+
 // Matches with "/api/games/move"
 router
     .route("/move")
