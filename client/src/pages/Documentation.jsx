@@ -10,21 +10,21 @@ export default function Documentation() {
     <div>
       <Navigation />
       <div className="row m-0">
-        <div className="col-md-3">
+        <div className="col-md-2" style={{ margin: "2%",marginTop: "0px", padding: "26px" }}>
         </div>
-        <div className="col-md-8 card-1">
+        <div className="col-md-8">
           <br />
-          <h1>CheSSsk Library</h1>
+          <h4>CheSSsk Library</h4>
           <hr />
           <br />
-          <h4>Description:</h4>
+          <h5>Description:</h5>
           <hr />
           <p>
             A library for chess move validation based on
             location and board data
           </p>
           <br />
-          <h4>Getting Started:</h4>
+          <h5>Getting Started:</h5>
           <hr />
           <p>
             To get started open the terminal for your project
@@ -35,7 +35,7 @@ export default function Documentation() {
           </div>
           <br />
           <br />
-          <h4>Example Usage:</h4>
+          <h5>Example Usage:</h5>
           <hr />
           <div className="code">
             <code>

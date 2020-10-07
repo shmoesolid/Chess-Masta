@@ -11,7 +11,8 @@ const SideNav = (props) => {
       <a href="/">
         <img src="../chessmastalogo.png" alt="logo" id="navLogo" />
       </a>
-      <hr />
+      <br />
+      <br />
       <ul className="p-0">
         {SidenavData.map((item, index) => {
           return (
