@@ -98,16 +98,19 @@ function Games() {
     getGames();
   };
 
-  const renderStatus = (status) => {
+  const renderStatus = (status, turn) => {
+    var color = turn === 0 ? "White" : "Black";
     switch (status) {
       case 0:
         return <span>Waiting for join...</span>;
       case 1:
-        return <span>White move...</span>;
+        return <span>Normal play... {color} move...</span>;
       case 2:
-        return <span>Black move...</span>;
+        return <span>Pawn exchange... {color} pick piece to replace...</span>;
+      case 3:
+        return <span>Check... {color} move..</span>;
       default:
-        return <span>Status not used yet...</span>;
+        return <span>Game Over {color} wins...</span>; // turn color doesn't change upon winning move
     }
   };
 
@@ -216,7 +219,7 @@ function Games() {
                     Back to games
                   </button>
                   <div style={{ marginTop: "10px" }}>
-                    {renderStatus(gameData.data.gameStatus)}
+                    {renderStatus(gameData.data.gameStatus, gameData.data.gameTurn)}
                     <ShaneBoard
                       game={gameData.gameObj}
                       data={gameData.data}
