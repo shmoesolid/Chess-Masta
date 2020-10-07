@@ -16,8 +16,8 @@ const SideNav = (props) => {
       <ul className="p-0">
         {SidenavData.map((item, index) => {
           return (
-            <div>
-              <li key={index} className={item.cName}>
+            <div key={index}>
+              <li className={item.cName}>
                 <Link to={item.path}>
                   &nbsp; &nbsp;{item.icon}
                   <span>&nbsp;&nbsp;{item.title}</span>
