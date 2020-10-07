@@ -6,8 +6,8 @@ const { getIO, getClientByUID } = require("../clients");
 const GameStatus = Object.freeze(
     {
         Waiting: 0,
-        WhiteMove: 1,
-        BlackMove: 2,
+        Normal: 1,
+        PawnExchange: 2,
         Check: 3,
         Checkmate: 4,
         Resignation: 5,
@@ -78,12 +78,82 @@ module.exports = {
                     // create game and set grid data from database board data
                     var game = new chesssk();
                     if (!game.setGridFromJSON(dbModel.boardData))
-                        return res.json("ERROR: Invalid board data");
+                        return res.status(400).json({status: "INVALID_BOARD_DATA", message: "Invalid board data from database.  Please contact admin." } );
                     
                     // return valid moves for the location asked
-                    var validMoves = game.getValidMoves(req.params.location);
-                    console.log(validMoves);
+                    var validMoves = game.getValidMoves(req.params.location, 0, dbModel.enPassant);
                     res.json( validMoves );
+                }
+            ).catch(err => res.status(422).json(err));
+    },
+
+    exchange: function(req, res) { // put
+
+        var userId = req.user;
+        var { id, piece } = req.body;
+
+        db.Game
+            .findById(id)
+            .then(
+                dbModel => {
+
+                    // game is over if status is 4 or more
+                    if (dbModel.gameStatus > 3)
+                        return res.status(400).json({ 
+                            status: "GAME_OVER", 
+                            message: "Game is over by status: "+ Object.keys(GameStatus)[dbModel.gameStatus] 
+                        }); 
+
+                    // return if status not matching or if database doesn't have the location of the would be exchange
+                    if (dbModel.gameStatus != GameStatus.PawnExchange || dbModel.pawnExchange == "")
+                        return res.status(400).json({status: "INVALID_EXCHANGE", message: "Game status not match or no pawn exchange available." });
+
+                    // create game and set grid data from database board data
+                    var game = new chesssk();
+                    if (!game.setGridFromJSON(dbModel.boardData))
+                        return res.status(400).json({status: "INVALID_BOARD_DATA", message: "Invalid board data from database.  Please contact admin." } );
+                    
+                    // exchange the pawn
+                    var result = game.exchangePawn(dbModel.pawnExchange, piece);
+
+                    // we did not exchange the pawn, return why
+                    if (result.status != "OK")
+                        return res.status(400).json(result);
+
+                    // update game status by resulting king check
+                    var status = GameStatus.Normal;
+                    if (result.kingStatus == 1) status = GameStatus.Check;
+                    else if (result.kingStatus == 2) status = GameStatus.Checkmate;
+
+                    // valid move, update our db with updated grid data
+                    var boardDataInJSON = game.getGridInJSON();
+                    db.Game
+                        .findByIdAndUpdate(
+                            { _id: id }, 
+                            { 
+                                boardData: boardDataInJSON,
+                                enPassant: "",
+                                pawnExchange: "",
+                                gameTurn:
+                                    (status > 3)
+                                    ? dbModel.gameTurn // don't change if win
+                                    : !dbModel.gameTurn, // should toggle between 1 and 0
+                                gameStatus: status
+                            },
+                            function(err, result) {
+                                if (err) return res.json(err);
+                                
+                                // send back json data to our player making move
+                                res.json(result);
+
+                                // use socket.io to send msg to other player about move update
+                                updatePlayer(
+                                    "moveUpdate", 
+                                    (userId == dbModel.hostId) ? dbModel.clientId : dbModel.hostId, // use == here NOT ===
+                                    dbModel._id
+                                );
+                            }
+                        );
                 }
             ).catch(err => res.status(422).json(err));
     },
@@ -95,25 +165,39 @@ module.exports = {
         var to = req.body.to;
         var uid = req.user;
 
-        // check strings to ensure valid?
-
         db.Game
             .findById(id)
             .then(
                 dbModel => {
 
-                    // ok found game, create
+                    // game is over if status is 4 or more
+                    if (dbModel.gameStatus > 3)
+                        return res.status(400).json({ 
+                            status: "GAME_OVER", 
+                            message: "Game is over by status: "+ Object.keys(GameStatus)[dbModel.gameStatus] 
+                        }); 
+                    
+                    // game is still waiting for player to join
+                    else if (dbModel.gameStatus == GameStatus.Waiting)
+                        return res.status(400).json({ status: "WAIT", message: "Wait for player to join." }); 
+
+                    // we are in a pawn exchange, player must select piece first
+                    // this technically should never happen but making sure
+                    else if (dbModel.gameStatus == GameStatus.PawnExchange)
+                        return res.status(400).json({ status: "EXCHANGE", message: "Must do pawn exchange before moving another piece." }); 
+
+                    // got a status we can work with, create game
                     var game = new chesssk();
 
                     // set grid data from database board data
                     if (!game.setGridFromJSON(dbModel.boardData))
-                        return res.json({ status: "INVALID_BOARD", message: "Invalid board data" });
+                        return res.status(400).json({status: "INVALID_BOARD_DATA", message: "Invalid board data from database.  Please contact admin." } );
 
                     // piece color attempting move
                     var fromNode = game._getNodeByString(from);
                     var pieceColor = (fromNode.p !== null) ? ((fromNode.p.color == "W") ? 0 : 1 ) : null;
                     if (pieceColor === null)
-                        return res.json({ status: "INVALID_LOCATION", message: "invalid location" });
+                        return res.status(400).json({ status: "INVALID_LOCATION", message: "Invalid location" });
 
                     // confirm uid matches either hostId or clientId first
                     // and set an object with the host or client data { host: bool, color: num, timer: num }
@@ -129,39 +213,40 @@ module.exports = {
 
                     // compare piece color to our player
                     if (pieceColor !== player.color)
-                        return res.json({ status: "INVALID_COLOR", message: "please move a piece belonging to you"});
+                        return res.status(400).json({ status: "INVALID_COLOR", message: "Please move a piece belonging to you"});
 
-                    // do various things based off game status
-                    switch(dbModel.gameStatus)
-                    {
-                        case GameStatus.Waiting: // can't move yet, return
-                            return res.json({ status: "WAIT", message: "wait for player to join" }); 
-                        case GameStatus.WhiteMove: // if player black, can't move, return
-                            if (player.color == 1) return res.json({ status: "WAIT", message: "wait for white move" }); 
-                            break;
-                        case GameStatus.BlackMove: // if player white, can't move, return
-                            if (player.color == 0) return res.json({ status: "WAIT", message: "wait for black move" }); 
-                            break;
-                    }
+                    // confirm our player turn
+                    if (dbModel.gameTurn !== player.color)
+                        return res.status(400).json({ status: "WAIT", message: "It's not your turn." }); 
 
                     // make move server-side and confirm results
                     var result = game.move(from, to, dbModel.enPassant);
                     if (result.status !== "OK")
                         return res.json(result);
 
-                    // update status (simple color change for now)
-                    var status;
-                    if (dbModel.gameStatus === GameStatus.WhiteMove) status = GameStatus.BlackMove;
-                    else status = GameStatus.WhiteMove;
+                    console.log(result);
 
-                    // valid move, updat our db with updated grid data
+                    // update game status
+                    if (result.kingStatus === 1) status = GameStatus.Check;
+                    else if (result.kingStatus === 2) status = GameStatus.Checkmate;
+                    else if (result.pawnExchange !== "") status = GameStatus.PawnExchange;
+                    else status = GameStatus.Normal;
+
+                    // valid move, update our db with updated grid data
                     var boardDataInJSON = game.getGridInJSON();
                     db.Game
                         .findByIdAndUpdate(
                             { _id: id }, 
                             { 
                                 boardData: boardDataInJSON,
-                                enPassant: "", // will always go back blank as only allowed in immediate
+                                enPassant: result.enPassant,
+                                pawnExchange: result.pawnExchange,
+                                // turn only updates if we are not in a pawn exchange
+                                gameTurn: 
+                                    (status == GameStatus.PawnExchange 
+                                    ||  status > 3)
+                                    ? dbModel.gameTurn // don't change if exchange or win
+                                    : !dbModel.gameTurn, // should toggle between 1 and 0
                                 gameStatus: status
                             },
                             function(err, result) {
@@ -231,7 +316,7 @@ module.exports = {
                         { 
                             clientId: userId,
                             clientColor: !dbModel.hostColor,
-                            gameStatus: 1
+                            gameStatus: GameStatus.Normal
                         },
                         function(err, result) {
                             if (err) return res.json(err);

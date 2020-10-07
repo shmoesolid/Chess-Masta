@@ -81,7 +81,7 @@ module.exports = {
             if (!isMatch) 
                 return res.status(400).json({ msg: "Invalid credentials." });
         
-            const expiration = process.env.NODE_ENV !== 'production' ? 900000 : 604800000;
+            const expiration = process.env.NODE_ENV !== 'production' ? 86400000 : 604800000; // 1d vs 7d
             const token = jwt.sign({
                 id: user._id
                 }, process.env.JWT_SECRET, {

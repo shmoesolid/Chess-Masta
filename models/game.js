@@ -14,6 +14,7 @@ const gameSchema = new Schema(
         clientTimer: { type: Number, default: null }, // time left
 
         boardData: { type: String, default: "" }, // json
+        pawnExchange: { type: String, default: "" },
         enPassant: { type: String, default: "" },
         history: { type: String, default: "" },
         chat: { type: [String], default: [] },
@@ -23,11 +24,12 @@ const gameSchema = new Schema(
         password: { type: String, default: "" },
 
         gameTime: { type: Number, default: null },
+        gameTurn: { type: Number, default: 0 }, // 0 = white, 1 = black
         gameStatus: { type: Number, default: 0 }, 
-        /*
+        /* NEW STATUS
             0=waiting for client join
-            1=play white
-            2=play black
+            1=normal play
+            2=pawn exchange
             3=check
             4=checkmate
             5=resignation
