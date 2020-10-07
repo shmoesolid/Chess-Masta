@@ -41,7 +41,7 @@ a,
   background-color: #1D1E22;
   opacity: 1;
   color: white;
-  width: 170px;
+  width: 200px;
   position: fixed;
   z-index: 200;
   left: -100%;
@@ -81,7 +81,7 @@ a,
 
 .docsLink {
   position: absolute;
-  bottom: 50px;
+  bottom: 20px;
   text-decoration: none;
   color: #f5f5f5;
   font-size: 18px;

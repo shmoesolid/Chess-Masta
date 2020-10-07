@@ -50,7 +50,7 @@ const Navigation = () => {
           </div>
           <div>
             {width > breakpoint ? (
-              <Navbar style={{ marginLeft: "170px", zIndex: "220" }}>
+              <Navbar style={{ marginLeft: "200px", zIndex: "220" }}>
                 {width > breakpoint ? (
                   ""
                 ) : (
